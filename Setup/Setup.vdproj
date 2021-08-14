@@ -15,8 +15,8 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_047127EC709CA7906469CC5EEE811988"
-        "OwnerKey" = "8:_BC7D94B668984961885DE82331B4D116"
+        "MsmKey" = "8:_2C2A5EF8C3767FD3ED1813A11CB1453C"
+        "OwnerKey" = "8:_2CFD1D91EAB1466489E397B9BD063A40"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -34,19 +34,25 @@
         "Entry"
         {
         "MsmKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
-        "OwnerKey" = "8:_BC7D94B668984961885DE82331B4D116"
+        "OwnerKey" = "8:_3BA99F4A2F634BFF9C7DD52CCD96DE35"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
-        "OwnerKey" = "8:_3BA99F4A2F634BFF9C7DD52CCD96DE35"
+        "OwnerKey" = "8:_BC7D94B668984961885DE82331B4D116"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_BC7D94B668984961885DE82331B4D116"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CFA3C8DE11486DEAEBBF2C9AE696394F"
+        "OwnerKey" = "8:_2CFD1D91EAB1466489E397B9BD063A40"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -92,6 +98,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -210,10 +224,10 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_047127EC709CA7906469CC5EEE811988"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2C2A5EF8C3767FD3ED1813A11CB1453C"
             {
-            "SourcePath" = "8:SAPIForVOICEVOX.tlb"
-            "TargetName" = "8:SAPIForVOICEVOX.tlb"
+            "SourcePath" = "8:api-ms-win-crt-runtime-l1-1-0.dll"
+            "TargetName" = "8:api-ms-win-crt-runtime-l1-1-0.dll"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
             "Condition" = "8:"
@@ -225,7 +239,7 @@
             "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
-            "Register" = "3:2"
+            "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
@@ -245,6 +259,26 @@
                 }
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CFA3C8DE11486DEAEBBF2C9AE696394F"
+            {
+            "SourcePath" = "8:VCRUNTIME140.dll"
+            "TargetName" = "8:VCRUNTIME140.dll"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
             "Condition" = "8:"
@@ -291,7 +325,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_A6CA9C92E14E4547A73C126C541C262F"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][ProductName]"
+            "DefaultLocation" = "8:c:\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -318,7 +352,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX"
         "ProductCode" = "8:{7DFC02F9-7F00-4AD9-8E7E-498BD26F6BFB}"
-        "PackageCode" = "8:{E0D86050-920C-4790-B7C4-6B6AC35B537A}"
+        "PackageCode" = "8:{564AE262-0AA7-47FB-B678-939AE991228D}"
         "UpgradeCode" = "8:{8EEDF03C-0AFA-4727-87B5-8DF30280E85C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -450,7 +484,7 @@
                 {
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_98A4734BB9C94FE88A53FA052F99A373"
                     {
-                    "Sequence" = "3:300"
+                    "Sequence" = "3:400"
                     "DisplayName" = "8:インストールの確認"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -520,7 +554,7 @@
                     }
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_CDD95A1DA8114325B4C874CCC7CC89FB"
                     {
-                    "Sequence" = "3:200"
+                    "Sequence" = "3:300"
                     "DisplayName" = "8:インストール フォルダー"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
