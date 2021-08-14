@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace SAPIForVOICEVOX
 {
@@ -27,7 +28,7 @@ namespace SAPIForVOICEVOX
         //したがって、C++コードで値を返す関数を定義しDLLとして出力し、使用することにした。
         [DllImport("SAPIGetStaticValueLib.dll")]
         static extern Guid GetSPDFIDWaveFormatEx();
-
+        //同上
         [DllImport("SAPIGetStaticValueLib.dll")]
         static extern Guid GetSPDFIDText();
 
@@ -259,6 +260,16 @@ namespace SAPIForVOICEVOX
         /// <returns>waveデータ</returns>
         async Task<byte[]> SendToVoiceVox(string text, int speakerNum)
         {
+            //ローカルコンピュータ上で実行されているすべてのプロセスを取得
+            Process[] ps = Process.GetProcessesByName("run");
+            if (ps.Length == 0)
+            {
+                Stream stream = Properties.Resources.ボイスボックスが見つかりません;
+                byte[] wavData = new byte[stream.Length];
+                stream.Read(wavData, 0, (int)stream.Length);
+                return wavData;
+            }
+
             string speakerString = speakerNum.ToString();
 
             //audio_queryのためのデータ
@@ -269,24 +280,35 @@ namespace SAPIForVOICEVOX
             };
             //データのエンコード。日本語がある場合、エンコードが必要。
             string encodedParamaters = await new FormUrlEncodedContent(parameters).ReadAsStringAsync();
-            //audio_queryを送る
-            using (var resultAudioQuery = await httpClient.PostAsync(@"http://localhost:50021/audio_query?" + encodedParamaters, null))
-            {
-                //戻り値を文字列にする
-                string resBodyStr = await resultAudioQuery.Content.ReadAsStringAsync();
 
-                //jsonコンテンツに変換
-                var content = new StringContent(resBodyStr, Encoding.UTF8, @"application/json");
-                //synthesis送信
-                using (var resultSynthesis = await httpClient.PostAsync(@"http://localhost:50021/synthesis?speaker=" + speakerString, content))
+            try
+            {
+                //audio_queryを送る
+                using (var resultAudioQuery = await httpClient.PostAsync(@"http://localhost:50021/audio_query?" + encodedParamaters, null))
                 {
-                    //戻り値をストリームで受け取る
-                    Stream stream = await resultSynthesis.Content.ReadAsStreamAsync();
-                    //byte配列に変換
-                    byte[] wavData = new byte[stream.Length];
-                    stream.Read(wavData, 0, (int)stream.Length);
-                    return wavData;
+                    //戻り値を文字列にする
+                    string resBodyStr = await resultAudioQuery.Content.ReadAsStringAsync();
+
+                    //jsonコンテンツに変換
+                    var content = new StringContent(resBodyStr, Encoding.UTF8, @"application/json");
+                    //synthesis送信
+                    using (var resultSynthesis = await httpClient.PostAsync(@"http://localhost:50021/synthesis?speaker=" + speakerString, content))
+                    {
+                        //戻り値をストリームで受け取る
+                        Stream stream = await resultSynthesis.Content.ReadAsStreamAsync();
+                        //byte配列に変換
+                        byte[] wavData = new byte[stream.Length];
+                        stream.Read(wavData, 0, (int)stream.Length);
+                        return wavData;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Stream stream = Properties.Resources.ボイスボックスと通信ができません;
+                byte[] wavData = new byte[stream.Length];
+                stream.Read(wavData, 0, (int)stream.Length);
+                return wavData;
             }
         }
 
