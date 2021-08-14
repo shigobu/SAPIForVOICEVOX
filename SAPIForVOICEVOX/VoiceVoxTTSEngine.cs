@@ -241,10 +241,6 @@ namespace SAPIForVOICEVOX
         {
             Registry.LocalMachine.DeleteSubKeyTree(regKey + regName1);
             Registry.LocalMachine.DeleteSubKeyTree(regKey + regName2);
-<<<<<<< HEAD
-
-=======
->>>>>>> Installer
         }
 
         #endregion
