@@ -4,7 +4,7 @@ VOICEVOXをSAPIから見えるようにします。
 32bitでビルドしているので、64bitアプリからは見えないかもしれません。
 
 # 開発環境
-Visual Studio 2019
+Microsoft Visual Studio Community 2019  
 C#・C++
 
 # ビルド方法
