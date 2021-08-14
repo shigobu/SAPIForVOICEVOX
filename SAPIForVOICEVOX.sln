@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAPIForVOICEVOX", "SAPIForV
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SAPIGetStaticValueLib", "SAPIGetStaticValueLib\SAPIGetStaticValueLib.vcxproj", "{571D7116-6705-4B1E-A20C-F51CFDFEA956}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{813DDFEA-F8D1-4A87-A138-5BF1559B1E79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupCustomActions", "SetupCustomActions\SetupCustomActions.csproj", "{1D19776F-BC51-4CA9-BACD-130ED51DE554}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -21,6 +25,12 @@ Global
 		{571D7116-6705-4B1E-A20C-F51CFDFEA956}.Debug|x86.Build.0 = Debug|Win32
 		{571D7116-6705-4B1E-A20C-F51CFDFEA956}.Release|x86.ActiveCfg = Release|Win32
 		{571D7116-6705-4B1E-A20C-F51CFDFEA956}.Release|x86.Build.0 = Release|Win32
+		{813DDFEA-F8D1-4A87-A138-5BF1559B1E79}.Debug|x86.ActiveCfg = Debug
+		{813DDFEA-F8D1-4A87-A138-5BF1559B1E79}.Release|x86.ActiveCfg = Release
+		{1D19776F-BC51-4CA9-BACD-130ED51DE554}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1D19776F-BC51-4CA9-BACD-130ED51DE554}.Debug|x86.Build.0 = Debug|Any CPU
+		{1D19776F-BC51-4CA9-BACD-130ED51DE554}.Release|x86.ActiveCfg = Release|Any CPU
+		{1D19776F-BC51-4CA9-BACD-130ED51DE554}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
