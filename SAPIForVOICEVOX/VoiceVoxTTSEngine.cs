@@ -167,14 +167,6 @@ namespace SAPIForVOICEVOX
             //話者番号を取得し、プロパティに設定。
             Token.GetDWORD(regSpeakerNumber, out uint value);
             SpeakerNumber = (int)value;
-
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            path = System.IO.Path.Combine(path, "ttsLog.txt");
-
-            using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(path, true, Encoding.UTF8))
-            {
-                streamWriter.WriteLine(nameof(SetObjectToken));
-            }
         }
 
         /// <summary>
@@ -260,7 +252,7 @@ namespace SAPIForVOICEVOX
         /// <returns>waveデータ</returns>
         async Task<byte[]> SendToVoiceVox(string text, int speakerNum)
         {
-            //ローカルコンピュータ上で実行されているすべてのプロセスを取得
+            //エンジンが起動中か確認を行う
             Process[] ps = Process.GetProcessesByName("run");
             if (ps.Length == 0)
             {
