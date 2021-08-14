@@ -240,6 +240,8 @@ namespace SAPIForVOICEVOX
         public static void UnregisterClass(string key)
         {
             Registry.LocalMachine.DeleteSubKeyTree(regKey + regName1);
+            Registry.LocalMachine.DeleteSubKeyTree(regKey + regName2);
+
         }
 
         #endregion
