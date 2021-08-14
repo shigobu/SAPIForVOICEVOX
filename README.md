@@ -1,5 +1,7 @@
 # SAPIForVOICEVOX
-VOICEVOXをSAPIから見えるようにします。
+VOICEVOXをSAPIから見えるようにします。  
+棒読みちゃんでテストしています。  
+32bitでビルドしているので、64bitアプリからは見えないかもしれません。
 
 # 開発環境
 Visual Studio 2019
