@@ -325,7 +325,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_A6CA9C92E14E4547A73C126C541C262F"
             {
-            "DefaultLocation" = "8:c:\\[ProductName]"
+            "DefaultLocation" = "8:[WindowsVolume][ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
