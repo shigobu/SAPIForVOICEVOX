@@ -21,6 +21,7 @@ setup.exeを起動し、インストールしてください。
 インストール場所の初期値は「c:\SAPIForVOICEVOX」になっています。  
 「C:\Program Files (x86)」へインストールしないでください。何故か正常にインストールできません。  
 
+VOICEVOX本体が必要です。[VOICEVOX公式ホームページ](https://voicevox.hiroshiba.jp/)  
 VOICEVOXエンジンの自動起動機能は実装していないので、あらかじめVOICEVOXを起動しておいてください。
 
 # 追加したい機能等
