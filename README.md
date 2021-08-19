@@ -10,7 +10,12 @@ setup.exeを起動し、インストールしてください。
 「C:\Program Files (x86)」へインストールしないでください。何故か正常にインストールできません。  
 
 VOICEVOX本体が必要です。[VOICEVOX公式ホームページ](https://voicevox.hiroshiba.jp/)  
-VOICEVOXエンジンの自動起動機能は実装していないので、あらかじめVOICEVOXを起動しておいてください。
+VOICEVOXエンジンの自動起動機能は実装していないので、あらかじめVOICEVOXを起動しておいてください。  
+
+Windows Defender にウイルスとして検知されてしまうと報告をうけています。  
+当ソフトには、ウイルスは含まれていませんので、誤検知です。  
+ソースコードを公開しているので、そこから判断していただくと幸いです。
+ちなみに、ウイルスバスターでは、「脅威無し」の判定でした。    
 
 # 開発環境
 Microsoft Visual Studio Community 2019  
