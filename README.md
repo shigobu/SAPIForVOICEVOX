@@ -3,6 +3,15 @@ VOICEVOXをSAPIから見えるようにします。
 棒読みちゃんでテストしています。  
 32bitでビルドしているので、64bitアプリからは見えないかもしれません。
 
+# 使用方法
+GitHubのReleaseからダウンロードができます。  
+setup.exeを起動し、インストールしてください。  
+インストール場所の初期値は「c:\SAPIForVOICEVOX」になっています。  
+「C:\Program Files (x86)」へインストールしないでください。何故か正常にインストールできません。  
+
+VOICEVOX本体が必要です。[VOICEVOX公式ホームページ](https://voicevox.hiroshiba.jp/)  
+VOICEVOXエンジンの自動起動機能は実装していないので、あらかじめVOICEVOXを起動しておいてください。
+
 # 開発環境
 Microsoft Visual Studio Community 2019  
 C#・C++
@@ -16,15 +25,6 @@ C#・C++
 
 インストーラのビルドには、「Microsoft Visual Studio Installer Projects」の拡張機能が必要です。  
 Visual Studioの「ツール」→「拡張機能」からインストールしてください。  
-
-# 使用方法
-GitHubのReleaseからダウンロードができます。  
-setup.exeを起動し、インストールしてください。  
-インストール場所の初期値は「c:\SAPIForVOICEVOX」になっています。  
-「C:\Program Files (x86)」へインストールしないでください。何故か正常にインストールできません。  
-
-VOICEVOX本体が必要です。[VOICEVOX公式ホームページ](https://voicevox.hiroshiba.jp/)  
-VOICEVOXエンジンの自動起動機能は実装していないので、あらかじめVOICEVOXを起動しておいてください。
 
 # 追加したい機能等
 - [x] インストーラ作成。  
