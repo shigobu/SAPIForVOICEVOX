@@ -40,7 +40,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
+        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -52,7 +52,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
+        "OwnerKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -293,15 +293,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX32"
-        "ProductCode" = "8:{F286309D-F9DE-4D00-9F2E-12402ADE6DFD}"
-        "PackageCode" = "8:{69900EA2-73CF-4A30-855C-913A63D8981C}"
+        "ProductCode" = "8:{79FB3281-BA2F-4E87-8D43-48539521639C}"
+        "PackageCode" = "8:{BFAB908A-13F5-474F-B896-5B6BD1CC5639}"
         "UpgradeCode" = "8:{8EEDF03C-0AFA-4727-87B5-8DF30280E85C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.1"
+        "ProductVersion" = "8:1.0.2"
         "Manufacturer" = "8:Shigobu"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -787,7 +787,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2E14CA9B05304758A67F17A7A0B2900B"
             {
-            "SourcePath" = "8:..\\SAPIForVOICEVOX\\obj\\x64\\Release\\SAPIForVOICEVOX.dll"
+            "SourcePath" = "8:..\\SAPIForVOICEVOX\\obj\\x86\\Release\\SAPIForVOICEVOX.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
