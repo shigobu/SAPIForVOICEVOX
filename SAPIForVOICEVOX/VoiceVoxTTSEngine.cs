@@ -24,13 +24,8 @@ namespace SAPIForVOICEVOX
 
         const ushort WAVE_FORMAT_PCM = 1;
 
-        //SPDFID_WaveFormatExの値は、ヘッダーファイルで定義さていなくて、不明である。
-        //したがって、C++コードで値を返す関数を定義しDLLとして出力し、使用することにした。
-        [DllImport("SAPIGetStaticValueLib.dll")]
-        static extern Guid GetSPDFIDWaveFormatEx();
-        //同上
-        [DllImport("SAPIGetStaticValueLib.dll")]
-        static extern Guid GetSPDFIDText();
+        readonly static Guid SPDFID_WaveFormatEx = new Guid("C31ADBAE-527F-4FF5-A230-F62BB61FF70C");
+        readonly static Guid SPDFID_Text = new Guid("7CEEF9F9-3D13-11D2-9EE7-00C04F797396");
 
 
         /// <summary>
@@ -77,7 +72,7 @@ namespace SAPIForVOICEVOX
         public void Speak(uint dwSpeakFlags, ref Guid rguidFormatId, ref WAVEFORMATEX pWaveFormatEx, ref SPVTEXTFRAG pTextFragList, ISpTTSEngineSite pOutputSite)
         {
             //SPDFIDTextは非対応
-            if (rguidFormatId == GetSPDFIDText())
+            if (rguidFormatId == SPDFID_Text)
             {
                 return;
             }
@@ -135,7 +130,7 @@ namespace SAPIForVOICEVOX
         /// <param name="ppCoMemOutputWaveFormatEx"></param>
         public void GetOutputFormat(ref Guid pTargetFmtId, ref WAVEFORMATEX pTargetWaveFormatEx, out Guid pOutputFormatId, IntPtr ppCoMemOutputWaveFormatEx)
         {
-            pOutputFormatId = GetSPDFIDWaveFormatEx();
+            pOutputFormatId = SPDFID_WaveFormatEx;
 
             //comインターフェースのラップクラス自動生成がうまく行かなかったので、unsafeでポインタを直接使用する
             unsafe
