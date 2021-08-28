@@ -323,14 +323,6 @@ namespace SAPIForVOICEVOX
             }
             catch (Exception ex)
             {
-                string dllPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                string dllDir = Path.GetDirectoryName(dllPath);
-                string logFileName = Path.Combine(dllDir, "LOG.txt");
-                using (StreamWriter streamWriter = new StreamWriter(logFileName, false))
-                {
-                    streamWriter.Write(ex.ToString());
-                }
-
                 Stream stream = Properties.Resources.ボイスボックスと通信ができません;
                 byte[] wavData = new byte[stream.Length];
                 stream.Read(wavData, 0, (int)stream.Length);
