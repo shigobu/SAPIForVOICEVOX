@@ -9,6 +9,8 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace SAPIForVOICEVOX
 {
@@ -85,9 +87,22 @@ namespace SAPIForVOICEVOX
             SPVTEXTFRAG currentTextList = pTextFragList;
             while (true)
             {
+                pOutputSite.GetRate(out int tempInt);
+                //SAPIは0が真ん中
+                double speed;
+                if (tempInt < 0)
+                {
+                    speed = Map(tempInt, -10, 0, 0.5, 1.0);
+                }
+                else
+                {
+                    speed = Map(tempInt, 0, 10, 1.0, 2.0);
+                }
+                pOutputSite.GetVolume(out ushort tempUshort);
+                double volume = Map(tempUshort, 0, 100, 0.0, 1.0);
                 //VOICEVOXへ送信
                 //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
-                Task<byte[]> waveDataTask = SendToVoiceVox(currentTextList.pTextStart, SpeakerNumber);
+                Task<byte[]> waveDataTask = SendToVoiceVox(currentTextList.pTextStart, SpeakerNumber, speed, 0, volume);
                 waveDataTask.Wait();
                 byte[] waveData = waveDataTask.Result;
 
@@ -250,8 +265,11 @@ namespace SAPIForVOICEVOX
         /// </summary>
         /// <param name="text">セリフ</param>
         /// <param name="speakerNum">話者番号</param>
+        /// <param name="speedScale">話速 0.5~2.0 中央=1</param>
+        /// <param name="pitchScale">音高 -0.15~0.15 中央=0</param>
+        /// <param name="volumeScale">音量 0.0~1.0</param>
         /// <returns>waveデータ</returns>
-        async Task<byte[]> SendToVoiceVox(string text, int speakerNum)
+        async Task<byte[]> SendToVoiceVox(string text, int speakerNum, double speedScale, double pitchScale, double volumeScale)
         {
             //エンジンが起動中か確認を行う
             Process[] ps = Process.GetProcessesByName("run");
@@ -282,8 +300,15 @@ namespace SAPIForVOICEVOX
                     //戻り値を文字列にする
                     string resBodyStr = await resultAudioQuery.Content.ReadAsStringAsync();
 
+                    //jsonの値変更
+                    JObject jsonObj = JObject.Parse(resBodyStr);
+                    jsonObj["speedScale"] = speedScale;
+                    jsonObj["pitchScale"] = pitchScale;
+                    jsonObj["volumeScale"] = volumeScale;
+                    string jsonString = JsonConvert.SerializeObject(jsonObj, Formatting.None);
+
                     //jsonコンテンツに変換
-                    var content = new StringContent(resBodyStr, Encoding.UTF8, @"application/json");
+                    var content = new StringContent(jsonString, Encoding.UTF8, @"application/json");
                     //synthesis送信
                     using (var resultSynthesis = await httpClient.PostAsync(@"http://localhost:50021/synthesis?speaker=" + speakerString, content))
                     {
@@ -305,5 +330,18 @@ namespace SAPIForVOICEVOX
             }
         }
 
+        /// <summary>
+        ///  数値をある範囲から別の範囲に変換します。
+        /// </summary>
+        /// <param name="x">変換したい数値</param>
+        /// <param name="in_min">現在の範囲の下限</param>
+        /// <param name="in_max">現在の範囲の上限</param>
+        /// <param name="out_min">変換後の範囲の下限</param>
+        /// <param name="out_max">変換後の範囲の上限</param>
+        /// <returns>変換結果</returns>
+        double Map(double x, double in_min, double in_max, double out_min, double out_max)
+        {
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        }
     }
 }
