@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_6B7F40FCE3DF8F240B02542A8D137A12"
+        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
         "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
         "MsmSig" = "8:_UNDEFINED"
@@ -47,6 +53,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_ABEF4ADC41C64D988831EE35FB55C9F6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6B7F40FCE3DF8F240B02542A8D137A12"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -206,6 +218,37 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6B7F40FCE3DF8F240B02542A8D137A12"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_6B7F40FCE3DF8F240B02542A8D137A12"
+                    {
+                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Newtonsoft.Json.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_92F4CAADF72DC37EB251214AAC5817DF"
             {
             "AssemblyRegister" = "3:1"
@@ -293,15 +336,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX32"
-        "ProductCode" = "8:{79FB3281-BA2F-4E87-8D43-48539521639C}"
-        "PackageCode" = "8:{BFAB908A-13F5-474F-B896-5B6BD1CC5639}"
+        "ProductCode" = "8:{D76F2E92-5D24-486E-8AB4-EF4F33C7560B}"
+        "PackageCode" = "8:{3EB1E1DF-7D31-4589-8F4E-60CFA40881BA}"
         "UpgradeCode" = "8:{8EEDF03C-0AFA-4727-87B5-8DF30280E85C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.2"
+        "ProductVersion" = "8:1.0.3"
         "Manufacturer" = "8:Shigobu"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -787,7 +830,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2E14CA9B05304758A67F17A7A0B2900B"
             {
-            "SourcePath" = "8:..\\SAPIForVOICEVOX\\obj\\x86\\Release\\SAPIForVOICEVOX.dll"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
