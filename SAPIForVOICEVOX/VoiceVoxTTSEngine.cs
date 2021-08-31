@@ -17,7 +17,7 @@ namespace SAPIForVOICEVOX
     [Guid(guidString)]
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
-    public class VoiceVoxTTSEngine : ISpTTSEngine, ISpObjectWithToken
+    public class VoiceVoxTTSEngine : ISpTTSEngine, ISpObjectWithToken, ISpTokenUI
     {
         /// <summary>
         /// このクラスのGUID
@@ -202,6 +202,8 @@ namespace SAPIForVOICEVOX
         const string regName2 = "VOICEVOX2";
         const string regAttributes = "Attributes";
         const string regSpeakerNumber = "SpeakerNumber";
+        const string regUI = "UI";
+        const string regEngineProperties = "EngineProperties";
 
         /// <summary>
         /// レジストリ登録されるときに呼ばれます。
@@ -226,6 +228,12 @@ namespace SAPIForVOICEVOX
                 registryKey.SetValue("Language", "411");
                 registryKey.SetValue("Gender", "Female");
                 registryKey.SetValue("Name", "VOICEVOX Shikoku Metan");
+                registryKey.SetValue("Version", "11.0");
+            }
+            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName1 + @"\" + regUI + @"\" + regEngineProperties))
+            {
+                //B書式指定子は中かっこ"{"で囲われる
+                registryKey.SetValue("CLSID", CLSID.ToString("B"));
             }
 
             //ずんだもん
@@ -299,7 +307,6 @@ namespace SAPIForVOICEVOX
                 {
                     //戻り値を文字列にする
                     string resBodyStr = await resultAudioQuery.Content.ReadAsStringAsync();
-
                     //jsonの値変更
                     JObject jsonObj = JObject.Parse(resBodyStr);
                     jsonObj["speedScale"] = speedScale;
@@ -322,7 +329,7 @@ namespace SAPIForVOICEVOX
                 }
             }
             catch (Exception ex)
-            {
+            {                
                 Stream stream = Properties.Resources.ボイスボックスと通信ができません;
                 byte[] wavData = new byte[stream.Length];
                 stream.Read(wavData, 0, (int)stream.Length);
@@ -343,5 +350,48 @@ namespace SAPIForVOICEVOX
         {
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
+
+        #region UI関連
+
+        private const string SPDUI_EngineProperties = "EngineProperties";
+
+        /// <summary>
+        /// UIサポートしているかどうかを返します。
+        /// </summary>
+        public void IsUISupported(string pszTypeOfUI, IntPtr pvExtraData, uint cbExtraData, IntPtr punkObject, out bool pfSupported)
+        {
+            pfSupported = false;
+
+            if (pszTypeOfUI.Contains(SPDUI_EngineProperties))
+            {
+                pfSupported = true;
+            }
+        }
+
+        public void DisplayUI(IntPtr hwndParent, string pszTitle, string pszTypeOfUI, IntPtr pvExtraData, uint cbExtraData, ISpObjectToken pToken, IntPtr punkObject)
+        {
+            //関数内に処理が入る気配が無いままエラーメッセージが表示される、わけわからん。
+            string dllPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string dllDir = Path.GetDirectoryName(dllPath);
+            string logFileName = Path.Combine(dllDir, "LOG.txt");
+            using (StreamWriter streamWriter = new StreamWriter(logFileName, false))
+            {
+                streamWriter.Write("DisplayUI");
+            }
+
+            try
+            {
+                //System.Windows.Forms.MessageBox.Show(pszTypeOfUI);
+            }
+            catch (Exception ex)
+            {
+                using (StreamWriter streamWriter = new StreamWriter(logFileName, false))
+                {
+                    streamWriter.Write(ex.ToString());
+                }
+            }
+        }
+
+        #endregion
     }
 }
