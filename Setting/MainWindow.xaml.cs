@@ -38,5 +38,21 @@ namespace Setting
         {
             Close();
         }
+
+        /// <summary>
+        /// テキストブロックのイネーブルが変わったらテキストの色を変えるやつ
+        /// </summary>
+        private void TextBlock_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock.IsEnabled)
+            {
+                textBlock.Foreground = Brushes.Black;
+            }
+            else
+            {
+                textBlock.Foreground = Brushes.Gray;
+            }
+        }
     }
 }
