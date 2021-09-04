@@ -1,4 +1,4 @@
-# SAPIForVOICEVOX
+# SAPI For VOICEVOX
 Windows標準の音声合成機能の音声としてVOICEVOXが追加ができます。  
 ![コンパネ音声合成](https://user-images.githubusercontent.com/32050537/131860902-7aedbd45-453a-4425-a33c-7cb4a2f2dcf1.png)  
 SAPI5対応のアプリケーションから使用することができます。  
