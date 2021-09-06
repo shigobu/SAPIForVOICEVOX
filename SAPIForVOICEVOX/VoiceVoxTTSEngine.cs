@@ -295,7 +295,7 @@ namespace SAPIForVOICEVOX
             try
             {
                 //audio_queryを送る
-                using (var resultAudioQuery = await httpClient.PostAsync(@"http://localhost:50021/audio_query?" + encodedParamaters, null))
+                using (var resultAudioQuery = await httpClient.PostAsync(@"http://127.0.0.1:50021/audio_query?" + encodedParamaters, null))
                 {
                     //戻り値を文字列にする
                     string resBodyStr = await resultAudioQuery.Content.ReadAsStringAsync();
@@ -310,7 +310,7 @@ namespace SAPIForVOICEVOX
                     //jsonコンテンツに変換
                     var content = new StringContent(jsonString, Encoding.UTF8, @"application/json");
                     //synthesis送信
-                    using (var resultSynthesis = await httpClient.PostAsync(@"http://localhost:50021/synthesis?speaker=" + speakerString, content))
+                    using (var resultSynthesis = await httpClient.PostAsync(@"http://127.0.0.1:50021/synthesis?speaker=" + speakerString, content))
                     {
                         //戻り値をストリームで受け取る
                         Stream stream = await resultSynthesis.Content.ReadAsStreamAsync();
