@@ -12,34 +12,7 @@
 	</Window.Resources>
 	<Grid>
 		<StackPanel Margin="5">
-			<GroupBox Header="音量・話速">
-				<StackPanel>
-					<RadioButton Margin="3" IsChecked="True" Content="SAPIから取得する"/>
-					<RadioButton x:Name="thisRadio" Margin="3" Content="この画面の値を使用する"/>
-				</StackPanel>
-			</GroupBox>
-			<StackPanel IsEnabled="{Binding IsChecked, ElementName=thisRadio}">
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="音量" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
-					<TextBlock Text="{Binding Value, ElementName=volumeSlider}" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
-				</StackPanel>
-				<Slider x:Name="volumeSlider" Minimum="0" Maximum="100" SmallChange="1" LargeChange="5" TickFrequency="1" TickPlacement="None" IsSnapToTickEnabled="True" Value="100"/>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="話速" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
-					<TextBlock Text="{Binding Value, ElementName=speedSlider, Converter={StaticResource DoubleConverter1}}" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
-				</StackPanel>
-				<Slider x:Name="speedSlider" Minimum="0.5" Maximum="2.0" SmallChange="0.1" LargeChange="0.1" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True" Value="1"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="音高" Margin="3"/>
-				<TextBlock Text="{Binding Value, ElementName=pitchSlider, Converter={StaticResource DoubleConverter2}}" Margin="3"/>
-			</StackPanel>
-			<Slider x:Name="pitchSlider" Maximum="0.15" Minimum="-0.15" SmallChange="0.01" LargeChange="0.01" TickFrequency="0.01" TickPlacement="None" IsSnapToTickEnabled="True"/>
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="抑揚" Margin="3"/>
-				<TextBlock Text="{Binding Value, ElementName=intonationSlider, Converter={StaticResource DoubleConverter1}}" Margin="3"/>
-			</StackPanel>
-			<Slider x:Name="intonationSlider" Maximum="2.0" Minimum="0" SmallChange="0.1" LargeChange="0.1" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True" Value="1"/>
+			<local:VoicevoxPropertySlider/>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
 				<Button Width="60" Margin="3" IsDefault="True">OK</Button>
 				<Button Width="60" Margin="3" IsCancel="True" Click="CancelButton_Click">キャンセル</Button>
