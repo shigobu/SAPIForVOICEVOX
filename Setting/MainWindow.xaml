@@ -20,20 +20,22 @@
 			</StackPanel>
 			<TabControl>
 				<TabItem Header="全般">
-					<StackPanel>
-						<GroupBox Header="文章を分割する" ToolTip="長い文章を読ませたい場合、オンにしてください。">
+					<DockPanel>
+						<GroupBox DockPanel.Dock="Top" Header="文章を分割する" ToolTip="長い文章を読ませたい場合、オンにしてください。">
 							<StackPanel>
 								<CheckBox Content="句点(。)で分割する" Margin="3"/>
 								<CheckBox Content="読点(、)で分割する" Margin="3"/>
 							</StackPanel>
 						</GroupBox>
-						<GroupBox Header="調声">
+						<GroupBox DockPanel.Dock="Top" Header="調声">
 							<StackPanel>
 								<RadioButton x:Name="allRadioButton" Margin="3" Content="一括で設定する" IsChecked="True"/>
 								<RadioButton x:Name="parCharacterRadioButton" Margin="3" Content="キャラクター毎に設定する"/>
 							</StackPanel>
 						</GroupBox>
-					</StackPanel>
+						<Button DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Left" Content="初期状態へ戻す"/>
+						<Rectangle/>
+					</DockPanel>
 				</TabItem>
 				<TabItem Header="調声" Visibility="{Binding IsChecked, ElementName=allRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
 					<local:VoicevoxPropertySlider/>
