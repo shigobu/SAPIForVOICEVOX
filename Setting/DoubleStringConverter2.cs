@@ -4,6 +4,10 @@ using System.Windows.Data;
 
 namespace Setting
 {
+    /// <summary>
+    /// 浮動小数点を文字列に変換するコンバーター。二桁版
+    /// </summary>
+    [ValueConversion(typeof(double), typeof(String))]
     class DoubleStringConverter2 : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -5,19 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Setting"
         mc:Ignorable="d"
-        Title="SAPIForVOICEVOX 設定 " SizeToContent="Height" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="SAPIForVOICEVOX 設定 " Height="340" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
 	<Window.Resources>
 		<local:DoubleStringConverter x:Key="DoubleConverter1"/>
 		<local:DoubleStringConverter2 x:Key="DoubleConverter2"/>
+		<BooleanToVisibilityConverter x:Key="BoolVisibilityConverter" />
 	</Window.Resources>
 	<Grid>
-		<StackPanel Margin="5">
-			<local:VoicevoxPropertySlider/>
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+		<DockPanel Margin="5">
+			<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
 				<Button Width="60" Margin="3" IsDefault="True">OK</Button>
 				<Button Width="60" Margin="3" IsCancel="True" Click="CancelButton_Click">キャンセル</Button>
 				<Button Width="60" Margin="3">適用</Button>
 			</StackPanel>
-		</StackPanel>
+			<TabControl>
+				<TabItem Header="全般">
+					<StackPanel>
+						<GroupBox Header="文章を分割する" ToolTip="長い文章を読ませたい場合、オンにしてください。">
+							<StackPanel>
+								<CheckBox Content="句点(。)で分割する" Margin="3"/>
+								<CheckBox Content="読点(、)で分割する" Margin="3"/>
+							</StackPanel>
+						</GroupBox>
+						<GroupBox Header="調声">
+							<StackPanel>
+								<RadioButton x:Name="allRadioButton" Margin="3" Content="一括で設定する" IsChecked="True"/>
+								<RadioButton x:Name="parCharacterRadioButton" Margin="3" Content="キャラクター毎に設定する"/>
+							</StackPanel>
+						</GroupBox>
+					</StackPanel>
+				</TabItem>
+				<TabItem Header="調声" Visibility="{Binding IsChecked, ElementName=allRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
+					<local:VoicevoxPropertySlider/>
+				</TabItem>
+				<TabItem Header="四国めたん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
+					<local:VoicevoxPropertySlider/>
+				</TabItem>
+				<TabItem Header="ずんだもん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
+					<local:VoicevoxPropertySlider/>
+				</TabItem>
+			</TabControl>
+		</DockPanel>
 	</Grid>
 </Window>
