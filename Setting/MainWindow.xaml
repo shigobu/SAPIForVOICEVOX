@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Setting"
         mc:Ignorable="d"
-        Title="SAPIForVOICEVOX 設定 " Height="340" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="SAPIForVOICEVOX 設定 " Height="340" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
 	<Window.Resources>
 		<local:DoubleStringConverter x:Key="DoubleConverter1"/>
 		<local:DoubleStringConverter2 x:Key="DoubleConverter2"/>
