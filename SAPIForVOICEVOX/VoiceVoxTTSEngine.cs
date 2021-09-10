@@ -60,14 +60,6 @@ namespace SAPIForVOICEVOX
         }
 
         /// <summary>
-        /// デストラクタ
-        /// </summary>
-        ~VoiceVoxTTSEngine()
-        {
-            httpClient.Dispose();
-        }
-
-        /// <summary>
         /// スピークメソッド。
         /// 読み上げ指示が来ると呼ばれる。
         /// </summary>
