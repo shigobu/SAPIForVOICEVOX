@@ -20,9 +20,9 @@
 		<StackPanel IsEnabled="{Binding IsChecked, ElementName=thisRadio}">
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="音量" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
-				<TextBlock Text="{Binding Value, ElementName=volumeSlider}" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
+				<TextBlock Text="{Binding Value, ElementName=volumeSlider, Converter={StaticResource DoubleConverter1}}" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
 			</StackPanel>
-			<Slider x:Name="volumeSlider" Minimum="0" Maximum="100" SmallChange="1" LargeChange="5" TickFrequency="1" TickPlacement="None" IsSnapToTickEnabled="True" Value="100"/>
+			<Slider x:Name="volumeSlider" Minimum="0" Maximum="2" SmallChange="1" LargeChange="0.1" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True" Value="1"/>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Text="話速" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
 				<TextBlock Text="{Binding Value, ElementName=speedSlider, Converter={StaticResource DoubleConverter1}}" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
