@@ -7,8 +7,6 @@
         mc:Ignorable="d"
         Title="SAPIForVOICEVOX 設定 " Height="340" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
 	<Window.Resources>
-		<local:DoubleStringConverter x:Key="DoubleConverter1"/>
-		<local:DoubleStringConverter2 x:Key="DoubleConverter2"/>
 		<BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
 		<local:SynthesisSettingModeToBool x:Key="SettinModeConverter"/>
 	</Window.Resources>
@@ -39,13 +37,13 @@
 					</DockPanel>
 				</TabItem>
 				<TabItem Header="調声" Visibility="{Binding IsChecked, ElementName=allRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxParameterSlider/>
+					<local:VoicevoxParameterSlider DataContext="{Binding BatchParameter}"/>
 				</TabItem>
 				<TabItem Header="四国めたん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxParameterSlider/>
+					<local:VoicevoxParameterSlider DataContext="{Binding Speaker1Parameter}"/>
 				</TabItem>
 				<TabItem Header="ずんだもん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxParameterSlider/>
+					<local:VoicevoxParameterSlider DataContext="{Binding Speaker2Parameter}"/>
 				</TabItem>
 			</TabControl>
 		</DockPanel>
