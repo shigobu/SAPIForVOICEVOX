@@ -38,13 +38,13 @@
 					</DockPanel>
 				</TabItem>
 				<TabItem Header="調声" Visibility="{Binding IsChecked, ElementName=allRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxPropertySlider/>
+					<local:VoicevoxParameterSlider/>
 				</TabItem>
 				<TabItem Header="四国めたん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxPropertySlider/>
+					<local:VoicevoxParameterSlider/>
 				</TabItem>
 				<TabItem Header="ずんだもん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxPropertySlider/>
+					<local:VoicevoxParameterSlider/>
 				</TabItem>
 			</TabControl>
 		</DockPanel>
