@@ -76,15 +76,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GeneralSetting.cs" />
-    <Compile Include="SynthesisParameter.cs" />
-    <Compile Include="ParameterValueMode.cs" />
-    <Compile Include="SynthesisSettingMode.cs" />
-    <Compile Include="ViewModel.cs" />
-    <Compile Include="voicevoxParameterSlider.xaml.cs">
+    <Compile Include="Model\GeneralSetting.cs" />
+    <Compile Include="Model\SynthesisParameter.cs" />
+    <Compile Include="Model\ParameterValueMode.cs" />
+    <Compile Include="Model\SynthesisSettingMode.cs" />
+    <Compile Include="ViewModel\ViewModel.cs" />
+    <Compile Include="View\voicevoxParameterSlider.xaml.cs">
       <DependentUpon>voicevoxParameterSlider.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -92,13 +92,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DoubleStringConverter.cs" />
-    <Compile Include="DoubleStringConverter2.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Model\DoubleStringConverter.cs" />
+    <Compile Include="Model\DoubleStringConverter2.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="voicevoxParameterSlider.xaml">
+    <Page Include="View\voicevoxParameterSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,5 +129,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

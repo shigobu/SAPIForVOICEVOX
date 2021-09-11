@@ -29,6 +29,8 @@ namespace Setting
             string bitStr = "32bit版";
 #endif
             this.Title += bitStr;
+
+            this.DataContext = new ViewModel();
         }
 
         /// <summary>
