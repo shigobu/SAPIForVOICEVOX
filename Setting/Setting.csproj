@@ -76,6 +76,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\ParameterValueModeToBool.cs" />
+    <Compile Include="Converter\SynthesisSettingModeToBool.cs" />
     <Compile Include="Model\GeneralSetting.cs" />
     <Compile Include="Model\SynthesisParameter.cs" />
     <Compile Include="Model\ParameterValueMode.cs" />
@@ -92,8 +94,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\DoubleStringConverter.cs" />
-    <Compile Include="Model\DoubleStringConverter2.cs" />
+    <Compile Include="Converter\DoubleStringConverter.cs" />
+    <Compile Include="Converter\DoubleStringConverter2.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

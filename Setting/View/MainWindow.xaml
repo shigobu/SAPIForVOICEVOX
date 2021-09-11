@@ -9,7 +9,8 @@
 	<Window.Resources>
 		<local:DoubleStringConverter x:Key="DoubleConverter1"/>
 		<local:DoubleStringConverter2 x:Key="DoubleConverter2"/>
-		<BooleanToVisibilityConverter x:Key="BoolVisibilityConverter" />
+		<BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
+		<local:SynthesisSettingModeToBool x:Key="SettinModeConverter"/>
 	</Window.Resources>
 	<Grid>
 		<DockPanel Margin="5">
@@ -23,14 +24,14 @@
 					<DockPanel>
 						<GroupBox DockPanel.Dock="Top" Header="文章を分割する" ToolTip="長い文章を読ませたい場合、オンにしてください。">
 							<StackPanel>
-								<CheckBox Content="句点(。)で分割する" Margin="3"/>
-								<CheckBox Content="読点(、)で分割する" Margin="3"/>
+								<CheckBox Content="句点(。)で分割する" Margin="3" IsChecked="{Binding IsSplitKuten}"/>
+								<CheckBox Content="読点(、)で分割する" Margin="3" IsChecked="{Binding IsSpritTouten}"/>
 							</StackPanel>
 						</GroupBox>
 						<GroupBox DockPanel.Dock="Top" Header="調声">
 							<StackPanel>
-								<RadioButton x:Name="allRadioButton" Margin="3" Content="一括で設定する" IsChecked="True"/>
-								<RadioButton x:Name="parCharacterRadioButton" Margin="3" Content="キャラクター毎に設定する"/>
+								<RadioButton x:Name="allRadioButton" Margin="3" Content="一括で設定する" IsChecked="{Binding SynthesisSettingMode, ConverterParameter=Batch, Converter={StaticResource SettinModeConverter}}"/>
+								<RadioButton x:Name="parCharacterRadioButton" Margin="3" Content="キャラクター毎に設定する"  IsChecked="{Binding SynthesisSettingMode, ConverterParameter=EachCharacter, Converter={StaticResource SettinModeConverter}}"/>
 							</StackPanel>
 						</GroupBox>
 						<Button DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Left" Content="初期状態へ戻す"/>
