@@ -27,7 +27,7 @@ namespace Setting
         /// </summary>
         public ViewModel()
         {
-            generalSetting = LoadGeneralSetting();
+            LoadData();
         }
 
         #region プロパティとか
@@ -79,52 +79,87 @@ namespace Setting
             }
         }
 
-        /// <summary>
-        /// 一括設定
-        /// </summary>
-        /// <remarks>
-        /// このプロパティを直接DataContextに入れるので、変更通知の仕組みは入れていない。
-        /// </remarks>
-        public SynthesisParameter BatchParameter { get; set; } = new SynthesisParameter();
 
+        private SynthesisParameter _BatchParameter = new SynthesisParameter();
         /// <summary>
-        /// 話者１のパラメータ
+        /// 一括調声設定
         /// </summary>
-        /// <remarks>
-        /// このプロパティを直接DataContextに入れるので、変更通知の仕組みは入れていない。
-        /// </remarks>
-        public SynthesisParameter Speaker1Parameter { get; set; } = new SynthesisParameter();
+        public SynthesisParameter BatchParameter
+        {
+            get => _BatchParameter;
+            set
+            {
+                if (_BatchParameter == value) return;
+                _BatchParameter = value;
+                RaisePropertyChanged();
+            }
+        }
 
+
+        private SynthesisParameter[] _SpeakerParameter = { new SynthesisParameter(), new SynthesisParameter() };
         /// <summary>
-        /// 話者２のパラメータ
+        /// 各キャラクター調声設定
         /// </summary>
-        /// <remarks>
-        /// このプロパティを直接DataContextに入れるので、変更通知の仕組みは入れていない。
-        /// </remarks>
-        public SynthesisParameter Speaker2Parameter { get; set; } = new SynthesisParameter();
+        public SynthesisParameter[] SpeakerParameter
+        {
+            get => _SpeakerParameter;
+            set
+            {
+                if (_SpeakerParameter == value) return;
+                _SpeakerParameter = value;
+                RaisePropertyChanged();
+            }
+        }
 
         #endregion
 
         #region イベントとか
 
         //コマンドの使い方がいまいちわからないので、普通にイベントを使う。
+        
+        /// <summary>
+        /// OKボタン押下イベント
+        /// </summary>
         public void OkButton_Click(object sender, RoutedEventArgs e)
         {
             SaveData();
             Window.GetWindow((Button)sender).Close();
         }
 
+        /// <summary>
+        /// 適用ボタン押下イベント
+        /// </summary>
         public void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
             SaveData();
         }
 
+        /// <summary>
+        /// リセットボタン押下イベント
+        /// </summary>
+        public void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show(Window.GetWindow((Button)sender), "各キャラクターの調声パラメータも含めて全て初期値にリセットします。" + Environment.NewLine + "よろしいですか？", "確認", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+            generalSetting = new GeneralSetting();
+            //null指定で全てのプロパティ。
+            //propertyName引数はオプション引数だがCallerMemberName属性が付いてるので、明示的に指定が必要。多分
+            RaisePropertyChanged(null); 
+
+            BatchParameter = new SynthesisParameter();
+            SpeakerParameter = new SynthesisParameter[2] { new SynthesisParameter(), new SynthesisParameter() };
+        }
 
         #endregion
 
         #region 定数
 
         const string GeneralSettingXMLFileName = "GeneralSetting.xml";
+        const string BatchParameterSettingXMLFileName = "BatchParameter.xml";
+        const string SpeakerParameterSettingXMLFileName = "SpeakerParameter.xml";
 
         #endregion
 
@@ -141,29 +176,80 @@ namespace Setting
         }
 
         /// <summary>
-        /// 出力先を指定して、保存します。
+        /// 全般設定ファイルの名前を取得します。
         /// </summary>
-        /// <param name="directoryName"></param>
-        private void SaveData()
+        /// <returns>全般設定ファイル名</returns>
+        private string GetGeneralSettingFileName()
         {
             string directoryName = GetThisAppDirectory();
-            string generalSettingFileName = Path.Combine(directoryName, GeneralSettingXMLFileName);
+            return Path.Combine(directoryName, GeneralSettingXMLFileName);
+        }
 
+        /// <summary>
+        /// 調声設定ファイル名を取得します。
+        /// </summary>
+        /// <returns>調声設定ファイル名</returns>
+        private string GetBatchParameterSettingFileName()
+        {
+            string directoryName = GetThisAppDirectory();
+            return Path.Combine(directoryName, BatchParameterSettingXMLFileName);
+        }
+
+        /// <summary>
+        /// キャラ調声設定ファイルを取得します。
+        /// </summary>
+        /// <returns></returns>
+        private string GetSpeakerParameterSettingFileName()
+        {
+            string directoryName = GetThisAppDirectory();
+            return Path.Combine(directoryName, SpeakerParameterSettingXMLFileName);
+        }
+        
+        /// <summary>
+        /// 保存します。
+        /// </summary>
+        private void SaveData()
+        {
             // シリアライズする
             var serializerGeneralSeting = new XmlSerializer(typeof(GeneralSetting));
-            using (var streamWriter = new StreamWriter(generalSettingFileName, false, Encoding.UTF8))
+            using (var streamWriter = new StreamWriter(GetGeneralSettingFileName(), false, Encoding.UTF8))
             {
                 serializerGeneralSeting.Serialize(streamWriter, generalSetting);
             }
+
+            var serializerBatchParameter = new XmlSerializer(typeof(SynthesisParameter));
+            using (var streamWriter = new StreamWriter(GetBatchParameterSettingFileName(), false, Encoding.UTF8))
+            {
+                serializerBatchParameter.Serialize(streamWriter, BatchParameter);
+            }
+
+            var serializerSpeakerParameter = new XmlSerializer(typeof(SynthesisParameter[]));
+            using (var streamWriter = new StreamWriter(GetSpeakerParameterSettingFileName(), false, Encoding.UTF8))
+            {
+                serializerSpeakerParameter.Serialize(streamWriter, SpeakerParameter);
+            }
         }
 
+        /// <summary>
+        /// 設定を読み込みます。
+        /// </summary>
+        private void LoadData()
+        {
+            generalSetting = LoadGeneralSetting();
+            BatchParameter = LoadBatchSynthesisParameter();
+            SpeakerParameter = LoadSpeakerSynthesisParameter();
+        }
+
+        /// <summary>
+        /// 一般設定を読み込みます。
+        /// </summary>
+        /// <returns>一般設定</returns>
         private GeneralSetting LoadGeneralSetting()
         {
-            string directoryName = GetThisAppDirectory();
-            string generalSettingFileName = Path.Combine(directoryName, GeneralSettingXMLFileName);
+            string settingFileName = GetGeneralSettingFileName();
 
             //ファイル存在確認
-            if (!File.Exists(generalSettingFileName))
+            if (!File.Exists(settingFileName))
             {
                 //無い場合は新規でオブジェクト作成。
                 return new GeneralSetting();
@@ -176,10 +262,72 @@ namespace Setting
             {
                 CheckCharacters = false,
             };
-            using (var streamReader = new StreamReader(generalSettingFileName, Encoding.UTF8))
+            using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
             using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
             {
                 result = (GeneralSetting)serializerGeneralSetting.Deserialize(xmlReader);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 一括の調声設定を取得します。
+        /// </summary>
+        /// <returns>調声設定</returns>
+        private SynthesisParameter LoadBatchSynthesisParameter()
+        {
+            string settingFileName = GetBatchParameterSettingFileName();
+
+            //ファイル存在確認
+            if (!File.Exists(settingFileName))
+            {
+                //無い場合は新規でオブジェクト作成。
+                return new SynthesisParameter();
+            }
+
+            // デシリアライズする
+            var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter));
+            SynthesisParameter result;
+            var xmlSettings = new XmlReaderSettings()
+            {
+                CheckCharacters = false,
+            };
+            using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
+            using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+            {
+                result = (SynthesisParameter)serializerSynthesisParameter.Deserialize(xmlReader);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// キャラ調声設定を読み込みます。
+        /// </summary>
+        /// <returns>キャラ調声設定配列</returns>
+        private SynthesisParameter[] LoadSpeakerSynthesisParameter()
+        {
+            string settingFileName = GetSpeakerParameterSettingFileName();
+
+            //ファイル存在確認
+            if (!File.Exists(settingFileName))
+            {
+                //無い場合は新規でオブジェクト作成。
+                return new SynthesisParameter[2] { new SynthesisParameter(), new SynthesisParameter()};
+            }
+
+            // デシリアライズする
+            var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter[]));
+            SynthesisParameter[] result;
+            var xmlSettings = new XmlReaderSettings()
+            {
+                CheckCharacters = false,
+            };
+            using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
+            using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+            {
+                result = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
             }
 
             return result;

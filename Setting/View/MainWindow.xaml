@@ -32,7 +32,7 @@
 								<RadioButton x:Name="parCharacterRadioButton" Margin="3" Content="キャラクター毎に設定する"  IsChecked="{Binding SynthesisSettingMode, ConverterParameter=EachCharacter, Converter={StaticResource SettinModeConverter}}"/>
 							</StackPanel>
 						</GroupBox>
-						<Button DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Left" Content="初期状態へ戻す"/>
+						<Button x:Name="resetButton" DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Left" Content="初期状態へ戻す"/>
 						<Rectangle/>
 					</DockPanel>
 				</TabItem>
@@ -40,10 +40,10 @@
 					<local:VoicevoxParameterSlider DataContext="{Binding BatchParameter}"/>
 				</TabItem>
 				<TabItem Header="四国めたん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxParameterSlider DataContext="{Binding Speaker1Parameter}"/>
+					<local:VoicevoxParameterSlider DataContext="{Binding SpeakerParameter[0]}"/>
 				</TabItem>
 				<TabItem Header="ずんだもん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxParameterSlider DataContext="{Binding Speaker2Parameter}"/>
+					<local:VoicevoxParameterSlider DataContext="{Binding SpeakerParameter[1]}"/>
 				</TabItem>
 			</TabControl>
 		</DockPanel>
