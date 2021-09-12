@@ -5,6 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Xml.Serialization;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Xml;
 
 namespace Setting
 {
@@ -22,8 +27,10 @@ namespace Setting
         /// </summary>
         public ViewModel()
         {
-            generalSetting = new GeneralSetting();
+            generalSetting = LoadGeneralSetting();
         }
+
+        #region プロパティとか
 
         /// <summary>
         /// Model
@@ -96,5 +103,88 @@ namespace Setting
         /// </remarks>
         public SynthesisParameter Speaker2Parameter { get; set; } = new SynthesisParameter();
 
+        #endregion
+
+        #region イベントとか
+
+        //コマンドの使い方がいまいちわからないので、普通にイベントを使う。
+        public void OkButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveData();
+            Window.GetWindow((Button)sender).Close();
+        }
+
+        public void ApplyButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveData();
+        }
+
+
+        #endregion
+
+        #region 定数
+
+        const string GeneralSettingXMLFileName = "GeneralSetting.xml";
+
+        #endregion
+
+        #region メソッド
+
+        /// <summary>
+        /// 実行中のコードを格納しているアセンブリのある場所を返します。
+        /// </summary>
+        /// <returns></returns>
+        private string GetThisAppDirectory()
+        {
+            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            return Path.GetDirectoryName(appPath);
+        }
+
+        /// <summary>
+        /// 出力先を指定して、保存します。
+        /// </summary>
+        /// <param name="directoryName"></param>
+        private void SaveData()
+        {
+            string directoryName = GetThisAppDirectory();
+            string generalSettingFileName = Path.Combine(directoryName, GeneralSettingXMLFileName);
+
+            // シリアライズする
+            var serializerGeneralSeting = new XmlSerializer(typeof(GeneralSetting));
+            using (var streamWriter = new StreamWriter(generalSettingFileName, false, Encoding.UTF8))
+            {
+                serializerGeneralSeting.Serialize(streamWriter, generalSetting);
+            }
+        }
+
+        private GeneralSetting LoadGeneralSetting()
+        {
+            string directoryName = GetThisAppDirectory();
+            string generalSettingFileName = Path.Combine(directoryName, GeneralSettingXMLFileName);
+
+            //ファイル存在確認
+            if (!File.Exists(generalSettingFileName))
+            {
+                //無い場合は新規でオブジェクト作成。
+                return new GeneralSetting();
+            }
+
+            // デシリアライズする
+            var serializerGeneralSetting = new XmlSerializer(typeof(GeneralSetting));
+            GeneralSetting result;
+            var xmlSettings = new XmlReaderSettings()
+            {
+                CheckCharacters = false,
+            };
+            using (var streamReader = new StreamReader(generalSettingFileName, Encoding.UTF8))
+            using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+            {
+                result = (GeneralSetting)serializerGeneralSetting.Deserialize(xmlReader);
+            }
+
+            return result;
+        }
+
+        #endregion
     }
 }

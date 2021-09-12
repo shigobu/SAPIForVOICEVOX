@@ -30,7 +30,10 @@ namespace Setting
 #endif
             this.Title += bitStr;
 
-            this.DataContext = new ViewModel();
+            ViewModel viewModel = new ViewModel();
+            this.DataContext = viewModel;
+            OkButton.Click += viewModel.OkButton_Click;
+            ApplyButton.Click += viewModel.ApplyButton_Click;
         }
 
         /// <summary>
