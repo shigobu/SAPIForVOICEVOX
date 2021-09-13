@@ -13,8 +13,32 @@ namespace Setting
 
         private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
           => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         #endregion
 
+        #region Equals
+        public override bool Equals(object obj)
+        {
+            return obj is SynthesisParameter parameter &&
+                   ValueMode == parameter.ValueMode &&
+                   Volume == parameter.Volume &&
+                   Speed == parameter.Speed &&
+                   Pitch == parameter.Pitch &&
+                   Intonation == parameter.Intonation;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 1557109181;
+            hashCode = hashCode * -1521134295 + ValueMode.GetHashCode();
+            hashCode = hashCode * -1521134295 + Volume.GetHashCode();
+            hashCode = hashCode * -1521134295 + Speed.GetHashCode();
+            hashCode = hashCode * -1521134295 + Pitch.GetHashCode();
+            hashCode = hashCode * -1521134295 + Intonation.GetHashCode();
+            return hashCode;
+        }
+
+        #endregion
 
         private ParameterValueMode _ValueMode = ParameterValueMode.SAPI;
         /// <summary>
@@ -90,6 +114,20 @@ namespace Setting
                 RaisePropertyChanged();
             }
         }
+
+        #region 演算子
+
+        public static bool operator ==(SynthesisParameter synthesisParameter1, SynthesisParameter synthesisParameter2)
+        {
+            return synthesisParameter1.Equals(synthesisParameter2);
+        }
+
+        public static bool operator !=(SynthesisParameter synthesisParameter1, SynthesisParameter synthesisParameter2)
+        {
+            return !synthesisParameter1.Equals(synthesisParameter2);
+        }
+
+        #endregion
 
     }
 
