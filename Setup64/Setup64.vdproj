@@ -46,13 +46,13 @@
         "Entry"
         {
         "MsmKey" = "8:_E405507FA80A33EDD61793682A4AEB75"
-        "OwnerKey" = "8:_A909083F989E4A14A366788EC2F774BF"
+        "OwnerKey" = "8:_ED863E916E664F7E84254EF95ADF42AB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_E405507FA80A33EDD61793682A4AEB75"
-        "OwnerKey" = "8:_ED863E916E664F7E84254EF95ADF42AB"
+        "OwnerKey" = "8:_A909083F989E4A14A366788EC2F774BF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -70,6 +70,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_ED863E916E664F7E84254EF95ADF42AB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_A909083F989E4A14A366788EC2F774BF"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -77,12 +83,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_3B75320AA7BBBD2EA7EC3CDC6FA7B73F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_ED863E916E664F7E84254EF95ADF42AB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -413,7 +413,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX64"
         "ProductCode" = "8:{FAF697F9-8847-4136-967E-3B6D2F721318}"
-        "PackageCode" = "8:{19DE6F86-18A4-4D81-A908-EE9C7F6929DD}"
+        "PackageCode" = "8:{D68876C0-B47D-448D-8794-C6F5495DD8BA}"
         "UpgradeCode" = "8:{38748062-1F81-49A9-AE59-A3DCE9BD3967}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -535,7 +535,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A06BDFC3D7EB424CAA8A6AF06AE5935B"
             {
-            "Name" = "8:Shortcut to プライマリ出力 from Setting (Release x64)"
+            "Name" = "8:SAPIForVOICEVOX設定"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
