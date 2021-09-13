@@ -25,12 +25,16 @@ namespace Setting
         /// <summary>
         /// 
         /// </summary>
-        public ViewModel()
+        public ViewModel(MainWindow mainWindow)
         {
+            PropertyChanged += ViewModel_PropertyChanged;
+            owner = mainWindow;
             LoadData();
         }
 
         #region プロパティとか
+
+        public MainWindow owner { get; set; }
 
         /// <summary>
         /// Model
@@ -131,6 +135,9 @@ namespace Setting
         /// </summary>
         public void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
+            //ボタン連打防止ようにボタン無効化
+            Button button = (Button)sender;
+            button.IsEnabled = false;
             SaveData();
         }
 
@@ -144,6 +151,7 @@ namespace Setting
             {
                 return;
             }
+
             generalSetting = new GeneralSetting();
             //null指定で全てのプロパティ。
             //propertyName引数はオプション引数だがCallerMemberName属性が付いてるので、明示的に指定が必要。多分
@@ -151,6 +159,22 @@ namespace Setting
 
             BatchParameter = new SynthesisParameter();
             SpeakerParameter = new SynthesisParameter[2] { new SynthesisParameter(), new SynthesisParameter() };
+
+            //適応ボタン有効化のための、プロパティ変更通知登録
+            BatchParameter.PropertyChanged += ViewModel_PropertyChanged;
+            foreach (var item in SpeakerParameter)
+            {
+                item.PropertyChanged += ViewModel_PropertyChanged;
+            }
+        }
+
+        /// <summary>
+        /// プロパティ変更の通知受取り
+        /// </summary>
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            //適応ボタンの有効化
+            owner.ApplyButton.IsEnabled = true;
         }
 
         #endregion
@@ -238,6 +262,13 @@ namespace Setting
             generalSetting = LoadGeneralSetting();
             BatchParameter = LoadBatchSynthesisParameter();
             SpeakerParameter = LoadSpeakerSynthesisParameter();
+
+            //適応ボタン有効化のための、プロパティ変更通知登録
+            BatchParameter.PropertyChanged += ViewModel_PropertyChanged;
+            foreach (var item in SpeakerParameter)
+            {
+                item.PropertyChanged += ViewModel_PropertyChanged;
+            }
         }
 
         /// <summary>
