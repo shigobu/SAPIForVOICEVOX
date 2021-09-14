@@ -13,7 +13,7 @@ using System.Xml;
 
 namespace Setting
 {
-    class ViewModel : INotifyPropertyChanged
+    public class ViewModel : INotifyPropertyChanged
     {
         #region INotifyPropertyChangedの実装
         public event PropertyChangedEventHandler PropertyChanged;
@@ -193,7 +193,7 @@ namespace Setting
         /// 実行中のコードを格納しているアセンブリのある場所を返します。
         /// </summary>
         /// <returns></returns>
-        private string GetThisAppDirectory()
+        static public string GetThisAppDirectory()
         {
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             return Path.GetDirectoryName(appPath);
@@ -203,7 +203,7 @@ namespace Setting
         /// 全般設定ファイルの名前を取得します。
         /// </summary>
         /// <returns>全般設定ファイル名</returns>
-        private string GetGeneralSettingFileName()
+        static public string GetGeneralSettingFileName()
         {
             string directoryName = GetThisAppDirectory();
             return Path.Combine(directoryName, GeneralSettingXMLFileName);
@@ -213,7 +213,7 @@ namespace Setting
         /// 調声設定ファイル名を取得します。
         /// </summary>
         /// <returns>調声設定ファイル名</returns>
-        private string GetBatchParameterSettingFileName()
+        static public string GetBatchParameterSettingFileName()
         {
             string directoryName = GetThisAppDirectory();
             return Path.Combine(directoryName, BatchParameterSettingXMLFileName);
@@ -223,7 +223,7 @@ namespace Setting
         /// キャラ調声設定ファイルを取得します。
         /// </summary>
         /// <returns></returns>
-        private string GetSpeakerParameterSettingFileName()
+        static public string GetSpeakerParameterSettingFileName()
         {
             string directoryName = GetThisAppDirectory();
             return Path.Combine(directoryName, SpeakerParameterSettingXMLFileName);
@@ -275,7 +275,7 @@ namespace Setting
         /// 一般設定を読み込みます。
         /// </summary>
         /// <returns>一般設定</returns>
-        private GeneralSetting LoadGeneralSetting()
+        static public GeneralSetting LoadGeneralSetting()
         {
             string settingFileName = GetGeneralSettingFileName();
 
@@ -287,16 +287,23 @@ namespace Setting
             }
 
             // デシリアライズする
-            var serializerGeneralSetting = new XmlSerializer(typeof(GeneralSetting));
             GeneralSetting result;
-            var xmlSettings = new XmlReaderSettings()
+            try
             {
-                CheckCharacters = false,
-            };
-            using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
-            using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+                var serializerGeneralSetting = new XmlSerializer(typeof(GeneralSetting));
+                var xmlSettings = new XmlReaderSettings()
+                {
+                    CheckCharacters = false,
+                };
+                using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
+                using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+                {
+                    result = (GeneralSetting)serializerGeneralSetting.Deserialize(xmlReader);
+                }
+            }
+            catch (Exception)
             {
-                result = (GeneralSetting)serializerGeneralSetting.Deserialize(xmlReader);
+                result = new GeneralSetting();
             }
 
             return result;
@@ -306,7 +313,7 @@ namespace Setting
         /// 一括の調声設定を取得します。
         /// </summary>
         /// <returns>調声設定</returns>
-        private SynthesisParameter LoadBatchSynthesisParameter()
+        static public SynthesisParameter LoadBatchSynthesisParameter()
         {
             string settingFileName = GetBatchParameterSettingFileName();
 
@@ -318,16 +325,23 @@ namespace Setting
             }
 
             // デシリアライズする
-            var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter));
             SynthesisParameter result;
-            var xmlSettings = new XmlReaderSettings()
+            try
             {
-                CheckCharacters = false,
-            };
-            using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
-            using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+                var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter));
+                var xmlSettings = new XmlReaderSettings()
+                {
+                    CheckCharacters = false,
+                };
+                using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
+                using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+                {
+                    result = (SynthesisParameter)serializerSynthesisParameter.Deserialize(xmlReader);
+                }
+            }
+            catch (Exception)
             {
-                result = (SynthesisParameter)serializerSynthesisParameter.Deserialize(xmlReader);
+                result = new SynthesisParameter();
             }
 
             return result;
@@ -337,7 +351,7 @@ namespace Setting
         /// キャラ調声設定を読み込みます。
         /// </summary>
         /// <returns>キャラ調声設定配列</returns>
-        private SynthesisParameter[] LoadSpeakerSynthesisParameter()
+        static public SynthesisParameter[] LoadSpeakerSynthesisParameter()
         {
             string settingFileName = GetSpeakerParameterSettingFileName();
 
@@ -349,16 +363,27 @@ namespace Setting
             }
 
             // デシリアライズする
-            var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter[]));
             SynthesisParameter[] result;
-            var xmlSettings = new XmlReaderSettings()
+            try
             {
-                CheckCharacters = false,
-            };
-            using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
-            using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+                var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter[]));
+                var xmlSettings = new XmlReaderSettings()
+                {
+                    CheckCharacters = false,
+                };
+                using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
+                using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+                {
+                    result = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
+                }
+            }
+            catch (Exception)
             {
-                result = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
+                result = new SynthesisParameter[2];
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = new SynthesisParameter();
+                }
             }
 
             return result;

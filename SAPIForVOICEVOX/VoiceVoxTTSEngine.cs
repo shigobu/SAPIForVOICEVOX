@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Setting;
 
 namespace SAPIForVOICEVOX
 {
@@ -343,5 +344,32 @@ namespace SAPIForVOICEVOX
         {
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
+
+        #region 設定データ取得関連
+
+        /// <summary>
+        /// 設定データを取得します。
+        /// </summary>
+        /// <param name="speakerNum">話者番号</param>
+        /// <param name="generalSetting">全般設定</param>
+        /// <param name="synthesisParameter">調声設定</param>
+        private void GetSettingData(int speakerNum, out GeneralSetting generalSetting, out SynthesisParameter synthesisParameter)
+        {
+            generalSetting = ViewModel.LoadGeneralSetting();
+            switch (generalSetting.synthesisSettingMode)
+            {
+                case SynthesisSettingMode.Batch:
+                    synthesisParameter = ViewModel.LoadBatchSynthesisParameter();
+                    break;
+                case SynthesisSettingMode.EachCharacter:
+                    synthesisParameter = ViewModel.LoadSpeakerSynthesisParameter()[speakerNum];
+                    break;
+                default:
+                    synthesisParameter = new SynthesisParameter();
+                    break;
+            }
+        }
+
+        #endregion
     }
 }
