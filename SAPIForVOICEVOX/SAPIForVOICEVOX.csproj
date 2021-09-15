@@ -102,5 +102,11 @@
   <ItemGroup>
     <None Include="ボイスボックスが見つかりません.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Setting\Setting.csproj">
+      <Project>{91b73544-cf6a-4453-9aa8-9949d474e2b4}</Project>
+      <Name>Setting</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
