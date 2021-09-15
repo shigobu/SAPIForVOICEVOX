@@ -286,18 +286,18 @@ namespace Setting
         /// <returns>一般設定</returns>
         static public GeneralSetting LoadGeneralSetting()
         {
+            GeneralSetting result = new GeneralSetting();
             string settingFileName = GetGeneralSettingFileName();
 
             //ファイル存在確認
             if (!File.Exists(settingFileName))
             {
-                //無い場合は新規でオブジェクト作成。
-                return new GeneralSetting();
+                //無い場合はそのまま返す。
+                return result;
             }
 
             // デシリアライズする
             Mutex mutex = new Mutex(false, MutexName);
-            GeneralSetting result;
             try
             {
                 //ミューテックス取得
@@ -311,20 +311,20 @@ namespace Setting
                 using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
                 using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
                 {
+                    //結果上書き
                     result = (GeneralSetting)serializerGeneralSetting.Deserialize(xmlReader);
                 }
+                return result;
             }
             catch (Exception)
             {
-                result = new GeneralSetting();
+                return result;
             }
             finally
             {
                 //ミューテックス開放
                 mutex.Dispose();
             }
-
-            return result;
         }
 
         /// <summary>
@@ -333,18 +333,18 @@ namespace Setting
         /// <returns>調声設定</returns>
         static public SynthesisParameter LoadBatchSynthesisParameter()
         {
+            SynthesisParameter result = new SynthesisParameter();
             string settingFileName = GetBatchParameterSettingFileName();
 
             //ファイル存在確認
             if (!File.Exists(settingFileName))
             {
-                //無い場合は新規でオブジェクト作成。
-                return new SynthesisParameter();
+                //無い場合はそのまま返す。
+                return result;
             }
 
             // デシリアライズする
             Mutex mutex = new Mutex(false, MutexName);
-            SynthesisParameter result;
             try
             {
                 //ミューテックス取得
@@ -358,20 +358,20 @@ namespace Setting
                 using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
                 using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
                 {
+                    //結果上書き
                     result = (SynthesisParameter)serializerSynthesisParameter.Deserialize(xmlReader);
                 }
+                return result;
             }
             catch (Exception)
             {
-                result = new SynthesisParameter();
+                return result;
             }
             finally
             {
                 //ミューテックス開放
                 mutex.Dispose();
             }
-
-            return result;
         }
 
         /// <summary>
@@ -382,15 +382,16 @@ namespace Setting
         {
             string settingFileName = GetSpeakerParameterSettingFileName();
 
-            SynthesisParameter[] result;
+            //戻り値を作成、初期化
+            SynthesisParameter[] result = new SynthesisParameter[CharacterCount];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = new SynthesisParameter();
+            }
+
             //ファイル存在確認
             if (!File.Exists(settingFileName))
             {
-                result = new SynthesisParameter[CharacterCount];
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = new SynthesisParameter();
-                }
                 return result;
             }
 
@@ -409,24 +410,20 @@ namespace Setting
                 using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
                 using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
                 {
+                    //結果上書き
                     result = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
                 }
+                return result;
             }
             catch (Exception)
             {
-                result = new SynthesisParameter[CharacterCount];
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = new SynthesisParameter();
-                }
+                return result;
             }
             finally
             {
                 //ミューテックス開放
                 mutex.Dispose();
             }
-
-            return result;
         }
 
         #endregion
