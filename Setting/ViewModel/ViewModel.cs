@@ -10,6 +10,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+using System.Threading;
 
 namespace Setting
 {
@@ -187,6 +188,12 @@ namespace Setting
 
         const int CharacterCount = 2;
 
+#if x64
+        const string MutexName = "SAPIForVOICEVOX64bit";
+#else
+        const string MutexName = "SAPIForVOICEVOX32bit";
+#endif
+
         #endregion
 
         #region メソッド
@@ -289,9 +296,13 @@ namespace Setting
             }
 
             // デシリアライズする
+            Mutex mutex = new Mutex(false, MutexName);
             GeneralSetting result;
             try
             {
+                //ミューテックス取得
+                mutex.WaitOne();
+
                 var serializerGeneralSetting = new XmlSerializer(typeof(GeneralSetting));
                 var xmlSettings = new XmlReaderSettings()
                 {
@@ -306,6 +317,11 @@ namespace Setting
             catch (Exception)
             {
                 result = new GeneralSetting();
+            }
+            finally
+            {
+                //ミューテックス開放
+                mutex.Dispose();
             }
 
             return result;
@@ -327,9 +343,13 @@ namespace Setting
             }
 
             // デシリアライズする
+            Mutex mutex = new Mutex(false, MutexName);
             SynthesisParameter result;
             try
             {
+                //ミューテックス取得
+                mutex.WaitOne();
+
                 var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter));
                 var xmlSettings = new XmlReaderSettings()
                 {
@@ -344,6 +364,11 @@ namespace Setting
             catch (Exception)
             {
                 result = new SynthesisParameter();
+            }
+            finally
+            {
+                //ミューテックス開放
+                mutex.Dispose();
             }
 
             return result;
@@ -370,8 +395,12 @@ namespace Setting
             }
 
             // デシリアライズする
+            Mutex mutex = new Mutex(false, MutexName);
             try
             {
+                //ミューテックス取得
+                mutex.WaitOne();
+
                 var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter[]));
                 var xmlSettings = new XmlReaderSettings()
                 {
@@ -390,6 +419,11 @@ namespace Setting
                 {
                     result[i] = new SynthesisParameter();
                 }
+            }
+            finally
+            {
+                //ミューテックス開放
+                mutex.Dispose();
             }
 
             return result;
