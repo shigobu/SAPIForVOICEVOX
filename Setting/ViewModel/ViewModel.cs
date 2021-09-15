@@ -185,6 +185,8 @@ namespace Setting
         const string BatchParameterSettingXMLFileName = "BatchParameter.xml";
         const string SpeakerParameterSettingXMLFileName = "SpeakerParameter.xml";
 
+        const int CharacterCount = 2;
+
         #endregion
 
         #region メソッド
@@ -355,15 +357,19 @@ namespace Setting
         {
             string settingFileName = GetSpeakerParameterSettingFileName();
 
+            SynthesisParameter[] result;
             //ファイル存在確認
             if (!File.Exists(settingFileName))
             {
-                //無い場合は新規でオブジェクト作成。
-                return new SynthesisParameter[2] { new SynthesisParameter(), new SynthesisParameter()};
+                result = new SynthesisParameter[CharacterCount];
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = new SynthesisParameter();
+                }
+                return result;
             }
 
             // デシリアライズする
-            SynthesisParameter[] result;
             try
             {
                 var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter[]));
@@ -379,7 +385,7 @@ namespace Setting
             }
             catch (Exception)
             {
-                result = new SynthesisParameter[2];
+                result = new SynthesisParameter[CharacterCount];
                 for (int i = 0; i < result.Length; i++)
                 {
                     result[i] = new SynthesisParameter();
