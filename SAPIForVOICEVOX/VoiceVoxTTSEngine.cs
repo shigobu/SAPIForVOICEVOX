@@ -108,38 +108,55 @@ namespace SAPIForVOICEVOX
             double pitch = synthesisParameter.Pitch;
             double intonation = synthesisParameter.Intonation;
 
+            List<char> charSeparators = new List<char>();
+            if (generalSetting.isSplitKuten ?? false)
+            {
+                charSeparators.Add('。');
+            }
+            if (generalSetting.isSplitTouten ?? false)
+            {
+                charSeparators.Add('、');
+            }
+
             SPVTEXTFRAG currentTextList = pTextFragList;
             while (true)
             {
+                //分割
+                string[] splitedString = currentTextList.pTextStart.Split(charSeparators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
 
-                //VOICEVOXへ送信
-                //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
-                Task<byte[]> waveDataTask = SendToVoiceVox(currentTextList.pTextStart, SpeakerNumber, speed, pitch, intonation, volume);
-                waveDataTask.Wait();
-                byte[] waveData = waveDataTask.Result;
-
-                //受け取った音声データをpOutputSiteへ書き込む
-                IntPtr pWavData = IntPtr.Zero;
-                try
+                foreach (string str in splitedString)
                 {
-                    //メモリが確実に確保され、確実に代入されるためのおまじない。
-                    RuntimeHelpers.PrepareConstrainedRegions();
-                    try { }
+                    //VOICEVOXへ送信
+                    //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
+                    Task<byte[]> waveDataTask = SendToVoiceVox(str, SpeakerNumber, speed, pitch, intonation, volume);
+                    waveDataTask.Wait();
+                    byte[] waveData = waveDataTask.Result;
+                    byte[] voiceData = new byte[waveData.Length - 43];
+                    //waveデータからヘッダー部分を削除
+                    Array.Copy(waveData, 43, voiceData, 0, voiceData.Length);
+
+                    //受け取った音声データをpOutputSiteへ書き込む
+                    IntPtr pWavData = IntPtr.Zero;
+                    try
+                    {
+                        //メモリが確実に確保され、確実に代入されるためのおまじない。
+                        RuntimeHelpers.PrepareConstrainedRegions();
+                        try { }
+                        finally
+                        {
+                            pWavData = Marshal.AllocCoTaskMem(waveData.Length);
+                        }
+                        Marshal.Copy(waveData, 0, pWavData, waveData.Length);
+                        pOutputSite.Write(pWavData, (uint)waveData.Length, out uint written);
+                    }
                     finally
                     {
-                        pWavData = Marshal.AllocCoTaskMem(waveData.Length);
-                    }
-                    Marshal.Copy(waveData, 0, pWavData, waveData.Length);
-                    pOutputSite.Write(pWavData, (uint)waveData.Length, out uint written);
-                }
-                finally
-                {
-                    if (pWavData != IntPtr.Zero)
-                    {
-                        Marshal.FreeCoTaskMem(pWavData);
+                        if (pWavData != IntPtr.Zero)
+                        {
+                            Marshal.FreeCoTaskMem(pWavData);
+                        }
                     }
                 }
-
                 //次のデータを設定
                 if (pTextFragList.pNext == IntPtr.Zero)
                 {
@@ -151,6 +168,10 @@ namespace SAPIForVOICEVOX
                 }
             }
         }
+
+        const ushort channels = 1;
+        const uint samplesPerSec = 24000;
+        const ushort bitsPerSample = 16;
 
         /// <summary>
         /// 読み上げ指示の前に呼ばれるはず。
@@ -169,9 +190,9 @@ namespace SAPIForVOICEVOX
             {
                 WAVEFORMATEX wAVEFORMATEX = new WAVEFORMATEX();
                 wAVEFORMATEX.wFormatTag = WAVE_FORMAT_PCM;
-                wAVEFORMATEX.nChannels = 1;
-                wAVEFORMATEX.nSamplesPerSec = 24000;
-                wAVEFORMATEX.wBitsPerSample = 16;
+                wAVEFORMATEX.nChannels = channels;
+                wAVEFORMATEX.nSamplesPerSec = samplesPerSec;
+                wAVEFORMATEX.wBitsPerSample = bitsPerSample;
                 wAVEFORMATEX.nBlockAlign = (ushort)(wAVEFORMATEX.nChannels * wAVEFORMATEX.wBitsPerSample / 8);
                 wAVEFORMATEX.nAvgBytesPerSec = wAVEFORMATEX.nSamplesPerSec * wAVEFORMATEX.nBlockAlign;
                 wAVEFORMATEX.cbSize = 0;
