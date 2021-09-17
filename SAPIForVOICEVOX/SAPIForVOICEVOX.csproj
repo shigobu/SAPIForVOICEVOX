@@ -75,6 +75,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="VoiceNotificationException.cs" />
+    <Compile Include="VoiceVoxConnectionException.cs" />
+    <Compile Include="VoiceVoxEngineException.cs" />
+    <Compile Include="VoiceVoxNotFoundException.cs" />
     <Compile Include="VoiceVoxTTSEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -107,6 +111,9 @@
       <Project>{91b73544-cf6a-4453-9aa8-9949d474e2b4}</Project>
       <Name>Setting</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="エンジンエラーです.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
