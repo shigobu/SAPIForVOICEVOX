@@ -63,6 +63,15 @@ namespace SAPIForVOICEVOX.Properties {
         /// <summary>
         ///   System.IO.MemoryStream に類似した型 System.IO.UnmanagedMemoryStream のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream エンジンエラーです {
+            get {
+                return ResourceManager.GetStream("エンジンエラーです", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   System.IO.MemoryStream に類似した型 System.IO.UnmanagedMemoryStream のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream ボイスボックスが見つかりません {
             get {
                 return ResourceManager.GetStream("ボイスボックスが見つかりません", resourceCulture);

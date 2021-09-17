@@ -118,53 +118,94 @@ namespace SAPIForVOICEVOX
                 charSeparators.Add('、');
             }
 
-            SPVTEXTFRAG currentTextList = pTextFragList;
-            while (true)
+            try
             {
-                //分割
-                string[] splitedString = currentTextList.pTextStart.Split(charSeparators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string str in splitedString)
+                SPVTEXTFRAG currentTextList = pTextFragList;
+                while (true)
                 {
-                    //VOICEVOXへ送信
-                    //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
-                    Task<byte[]> waveDataTask = SendToVoiceVox(str, SpeakerNumber, speed, pitch, intonation, volume);
-                    waveDataTask.Wait();
-                    byte[] waveData = waveDataTask.Result;
-                    byte[] voiceData = new byte[waveData.Length - 43];
-                    //waveデータからヘッダー部分を削除
-                    Array.Copy(waveData, 43, voiceData, 0, voiceData.Length);
+                    //分割
+                    string[] splitedString = currentTextList.pTextStart.Split(charSeparators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
 
-                    //受け取った音声データをpOutputSiteへ書き込む
-                    IntPtr pWavData = IntPtr.Zero;
-                    try
+                    foreach (string str in splitedString)
                     {
-                        //メモリが確実に確保され、確実に代入されるためのおまじない。
-                        RuntimeHelpers.PrepareConstrainedRegions();
-                        try { }
-                        finally
+                        //VOICEVOXへ送信
+                        //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
+                        Task<byte[]> waveDataTask = SendToVoiceVox(str, SpeakerNumber, speed, pitch, intonation, volume);
+                        byte[] waveData;
+                        try
                         {
-                            pWavData = Marshal.AllocCoTaskMem(waveData.Length);
+                            waveDataTask.Wait();
+                            waveData = waveDataTask.Result;
                         }
-                        Marshal.Copy(waveData, 0, pWavData, waveData.Length);
-                        pOutputSite.Write(pWavData, (uint)waveData.Length, out uint written);
+                        catch (AggregateException ex) when (ex.InnerException is VoiceVoxEngineException)
+                        {
+                            VoiceVoxEngineException voiceNotification = ex.InnerException as VoiceVoxEngineException;
+                            waveData = voiceNotification.ErrorVoice;
+                        }
+                        waveData = DeleteHeaderFromWaveData(waveData);
+
+                        //書き込み
+                        OutputSiteWriteSafe(pOutputSite, waveData);
                     }
-                    finally
+
+                    //次のデータを設定
+                    if (pTextFragList.pNext == IntPtr.Zero)
                     {
-                        if (pWavData != IntPtr.Zero)
-                        {
-                            Marshal.FreeCoTaskMem(pWavData);
-                        }
+                        break;
+                    }
+                    else
+                    {
+                        currentTextList = Marshal.PtrToStructure<SPVTEXTFRAG>(pTextFragList.pNext);
                     }
                 }
-                //次のデータを設定
-                if (pTextFragList.pNext == IntPtr.Zero)
+            }
+            //Task.Waitは例外をまとめてAggregateExceptionで投げる。
+            catch (AggregateException ex) when (ex.InnerException is VoiceNotificationException)
+            {
+                VoiceNotificationException voiceNotification = ex.InnerException as VoiceNotificationException;
+                byte[] waveData = voiceNotification.ErrorVoice;
+                waveData = DeleteHeaderFromWaveData(waveData);
+
+                //書き込み
+                OutputSiteWriteSafe(pOutputSite, waveData);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// SAPI音声出力へ、安全な書き込みを行います。
+        /// </summary>
+        /// <param name="pOutputSite">TTSEngineSiteオブジェクト</param>
+        /// <param name="data">音声データ</param>
+        private void OutputSiteWriteSafe(ISpTTSEngineSite pOutputSite, byte[] data)
+        {
+            if (data is null)
+            {
+                data = new byte[0];
+            }
+
+            //受け取った音声データをpOutputSiteへ書き込む
+            IntPtr pWavData = IntPtr.Zero;
+            try
+            {
+                //メモリが確実に確保され、確実に代入されるためのおまじない。
+                RuntimeHelpers.PrepareConstrainedRegions();
+                try { }
+                finally
                 {
-                    break;
+                    pWavData = Marshal.AllocCoTaskMem(data.Length);
                 }
-                else
+                Marshal.Copy(data, 0, pWavData, data.Length);
+                pOutputSite.Write(pWavData, (uint)data.Length, out uint written);
+            }
+            finally
+            {
+                if (pWavData != IntPtr.Zero)
                 {
-                    currentTextList = Marshal.PtrToStructure<SPVTEXTFRAG>(pTextFragList.pNext);
+                    Marshal.FreeCoTaskMem(pWavData);
                 }
             }
         }
@@ -293,6 +334,8 @@ namespace SAPIForVOICEVOX
 
         #endregion
 
+        static string wavMediaType = "audio/wav";
+
         /// <summary>
         /// VOICEVOXへ音声データ作成の指示を送ります。
         /// </summary>
@@ -309,10 +352,7 @@ namespace SAPIForVOICEVOX
             Process[] ps = Process.GetProcessesByName("run");
             if (ps.Length == 0)
             {
-                Stream stream = Properties.Resources.ボイスボックスが見つかりません;
-                byte[] wavData = new byte[stream.Length];
-                stream.Read(wavData, 0, (int)stream.Length);
-                return wavData;
+                throw new VoiceVoxNotFoundException();
             }
 
             string speakerString = speakerNum.ToString();
@@ -348,8 +388,14 @@ namespace SAPIForVOICEVOX
                     //synthesis送信
                     using (var resultSynthesis = await httpClient.PostAsync(@"http://127.0.0.1:50021/synthesis?speaker=" + speakerString, content))
                     {
+                        HttpContent httpContent = resultSynthesis.Content;
+                        //音声データで無い場合
+                        if (httpContent.Headers.ContentType.MediaType != wavMediaType)
+                        {
+                            throw new VoiceVoxEngineException();
+                        }
                         //戻り値をストリームで受け取る
-                        Stream stream = await resultSynthesis.Content.ReadAsStreamAsync();
+                        Stream stream = await httpContent.ReadAsStreamAsync();
                         //byte配列に変換
                         byte[] wavData = new byte[stream.Length];
                         stream.Read(wavData, 0, (int)stream.Length);
@@ -357,12 +403,14 @@ namespace SAPIForVOICEVOX
                     }
                 }
             }
+            catch (VoiceVoxEngineException)
+            {
+                //エンジンエラーはそのまま呼び出し元へ投げる。
+                throw;
+            }
             catch (Exception ex)
             {
-                Stream stream = Properties.Resources.ボイスボックスと通信ができません;
-                byte[] wavData = new byte[stream.Length];
-                stream.Read(wavData, 0, (int)stream.Length);
-                return wavData;
+                throw new VoiceVoxConnectionException(ex);
             }
         }
 
@@ -392,6 +440,42 @@ namespace SAPIForVOICEVOX
             {
                 jobject[propertyName] = value;
             }
+        }
+
+        /// <summary>
+        /// Wavデータからヘッダーを削除します。
+        /// </summary>
+        /// <param name="waveData">Wavデータ</param>
+        /// <returns>
+        /// ヘッダーの無いWavデータ。
+        /// ただのPCMデータ。
+        /// </returns>
+        public static byte[] DeleteHeaderFromWaveData(byte[] waveData)
+        {
+            if (waveData is null)
+            {
+                throw new ArgumentNullException(nameof(waveData));
+            }
+
+            //先頭にWaveのヘッダーがあるかどうかの確認
+            byte[] RIFF = { 0x52, 0x49, 0x46, 0x46 };
+            if (waveData.Length < RIFF.Length)
+            {
+                return waveData;
+            }
+            for (int i = 0; i < RIFF.Length; i++)
+            {
+                if (waveData[i] != RIFF[i])
+                {
+                    //異なる場合、そのまま返す。
+                    return waveData;
+                }
+            }
+            int wavHeaderSize = 44;
+            byte[] voiceData = new byte[waveData.Length - wavHeaderSize];
+            //waveデータからヘッダー部分を削除
+            Array.Copy(waveData, wavHeaderSize, voiceData, 0, voiceData.Length);
+            return voiceData;
         }
 
         #region 設定データ取得関連
