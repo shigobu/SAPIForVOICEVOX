@@ -92,6 +92,7 @@ namespace SAPIForVOICEVOX
             pOutputSite.GetVolume(out ushort tempUshort);
             double SAPIvolume = Map(tempUshort, 0, 100, 0.0, 1.0);
 
+            //設定アプリのデータ取得
             GetSettingData(SpeakerNumber, out GeneralSetting generalSetting, out SynthesisParameter synthesisParameter);
             double speed;
             double volume;
@@ -108,6 +109,7 @@ namespace SAPIForVOICEVOX
             double pitch = synthesisParameter.Pitch;
             double intonation = synthesisParameter.Intonation;
 
+            //区切り文字設定
             List<char> charSeparators = new List<char>();
             if (generalSetting.isSplitKuten ?? false)
             {
@@ -139,8 +141,16 @@ namespace SAPIForVOICEVOX
                         }
                         catch (AggregateException ex) when (ex.InnerException is VoiceVoxEngineException)
                         {
-                            VoiceVoxEngineException voiceNotification = ex.InnerException as VoiceVoxEngineException;
-                            waveData = voiceNotification.ErrorVoice;
+                            //エンジンエラーを通知するかどうか
+                            if (generalSetting.shouldNotifyEngineError ?? false)
+                            {
+                                VoiceVoxEngineException voiceNotification = ex.InnerException as VoiceVoxEngineException;
+                                waveData = voiceNotification.ErrorVoice;
+                            }
+                            else
+                            {
+                                waveData = new byte[0];
+                            }
                         }
                         waveData = DeleteHeaderFromWaveData(waveData);
 
