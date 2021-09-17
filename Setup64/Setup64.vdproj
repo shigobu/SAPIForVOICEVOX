@@ -33,7 +33,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_79B2E49AC5224E94B0470BE13253A773"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A909083F989E4A14A366788EC2F774BF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CBB9B239A2404247A77AAED98ED94555"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -70,6 +82,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3B75320AA7BBBD2EA7EC3CDC6FA7B73F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_ED863E916E664F7E84254EF95ADF42AB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -77,12 +95,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_A909083F989E4A14A366788EC2F774BF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3B75320AA7BBBD2EA7EC3CDC6FA7B73F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -314,6 +326,46 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_79B2E49AC5224E94B0470BE13253A773"
+            {
+            "SourcePath" = "8:..\\packages\\Newtonsoft.Json.13.0.1\\LICENSE.md"
+            "TargetName" = "8:NewtonsoftJsonLICENSE.md"
+            "Tag" = "8:"
+            "Folder" = "8:_005F45963CC64BB4A2F819274D4B0020"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CBB9B239A2404247A77AAED98ED94555"
+            {
+            "SourcePath" = "8:..\\Setting\\icon\\License.txt"
+            "TargetName" = "8:IconLicense.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_005F45963CC64BB4A2F819274D4B0020"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E405507FA80A33EDD61793682A4AEB75"
             {
             "AssemblyRegister" = "3:1"
@@ -394,6 +446,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_005F45963CC64BB4A2F819274D4B0020"
+                    {
+                    "Name" = "8:Licence"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_667739D44FFB48B2BF1A80603EE36F48"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -412,15 +475,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX64"
-        "ProductCode" = "8:{FAF697F9-8847-4136-967E-3B6D2F721318}"
-        "PackageCode" = "8:{D68876C0-B47D-448D-8794-C6F5495DD8BA}"
+        "ProductCode" = "8:{03F9192D-B65B-45E7-B546-C0751FB2312D}"
+        "PackageCode" = "8:{039CDAB9-A2A1-44A7-9A7C-F02E6CA037BC}"
         "UpgradeCode" = "8:{38748062-1F81-49A9-AE59-A3DCE9BD3967}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.3"
+        "ProductVersion" = "8:1.1.0"
         "Manufacturer" = "8:Shigobu"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -535,16 +598,16 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A06BDFC3D7EB424CAA8A6AF06AE5935B"
             {
-            "Name" = "8:SAPIForVOICEVOX設定"
+            "Name" = "8:SAPIForVOICEVOX設定64bit版"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
             "Target" = "8:_A909083F989E4A14A366788EC2F774BF"
             "Folder" = "8:_BA8E28505FF149A8A70563FCE6724AB8"
             "WorkingFolder" = "8:_9D017E7FA90A4DBDB255A2A5F1CA3A6D"
-            "Icon" = "8:"
+            "Icon" = "8:_A909083F989E4A14A366788EC2F774BF"
             "Feature" = "8:"
             }
         }
