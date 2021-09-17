@@ -26,5 +26,10 @@ namespace Setting
         /// </summary>
         public SynthesisSettingMode synthesisSettingMode = SynthesisSettingMode.Batch;
 
+        /// <summary>
+        /// エンジンエラーを通知するかどうか
+        /// </summary>
+        public bool? shouldNotifyEngineError = true;
+
     }
 }

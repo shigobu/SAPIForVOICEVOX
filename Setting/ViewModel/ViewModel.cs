@@ -116,12 +116,27 @@ namespace Setting
             }
         }
 
+        /// <summary>
+        /// エンジンエラーを通知するかどうかを取得、設定します。
+        /// </summary>
+        public bool? ShouldNotifyEngineError
+        {
+            get => generalSetting.shouldNotifyEngineError;
+            set
+            {
+                if (generalSetting.shouldNotifyEngineError == value) return;
+                generalSetting.shouldNotifyEngineError = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         #endregion
 
         #region イベントとか
 
         //コマンドの使い方がいまいちわからないので、普通にイベントを使う。
-        
+
         /// <summary>
         /// OKボタン押下イベント
         /// </summary>
