@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Setting" d:DataContext="{d:DesignInstance Type=local:ViewModel}"
 		mc:Ignorable="d"
-        Title="SAPIForVOICEVOX 設定 " Height="340" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+        Title="SAPIForVOICEVOX 設定 " Height="340" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Icon="/Setting;component/icon/settings.ico">
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
 		<local:SynthesisSettingModeToBool x:Key="SettinModeConverter"/>

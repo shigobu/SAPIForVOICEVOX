@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<SynthesisParameter xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ValueMode>SAPI</ValueMode>
-  <Volume>1</Volume>
-  <Speed>1</Speed>
-  <Pitch>0</Pitch>
-  <Intonation>1</Intonation>
-</SynthesisParameter>
