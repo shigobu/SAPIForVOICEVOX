@@ -29,7 +29,8 @@ namespace SAPIForVOICEVOX
         /// この値がTRUEであるが、戻りコードがS_FALSEの場合、UIタイプ（pszTypeOfUI）はサポートされますが、現在のパラメーターまたはランタイム環境ではサポートされません。
         /// UIオブジェクトの実装者に確認して、実行時の要件を確認してください。
         /// </param>
-        void IsUISupported(string pszTypeOfUI, IntPtr pvExtraData, uint cbExtraData, IntPtr punkObject, out bool pfSupported);
+        [PreserveSig]
+        int IsUISupported(string pszTypeOfUI, IntPtr pvExtraData, uint cbExtraData, IntPtr punkObject, out bool pfSupported);
 
         /// <summary>
         /// オブジェクトトークンに関連付けられたUIを表示します。
@@ -44,6 +45,7 @@ namespace SAPIForVOICEVOX
         /// <param name="cbExtraData">ExtraDataのサイズ（バイト単位）。ISP TokenUIのオブジェクトの実装は、提供されたデータのフォーマット及び使用法を指示します。</param>
         /// <param name="pToken">オブジェクトトークン識別子を含むISpObjectTokenのアドレス。備考セクションを参照してください。</param>
         /// <param name="punkObject">IUnknownインターフェイスポインタのアドレス。備考セクションを参照してください。</param>
-        void DisplayUI(IntPtr hwndParent, string pszTitle, string pszTypeOfUI, IntPtr pvExtraData, uint cbExtraData, ISpObjectToken pToken, IntPtr punkObject);
+        [PreserveSig]
+        int DisplayUI(IntPtr hwndParent, string pszTitle, string pszTypeOfUI, IntPtr pvExtraData, uint cbExtraData, ISpObjectToken pToken, IntPtr punkObject);
     }
 }

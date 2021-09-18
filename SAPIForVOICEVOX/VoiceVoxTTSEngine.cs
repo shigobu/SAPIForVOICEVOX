@@ -354,11 +354,13 @@ namespace SAPIForVOICEVOX
         #region UI関連
 
         private const string SPDUI_EngineProperties = "EngineProperties";
+        const int S_OK = 0x00000000;
+
 
         /// <summary>
         /// UIサポートしているかどうかを返します。
         /// </summary>
-        public void IsUISupported(string pszTypeOfUI, IntPtr pvExtraData, uint cbExtraData, IntPtr punkObject, out bool pfSupported)
+        public int IsUISupported(string pszTypeOfUI, IntPtr pvExtraData, uint cbExtraData, IntPtr punkObject, out bool pfSupported)
         {
             pfSupported = false;
 
@@ -366,9 +368,22 @@ namespace SAPIForVOICEVOX
             {
                 pfSupported = true;
             }
+
+            return S_OK;
         }
 
-        public void DisplayUI(IntPtr hwndParent, string pszTitle, string pszTypeOfUI, IntPtr pvExtraData, uint cbExtraData, ISpObjectToken pToken, IntPtr punkObject)
+        /// <summary>
+        /// 設定画面を表示します。
+        /// </summary>
+        /// <param name="hwndParent"></param>
+        /// <param name="pszTitle"></param>
+        /// <param name="pszTypeOfUI"></param>
+        /// <param name="pvExtraData"></param>
+        /// <param name="cbExtraData"></param>
+        /// <param name="pToken"></param>
+        /// <param name="punkObject"></param>
+        /// <returns></returns>
+        public int DisplayUI(IntPtr hwndParent, string pszTitle, string pszTypeOfUI, IntPtr pvExtraData, uint cbExtraData, ISpObjectToken pToken, IntPtr punkObject)
         {
             //関数内に処理が入る気配が無いままエラーメッセージが表示される、わけわからん。
             string dllPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -390,6 +405,8 @@ namespace SAPIForVOICEVOX
                     streamWriter.Write(ex.ToString());
                 }
             }
+
+            return S_OK;
         }
 
         #endregion
