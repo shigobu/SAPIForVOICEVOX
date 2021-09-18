@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Setting;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using TTSEngineLib;
-using Microsoft.Win32;
-using System.IO;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Diagnostics;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Setting;
 
 namespace SAPIForVOICEVOX
 {
