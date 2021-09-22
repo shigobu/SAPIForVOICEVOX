@@ -4,53 +4,53 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Setting" d:DataContext="{d:DesignInstance Type=local:ViewModel}"
-		mc:Ignorable="d"
+        mc:Ignorable="d"
         Title="SAPIForVOICEVOX 設定 " Height="340" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Icon="/Setting;component/icon/settings.ico">
-	<Window.Resources>
-		<BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
-		<local:SynthesisSettingModeToBool x:Key="SettinModeConverter"/>
-	</Window.Resources>
-	<Grid>
-		<DockPanel Margin="5">
-			<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
-				<Button x:Name="OkButton" Width="60" Margin="3" IsDefault="True">OK</Button>
-				<Button x:Name="CancelButton" Width="60" Margin="3" IsCancel="True" Click="CancelButton_Click">キャンセル</Button>
-				<Button x:Name="ApplyButton" Width="60" Margin="3">適用</Button>
-			</StackPanel>
-			<TabControl>
-				<TabItem Header="全般">
-					<DockPanel>
-						<GroupBox DockPanel.Dock="Top" Header="文章を分割する" ToolTip="長い文章を読ませたい場合、オンにしてください。">
-							<StackPanel>
-								<CheckBox Content="句点(。)で分割する" Margin="3" IsChecked="{Binding IsSplitKuten}"/>
-								<CheckBox Content="読点(、)で分割する" Margin="3" IsChecked="{Binding IsSplitTouten}"/>
-							</StackPanel>
-						</GroupBox>
-						<GroupBox DockPanel.Dock="Top" Header="調声">
-							<StackPanel>
-								<RadioButton x:Name="allRadioButton" Margin="3" Content="一括で設定する" IsChecked="{Binding SynthesisSettingMode, ConverterParameter=Batch, Converter={StaticResource SettinModeConverter}}"/>
-								<RadioButton x:Name="parCharacterRadioButton" Margin="3" Content="キャラクター毎に設定する"  IsChecked="{Binding SynthesisSettingMode, ConverterParameter=EachCharacter, Converter={StaticResource SettinModeConverter}}"/>
-							</StackPanel>
-						</GroupBox>
-						<GroupBox DockPanel.Dock="Top" Header="エラーハンドリング">
-							<StackPanel>
-								<CheckBox Content="エンジンエラーを通知する。" Margin="3" IsChecked="{Binding ShouldNotifyEngineError}"/>
-							</StackPanel>
-						</GroupBox>
-						<Button x:Name="resetButton" DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Left" Content="初期状態へ戻す"/>
-						<Rectangle/>
-					</DockPanel>
-				</TabItem>
-				<TabItem Header="調声" Visibility="{Binding IsChecked, ElementName=allRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxParameterSlider DataContext="{Binding BatchParameter}"/>
-				</TabItem>
-				<TabItem Header="四国めたん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxParameterSlider DataContext="{Binding SpeakerParameter[0]}"/>
-				</TabItem>
-				<TabItem Header="ずんだもん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
-					<local:VoicevoxParameterSlider DataContext="{Binding SpeakerParameter[1]}"/>
-				</TabItem>
-			</TabControl>
-		</DockPanel>
-	</Grid>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        <local:SynthesisSettingModeToBool x:Key="SettinModeConverter"/>
+    </Window.Resources>
+    <Grid>
+        <DockPanel Margin="5">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+                <Button x:Name="OkButton" Width="60" Margin="3" IsDefault="True">OK</Button>
+                <Button x:Name="CancelButton" Width="60" Margin="3" IsCancel="True" Click="CancelButton_Click">キャンセル</Button>
+                <Button x:Name="ApplyButton" Width="60" Margin="3">適用</Button>
+            </StackPanel>
+            <TabControl>
+                <TabItem Header="全般">
+                    <DockPanel>
+                        <GroupBox DockPanel.Dock="Top" Header="文章を分割する" ToolTip="長い文章を読ませたい場合、オンにしてください。">
+                            <StackPanel>
+                                <CheckBox Content="句点(。)で分割する" Margin="3" IsChecked="{Binding IsSplitKuten}"/>
+                                <CheckBox Content="読点(、)で分割する" Margin="3" IsChecked="{Binding IsSplitTouten}"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox DockPanel.Dock="Top" Header="調声">
+                            <StackPanel>
+                                <RadioButton x:Name="allRadioButton" Margin="3" Content="一括で設定する" IsChecked="{Binding SynthesisSettingMode, ConverterParameter=Batch, Converter={StaticResource SettinModeConverter}}"/>
+                                <RadioButton x:Name="parCharacterRadioButton" Margin="3" Content="キャラクター毎に設定する"  IsChecked="{Binding SynthesisSettingMode, ConverterParameter=EachCharacter, Converter={StaticResource SettinModeConverter}}"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox DockPanel.Dock="Top" Header="エラーハンドリング">
+                            <StackPanel>
+                                <CheckBox Content="エンジンエラーを通知する。" Margin="3" IsChecked="{Binding ShouldNotifyEngineError}"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <Button x:Name="resetButton" DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Left" Content="初期状態へ戻す"/>
+                        <Rectangle/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="調声" Visibility="{Binding IsChecked, ElementName=allRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
+                    <local:VoicevoxParameterSlider DataContext="{Binding BatchParameter}"/>
+                </TabItem>
+                <TabItem Header="四国めたん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
+                    <local:VoicevoxParameterSlider DataContext="{Binding SpeakerParameter[0]}"/>
+                </TabItem>
+                <TabItem Header="ずんだもん" Visibility="{Binding IsChecked, ElementName=parCharacterRadioButton ,Converter={StaticResource BoolVisibilityConverter}}">
+                    <local:VoicevoxParameterSlider DataContext="{Binding SpeakerParameter[1]}"/>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Grid>
 </Window>
