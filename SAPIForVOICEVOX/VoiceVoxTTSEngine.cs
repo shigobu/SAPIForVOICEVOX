@@ -52,9 +52,9 @@ namespace SAPIForVOICEVOX
         HttpClient httpClient;
 
         /// <summary>
-        /// 英語をキーにした、英語・かな辞書
+        /// 英語カナ辞書
         /// </summary>
-        Dictionary<string, string> EngKanaDict { get; set; }
+        EnglishKanaDictionary engKanaDict;
 
         /// <summary>
         /// コンストラクタ
@@ -62,7 +62,7 @@ namespace SAPIForVOICEVOX
         public VoiceVoxTTSEngine()
         {
             httpClient = new HttpClient();
-
+            engKanaDict = new EnglishKanaDictionary();
         }
 
         /// <summary>
@@ -135,9 +135,12 @@ namespace SAPIForVOICEVOX
 
                     foreach (string str in splitedString)
                     {
+                        //英単語をカナへ置換
+                        string replaceString = engKanaDict.ReplaceEnglishToKana(str);
+
                         //VOICEVOXへ送信
                         //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
-                        Task<byte[]> waveDataTask = SendToVoiceVox(str, SpeakerNumber, speed, pitch, intonation, volume);
+                        Task<byte[]> waveDataTask = SendToVoiceVox(replaceString, SpeakerNumber, speed, pitch, intonation, volume);
                         byte[] waveData;
                         try
                         {
