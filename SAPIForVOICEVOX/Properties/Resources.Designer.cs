@@ -61,6 +61,53 @@ namespace SAPIForVOICEVOX.Properties {
         }
         
         /// <summary>
+        ///   a  ア
+        ///a&apos;s  エイズ
+        ///a.  エイ
+        ///a.&apos;s  エイズ
+        ///a.d.  エイディー
+        ///a.m.  エイエム
+        ///a.s  エイズ
+        ///a42128  エイフォーチューワンチュウェイト
+        ///aa  エイエイ
+        ///aaa  トリパレイ
+        ///aaai  トリパレイヤイ
+        ///aaberg  アバーグ
+        ///aachen  アケン
+        ///aachener  アケナー
+        ///aah  ア
+        ///aaker  アカー
+        ///aaliyah  アリア
+        ///aalseth  アルセス
+        ///aamodt  アモト
+        ///aancor  アンコー
+        ///aardema  アーデマ
+        ///aardvark  アードバーク
+        ///aardvarks  アードバークス
+        ///aargh  アーグ
+        ///aarhus  アフース
+        ///aaron  エロン
+        ///aaron&apos;s  エロンズ
+        ///aarons  エロンズ
+        ///aaronson  エロンソン
+        ///aaronson&apos;s  エロンソンズ
+        ///aarti  アーティー
+        ///aase  アス
+        ///aasen  アセン
+        ///ab  アブ
+        ///aba  エイビエイ
+        ///ababa  アババ
+        ///abacha  アバカ
+        ///aback  アバク
+        ///abaco  アバコ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string eng2kanaDict {
+            get {
+                return ResourceManager.GetString("eng2kanaDict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   System.IO.MemoryStream に類似した型 System.IO.UnmanagedMemoryStream のローカライズされたリソースを検索します。
         /// </summary>
         internal static System.IO.UnmanagedMemoryStream エンジンエラーです {

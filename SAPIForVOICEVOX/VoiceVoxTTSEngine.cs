@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Setting;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using TTSEngineLib;
-using Microsoft.Win32;
-using System.IO;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Diagnostics;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Setting;
 
 namespace SAPIForVOICEVOX
 {
@@ -52,12 +52,17 @@ namespace SAPIForVOICEVOX
         HttpClient httpClient;
 
         /// <summary>
-        /// コンストラクタ
+        /// 英語カナ辞書
+        /// </summary>
+        EnglishKanaDictionary engKanaDict;
 
+        /// <summary>
+        /// コンストラクタ
         /// </summary>
         public VoiceVoxTTSEngine()
         {
             httpClient = new HttpClient();
+            engKanaDict = new EnglishKanaDictionary();
         }
 
         /// <summary>
@@ -130,9 +135,12 @@ namespace SAPIForVOICEVOX
 
                     foreach (string str in splitedString)
                     {
+                        //英単語をカナへ置換
+                        string replaceString = engKanaDict.ReplaceEnglishToKana(str);
+
                         //VOICEVOXへ送信
                         //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
-                        Task<byte[]> waveDataTask = SendToVoiceVox(str, SpeakerNumber, speed, pitch, intonation, volume);
+                        Task<byte[]> waveDataTask = SendToVoiceVox(replaceString, SpeakerNumber, speed, pitch, intonation, volume);
                         byte[] waveData;
                         try
                         {
@@ -255,6 +263,8 @@ namespace SAPIForVOICEVOX
             }
         }
 
+        #region トークン関連
+
         /// <summary>
         /// ここでトークンを使用し、初期化を行う。
         /// </summary>
@@ -276,6 +286,8 @@ namespace SAPIForVOICEVOX
         {
             ppToken = Token;
         }
+
+        #endregion
 
         #region レジストリ関連
 
@@ -344,7 +356,7 @@ namespace SAPIForVOICEVOX
 
         #endregion
 
-        static string wavMediaType = "audio/wav";
+        const string wavMediaType = "audio/wav";
 
         /// <summary>
         /// VOICEVOXへ音声データ作成の指示を送ります。
