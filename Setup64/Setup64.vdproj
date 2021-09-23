@@ -15,14 +15,14 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_3689B44B2C874C22A99B4079678C8B58"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_36523647CE8C83404FB5007C6E6EC068"
+        "OwnerKey" = "8:_3689B44B2C874C22A99B4079678C8B58"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_3B75320AA7BBBD2EA7EC3CDC6FA7B73F"
-        "OwnerKey" = "8:_3689B44B2C874C22A99B4079678C8B58"
+        "MsmKey" = "8:_3689B44B2C874C22A99B4079678C8B58"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -100,7 +100,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3B75320AA7BBBD2EA7EC3CDC6FA7B73F"
+        "OwnerKey" = "8:_36523647CE8C83404FB5007C6E6EC068"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -270,14 +270,14 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3B75320AA7BBBD2EA7EC3CDC6FA7B73F"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_36523647CE8C83404FB5007C6E6EC068"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Setting, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64"
+            "AssemblyAsmDisplayName" = "8:Setting, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_3B75320AA7BBBD2EA7EC3CDC6FA7B73F"
+                    "_36523647CE8C83404FB5007C6E6EC068"
                     {
                     "Name" = "8:Setting.exe"
                     "Attributes" = "3:512"
@@ -501,15 +501,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX64"
-        "ProductCode" = "8:{03F9192D-B65B-45E7-B546-C0751FB2312D}"
-        "PackageCode" = "8:{39F9EA95-B4AA-4F3D-A49B-FAE4EE6EC247}"
+        "ProductCode" = "8:{AA9333B3-33ED-4928-9828-0CD243122967}"
+        "PackageCode" = "8:{E3039A4A-B245-402E-96E8-FDDF5A51D338}"
         "UpgradeCode" = "8:{38748062-1F81-49A9-AE59-A3DCE9BD3967}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.0"
+        "ProductVersion" = "8:1.1.1"
         "Manufacturer" = "8:Shigobu"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
