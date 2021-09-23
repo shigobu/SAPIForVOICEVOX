@@ -52,12 +52,17 @@ namespace SAPIForVOICEVOX
         HttpClient httpClient;
 
         /// <summary>
-        /// コンストラクタ
+        /// 英語をキーにした、英語・かな辞書
+        /// </summary>
+        Dictionary<string, string> EngKanaDict { get; set; }
 
+        /// <summary>
+        /// コンストラクタ
         /// </summary>
         public VoiceVoxTTSEngine()
         {
             httpClient = new HttpClient();
+
         }
 
         /// <summary>
@@ -255,6 +260,8 @@ namespace SAPIForVOICEVOX
             }
         }
 
+        #region トークン関連
+
         /// <summary>
         /// ここでトークンを使用し、初期化を行う。
         /// </summary>
@@ -276,6 +283,8 @@ namespace SAPIForVOICEVOX
         {
             ppToken = Token;
         }
+
+        #endregion
 
         #region レジストリ関連
 
@@ -344,7 +353,7 @@ namespace SAPIForVOICEVOX
 
         #endregion
 
-        static string wavMediaType = "audio/wav";
+        const string wavMediaType = "audio/wav";
 
         /// <summary>
         /// VOICEVOXへ音声データ作成の指示を送ります。

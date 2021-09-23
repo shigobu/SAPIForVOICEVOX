@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnglishToKana\EnglishKanaDictionary.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -114,6 +115,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="エンジンエラーです.wav" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="EnglishToKana\eng2kanaDict.txt" />
+    <Content Include="EnglishToKana\Licence.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
