@@ -35,6 +35,8 @@ namespace Setting
             OkButton.Click += viewModel.OkButton_Click;
             ApplyButton.Click += viewModel.ApplyButton_Click;
             resetButton.Click += viewModel.ResetButton_Click;
+
+            ApplyButton.IsEnabled = false;
         }
 
         /// <summary>
