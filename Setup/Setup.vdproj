@@ -15,6 +15,18 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_091565830F8746C980C8B174771E65B0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1047A1E0933DB945F30D442E5BBB68BB"
+        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_17F814DDAA3A458CB26CAA6D9ABCB11A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -34,12 +46,6 @@
         "Entry"
         {
         "MsmKey" = "8:_6B7F40FCE3DF8F240B02542A8D137A12"
-        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_71E151B175C648881CBE31F8FA0E0110"
         "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -82,13 +88,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_71E151B175C648881CBE31F8FA0E0110"
+        "OwnerKey" = "8:_ABEF4ADC41C64D988831EE35FB55C9F6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_ABEF4ADC41C64D988831EE35FB55C9F6"
+        "OwnerKey" = "8:_1047A1E0933DB945F30D442E5BBB68BB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -260,6 +266,57 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_091565830F8746C980C8B174771E65B0"
+            {
+            "SourcePath" = "8:..\\SAPIForVOICEVOX\\EnglishToKana\\Licence.txt"
+            "TargetName" = "8:EnglishKanaDictionaryLicence.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_43BBF41332F244F2AFA1A745571AA04B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1047A1E0933DB945F30D442E5BBB68BB"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Setting, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64"
+                "ScatterAssemblies"
+                {
+                    "_1047A1E0933DB945F30D442E5BBB68BB"
+                    {
+                    "Name" = "8:Setting.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Setting.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_51AAEAD46D164F428603679CCBF52389"
             {
             "SourcePath" = "8:..\\Setting\\icon\\License.txt"
@@ -294,37 +351,6 @@
                     }
                 }
             "SourcePath" = "8:Newtonsoft.Json.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_71E151B175C648881CBE31F8FA0E0110"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Setting, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_71E151B175C648881CBE31F8FA0E0110"
-                    {
-                    "Name" = "8:Setting.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Setting.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
@@ -979,7 +1005,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_17F814DDAA3A458CB26CAA6D9ABCB11A"
             {
-            "SourcePath" = "8:..\\Setting\\obj\\x86\\Release\\Setting.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
