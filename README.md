@@ -63,6 +63,10 @@ The CMU Pronouncing Dictionary(http://www.speech.cs.cmu.edu/cgi-bin/cmudict)
 
 実際にどのように置換されるかは、[shigobu/EnglishKanaDictionary](https://github.com/shigobu/EnglishKanaDictionary)のテストアプリで確認するのが簡単かと思います。
 
+## エラー音声
+エラー音声には、VOICEVOXの「四国めたん」の音声を使用しています。  
+エラー発生時には、予めVOICEVOXを使用し保存していたwavファイルを再生して、通知を行っています。
+
 ## 開発環境
 Microsoft Visual Studio Community 2019  
 C#・C++
