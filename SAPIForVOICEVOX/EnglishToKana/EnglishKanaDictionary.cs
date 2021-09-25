@@ -73,8 +73,8 @@ namespace SAPIForVOICEVOX
             //英単語の抽出
             Regex regex = new Regex(@"[a-zA-Z'.]+", RegexOptions.IgnoreCase);
             IEnumerable<Match> matchCollection = regex.Matches(sourceString).Cast<Match>();
-            //Matchから文字列を取得
-            IEnumerable<string> englishWords = matchCollection.Select(match => match.Value.ToLowerInvariant());
+            //Matchから文字列を取得。文字数が大きい順で並び替え。
+            IEnumerable<string> englishWords = matchCollection.Select(match => match.Value.ToLowerInvariant()).OrderByDescending(x => x.Length);
 
             string returnString = sourceString;
             foreach (var english in englishWords)
