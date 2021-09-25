@@ -25,6 +25,8 @@ namespace SAPIForVOICEVOX
         /// </summary>
         public const string guidString = "7A1BB9C4-DF39-4E01-A8DC-20DC1A0C03C6";
 
+        #region ネイティブ
+
         const ushort WAVE_FORMAT_PCM = 1;
 
         //SPDFID_WaveFormatExの値は、ヘッダーファイルで定義さていなくて、不明である。
@@ -34,6 +36,88 @@ namespace SAPIForVOICEVOX
         //同上
         [DllImport("SAPIGetStaticValueLib.dll")]
         static extern Guid GetSPDFIDText();
+
+        /// <summary>
+        /// SPVESACTIONSは、ISpTTSEngineSite :: GetActions呼び出しによって返される値をリストします。これらの値から、TTSエンジンは、アプリケーションによって行われたリアルタイムのアクション要求を受信します。
+        /// </summary>
+        [Flags]
+        enum SPVESACTIONS
+        {
+            SPVES_CONTINUE = 0,
+            SPVES_ABORT = (1 << 0),
+            SPVES_SKIP = (1 << 1),
+            SPVES_RATE = (1 << 2),
+            SPVES_VOLUME = (1 << 3)
+        }
+
+        /// <summary>
+        /// SPEVENTENUMは、SAPIから可能なイベントを一覧表示します。
+        /// </summary>
+        enum SPEVENTENUM
+        {
+            SPEI_UNDEFINED = 0,
+            SPEI_START_INPUT_STREAM = 1,
+            SPEI_END_INPUT_STREAM = 2,
+            SPEI_VOICE_CHANGE = 3,
+            SPEI_TTS_BOOKMARK = 4,
+            SPEI_WORD_BOUNDARY = 5,
+            SPEI_PHONEME = 6,
+            SPEI_SENTENCE_BOUNDARY = 7,
+            SPEI_VISEME = 8,
+            SPEI_TTS_AUDIO_LEVEL = 9,
+            SPEI_TTS_PRIVATE = 15,
+            SPEI_MIN_TTS = 1,
+            SPEI_MAX_TTS = 15,
+            SPEI_END_SR_STREAM = 34,
+            SPEI_SOUND_START = 35,
+            SPEI_SOUND_END = 36,
+            SPEI_PHRASE_START = 37,
+            SPEI_RECOGNITION = 38,
+            SPEI_HYPOTHESIS = 39,
+            SPEI_SR_BOOKMARK = 40,
+            SPEI_PROPERTY_NUM_CHANGE = 41,
+            SPEI_PROPERTY_STRING_CHANGE = 42,
+            SPEI_FALSE_RECOGNITION = 43,
+            SPEI_INTERFERENCE = 44,
+            SPEI_REQUEST_UI = 45,
+            SPEI_RECO_STATE_CHANGE = 46,
+            SPEI_ADAPTATION = 47,
+            SPEI_START_SR_STREAM = 48,
+            SPEI_RECO_OTHER_CONTEXT = 49,
+            SPEI_SR_AUDIO_LEVEL = 50,
+            SPEI_SR_RETAINEDAUDIO = 51,
+            SPEI_SR_PRIVATE = 52,
+            SPEI_ACTIVE_CATEGORY_CHANGED = 53,
+            SPEI_RESERVED5 = 54,
+            SPEI_RESERVED6 = 55,
+            SPEI_MIN_SR = 34,
+            SPEI_MAX_SR = 55,
+            SPEI_RESERVED1 = 30,
+            SPEI_RESERVED2 = 33,
+            SPEI_RESERVED3 = 63
+        }
+
+        //SPEVENTENUMはフラグを直接定義しているのではなく、フラグの位置を定義してるらしい？
+        //SPFEIマクロを使用して変換する必要がある？
+        const ulong SPFEI_FLAGCHECK = (1u << (int)SPEVENTENUM.SPEI_RESERVED1) | (1u << (int)SPEVENTENUM.SPEI_RESERVED2);
+        const ulong SPFEI_ALL_TTS_EVENTS = 0x000000000000FFFEul | SPFEI_FLAGCHECK;
+        const ulong SPFEI_ALL_SR_EVENTS = 0x003FFFFC00000000ul | SPFEI_FLAGCHECK;
+        const ulong SPFEI_ALL_EVENTS = 0xEFFFFFFFFFFFFFFFul;
+        ulong SPFEI(SPEVENTENUM SPEI_ord)
+        {
+            return (1ul << (int)SPEI_ord) | SPFEI_FLAGCHECK;
+        }
+
+        enum SPEVENTLPARAMTYPE
+        {
+            SPET_LPARAM_IS_UNDEFINED = 0,
+            SPET_LPARAM_IS_TOKEN = (SPET_LPARAM_IS_UNDEFINED + 1),
+            SPET_LPARAM_IS_OBJECT = (SPET_LPARAM_IS_TOKEN + 1),
+            SPET_LPARAM_IS_POINTER = (SPET_LPARAM_IS_OBJECT + 1),
+            SPET_LPARAM_IS_STRING = (SPET_LPARAM_IS_POINTER + 1)
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -127,6 +211,7 @@ namespace SAPIForVOICEVOX
 
             try
             {
+                ulong writtenWavLength = 0;
                 SPVTEXTFRAG currentTextList = pTextFragList;
                 while (true)
                 {
@@ -135,6 +220,45 @@ namespace SAPIForVOICEVOX
 
                     foreach (string str in splitedString)
                     {
+                        //アクションを確認し、アボートの場合は終了
+                        SPVESACTIONS sPVESACTIONS = (SPVESACTIONS)pOutputSite.GetActions();
+                        if (sPVESACTIONS.HasFlag(SPVESACTIONS.SPVES_ABORT))
+                        {
+                            return;
+                        }
+
+                        //SAPIイベント
+                        pOutputSite.GetEventInterest(out ulong ulongValue);
+                        List<SPEVENT> sPEVENTList = new List<SPEVENT>();
+                        ulong wParam = (ulong)str.Length;
+                        long lParam = currentTextList.pTextStart.IndexOf(str);
+                        //SPEI_SENTENCE_BOUNDARYとWORD_BOUNDARY_EVENTにのみ対応
+                        if ((ulongValue & SPFEI(SPEVENTENUM.SPEI_SENTENCE_BOUNDARY)) == SPFEI(SPEVENTENUM.SPEI_SENTENCE_BOUNDARY))
+                        {
+                            SPEVENT SENTENCE_BOUNDARY_EVENT = new SPEVENT();
+                            SENTENCE_BOUNDARY_EVENT.eEventId = (ushort)SPEVENTENUM.SPEI_SENTENCE_BOUNDARY;
+                            SENTENCE_BOUNDARY_EVENT.elParamType = (ushort)SPEVENTLPARAMTYPE.SPET_LPARAM_IS_UNDEFINED;
+                            SENTENCE_BOUNDARY_EVENT.wParam = wParam;
+                            SENTENCE_BOUNDARY_EVENT.lParam = lParam;
+                            SENTENCE_BOUNDARY_EVENT.ullAudioStreamOffset = writtenWavLength;
+
+                            sPEVENTList.Add(SENTENCE_BOUNDARY_EVENT);
+                        }
+                        if ((ulongValue & SPFEI(SPEVENTENUM.SPEI_WORD_BOUNDARY)) == SPFEI(SPEVENTENUM.SPEI_WORD_BOUNDARY))
+                        {
+                            SPEVENT WORD_BOUNDARY_EVENT = new SPEVENT();
+                            WORD_BOUNDARY_EVENT.eEventId = (ushort)SPEVENTENUM.SPEI_WORD_BOUNDARY;
+                            WORD_BOUNDARY_EVENT.elParamType = (ushort)SPEVENTLPARAMTYPE.SPET_LPARAM_IS_UNDEFINED;
+                            WORD_BOUNDARY_EVENT.wParam = wParam;
+                            WORD_BOUNDARY_EVENT.lParam = lParam;
+                            WORD_BOUNDARY_EVENT.ullAudioStreamOffset = writtenWavLength;
+                            sPEVENTList.Add(WORD_BOUNDARY_EVENT);
+                        }
+                        if (sPEVENTList.Count > 0)
+                        {
+                            SPEVENT[] sPEVENTArr = sPEVENTList.ToArray();
+                            pOutputSite.AddEvents(ref sPEVENTArr[0], (uint)sPEVENTArr.Length);
+                        }
                         //英単語をカナへ置換
                         string replaceString = engKanaDict.ReplaceEnglishToKana(str);
 
@@ -163,7 +287,7 @@ namespace SAPIForVOICEVOX
                         waveData = DeleteHeaderFromWaveData(waveData);
 
                         //書き込み
-                        OutputSiteWriteSafe(pOutputSite, waveData);
+                        writtenWavLength += OutputSiteWriteSafe(pOutputSite, waveData);
                     }
 
                     //次のデータを設定
@@ -198,7 +322,7 @@ namespace SAPIForVOICEVOX
         /// </summary>
         /// <param name="pOutputSite">TTSEngineSiteオブジェクト</param>
         /// <param name="data">音声データ</param>
-        private void OutputSiteWriteSafe(ISpTTSEngineSite pOutputSite, byte[] data)
+        private uint OutputSiteWriteSafe(ISpTTSEngineSite pOutputSite, byte[] data)
         {
             if (data is null)
             {
@@ -218,6 +342,7 @@ namespace SAPIForVOICEVOX
                 }
                 Marshal.Copy(data, 0, pWavData, data.Length);
                 pOutputSite.Write(pWavData, (uint)data.Length, out uint written);
+                return written;
             }
             finally
             {
