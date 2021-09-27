@@ -230,8 +230,14 @@ namespace SAPIForVOICEVOX
                         //SAPIイベント
                         pOutputSite.GetEventInterest(out ulong ulongValue);
                         List<SPEVENT> sPEVENTList = new List<SPEVENT>();
+                        //プラットフォームのビット数に応じて、wParamとlParamの型が異なるので、分岐
+#if x64
                         ulong wParam = (ulong)str.Length;
                         long lParam = currentTextList.pTextStart.IndexOf(str);
+#else
+                        uint wParam = (uint)str.Length;
+                        int lParam = currentTextList.pTextStart.IndexOf(str);
+#endif
                         //SPEI_SENTENCE_BOUNDARYとWORD_BOUNDARY_EVENTにのみ対応
                         if ((ulongValue & SPFEI(SPEVENTENUM.SPEI_SENTENCE_BOUNDARY)) == SPFEI(SPEVENTENUM.SPEI_SENTENCE_BOUNDARY))
                         {
@@ -388,7 +394,7 @@ namespace SAPIForVOICEVOX
             }
         }
 
-        #region トークン関連
+#region トークン関連
 
         /// <summary>
         /// ここでトークンを使用し、初期化を行う。
@@ -412,9 +418,9 @@ namespace SAPIForVOICEVOX
             ppToken = Token;
         }
 
-        #endregion
+#endregion
 
-        #region レジストリ関連
+#region レジストリ関連
 
         static Guid CLSID { get; } = new Guid(guidString);
 
@@ -479,7 +485,7 @@ namespace SAPIForVOICEVOX
             Registry.LocalMachine.DeleteSubKeyTree(regKey + regName2);
         }
 
-        #endregion
+#endregion
 
         const string wavMediaType = "audio/wav";
 
@@ -625,7 +631,7 @@ namespace SAPIForVOICEVOX
             return voiceData;
         }
 
-        #region 設定データ取得関連
+#region 設定データ取得関連
 
         /// <summary>
         /// 設定データを取得します。
@@ -650,6 +656,6 @@ namespace SAPIForVOICEVOX
             }
         }
 
-        #endregion
+#endregion
     }
 }
