@@ -427,6 +427,10 @@ namespace SAPIForVOICEVOX
         const string regKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
         const string regName1 = "VOICEVOX1";
         const string regName2 = "VOICEVOX2";
+        const string regName = "VOICEVOX";
+        static int[] metanIds = { 0, 2, 4, 6 };
+        static int[] monIds = { 1, 3, 5, 7 };
+        static string[] styleNames = { "あまあま", "ノーマル", "セクシー", "ツンツン" };
         const string regAttributes = "Attributes";
         const string regSpeakerNumber = "SpeakerNumber";
 
@@ -438,39 +442,45 @@ namespace SAPIForVOICEVOX
         public static void RegisterClass(string key)
         {
             //四国めたん
-            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName1))
+            for (int i = 0; i < metanIds.Length; i++)
             {
-                registryKey.SetValue("", "VOICEVOX 四国めたん");
-                registryKey.SetValue("411", "VOICEVOX 四国めたん");
-                //B書式指定子は中かっこ"{"で囲われる
-                registryKey.SetValue("CLSID", CLSID.ToString("B"));
-                registryKey.SetValue(regSpeakerNumber, 0);
-            }
-            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName1 + @"\" + regAttributes))
-            {
-                registryKey.SetValue("Age", "Teen");
-                registryKey.SetValue("Vendor", "Hiroshiba Kazuyuki");
-                registryKey.SetValue("Language", "411");
-                registryKey.SetValue("Gender", "Female");
-                registryKey.SetValue("Name", "VOICEVOX Shikoku Metan");
+                using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName + i.ToString()))
+                {
+                    registryKey.SetValue("", "VOICEVOX 四国めたん " + styleNames[i]);
+                    registryKey.SetValue("411", "VOICEVOX 四国めたん " + styleNames[i]);
+                    //B書式指定子は中かっこ"{"で囲われる
+                    registryKey.SetValue("CLSID", CLSID.ToString("B"));
+                    registryKey.SetValue(regSpeakerNumber, metanIds[i]);
+                }
+                using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName + i.ToString() + @"\" + regAttributes))
+                {
+                    registryKey.SetValue("Age", "Teen");
+                    registryKey.SetValue("Vendor", "Hiroshiba Kazuyuki");
+                    registryKey.SetValue("Language", "411");
+                    registryKey.SetValue("Gender", "Female");
+                    registryKey.SetValue("Name", "VOICEVOX Shikoku Metan");
+                }
             }
 
             //ずんだもん
-            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName2))
+            for (int i = 0; i < monIds.Length; i++)
             {
-                registryKey.SetValue("", "VOICEVOX ずんだもん");
-                registryKey.SetValue("411", "VOICEVOX ずんだもん");
-                //B書式指定子は中かっこ"{"で囲われる
-                registryKey.SetValue("CLSID", CLSID.ToString("B"));
-                registryKey.SetValue(regSpeakerNumber, 1);
-            }
-            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName2 + @"\" + regAttributes))
-            {
-                registryKey.SetValue("Age", "Child");
-                registryKey.SetValue("Vendor", "Hiroshiba Kazuyuki");
-                registryKey.SetValue("Language", "411");
-                registryKey.SetValue("Gender", "Female");
-                registryKey.SetValue("Name", "VOICEVOX Zundamon");
+                using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName + (metanIds.Length + i).ToString()))
+                {
+                    registryKey.SetValue("", "VOICEVOX ずんだもん " + styleNames[i]);
+                    registryKey.SetValue("411", "VOICEVOX ずんだもん " + styleNames[i]);
+                    //B書式指定子は中かっこ"{"で囲われる
+                    registryKey.SetValue("CLSID", CLSID.ToString("B"));
+                    registryKey.SetValue(regSpeakerNumber, monIds[i]);
+                }
+                using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName + (metanIds.Length + i).ToString() + @"\" + regAttributes))
+                {
+                    registryKey.SetValue("Age", "Child");
+                    registryKey.SetValue("Vendor", "Hiroshiba Kazuyuki");
+                    registryKey.SetValue("Language", "411");
+                    registryKey.SetValue("Gender", "Female");
+                    registryKey.SetValue("Name", "VOICEVOX Zundamon");
+                }
             }
         }
 
@@ -481,8 +491,12 @@ namespace SAPIForVOICEVOX
         [ComUnregisterFunction()]
         public static void UnregisterClass(string key)
         {
-            Registry.LocalMachine.DeleteSubKeyTree(regKey + regName1);
-            Registry.LocalMachine.DeleteSubKeyTree(regKey + regName2);
+            //Registry.LocalMachine.DeleteSubKeyTree(regKey + regName1);
+            //Registry.LocalMachine.DeleteSubKeyTree(regKey + regName2);
+            for (int i = 0; i < metanIds.Length + monIds.Length; i++)
+            {
+                Registry.LocalMachine.DeleteSubKeyTree(regKey + regName + i.ToString());
+            }
         }
 
 #endregion
@@ -641,6 +655,16 @@ namespace SAPIForVOICEVOX
         /// <param name="synthesisParameter">調声設定</param>
         private void GetSettingData(int speakerNum, out GeneralSetting generalSetting, out SynthesisParameter synthesisParameter)
         {
+            int id;
+            if (Array.IndexOf(metanIds, speakerNum) >= 0)
+            {
+                id = 0;
+            }
+            else
+            {
+                id = 1;
+            }
+
             generalSetting = ViewModel.LoadGeneralSetting();
             switch (generalSetting.synthesisSettingMode)
             {
@@ -648,7 +672,7 @@ namespace SAPIForVOICEVOX
                     synthesisParameter = ViewModel.LoadBatchSynthesisParameter();
                     break;
                 case SynthesisSettingMode.EachCharacter:
-                    synthesisParameter = ViewModel.LoadSpeakerSynthesisParameter()[speakerNum];
+                    synthesisParameter = ViewModel.LoadSpeakerSynthesisParameter()[id];
                     break;
                 default:
                     synthesisParameter = new SynthesisParameter();
