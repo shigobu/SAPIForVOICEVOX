@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StyleRegistrationTool"
         mc:Ignorable="d"
-        Title="スタイル登録ツール" Height="450" Width="500" MinWidth="350" MinHeight="350" WindowStartupLocation="CenterScreen">
+        Title="スタイル登録ツール" Height="450" Width="500" MinWidth="350" MinHeight="350" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="AUTO"/>
@@ -27,7 +27,16 @@
             <Button Margin="3" Width="70">追加 ＞＞</Button>
             <Button Margin="3" Width="70">削除 ＜＜</Button>
         </StackPanel>
-        <ListView Grid.Row="1" Grid.Column="0" Margin="3"/>
+        <ListView Grid.Row="1" Grid.Column="0" Margin="3">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="キャラ" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="スタイル" DisplayMemberBinding="{Binding StyleName}"/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
+                </GridView>
+            </ListView.View>
+
+        </ListView>
         <ListView Grid.Row="1" Grid.Column="2" Margin="3"/>
 
     </Grid>
