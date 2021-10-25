@@ -93,11 +93,19 @@ namespace StyleRegistrationTool.ViewModel
             commandline = commandline.Select(str => str.ToLower()).ToArray();
             if (commandline.Contains("/install"))
             {
-                ShowStartedInstallerDialog(mainWindow);
+                bool isContinue = ShowStartedInstallerDialog(mainWindow);
+                if (!isContinue)
+                {
+                    return;
+                }
             }
             else
             {
-                ShowVoicevoxConnectionDialog(mainWindow);
+                bool isContinue = ShowVoicevoxConnectionDialog(mainWindow);
+                if (!isContinue)
+                {
+                    return;
+                }
             }
 
 
@@ -112,16 +120,24 @@ namespace StyleRegistrationTool.ViewModel
                 }
                 catch (HttpRequestException ex)
                 {
-                    ShowVoicevoxConnectionDialog(mainWindow);
-                    continue;
+                    bool isContinue = ShowVoicevoxConnectionDialog(mainWindow);
+                    if (isContinue)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
-            //画面に表示
             if (voicevoxStyles == null)
             {
                 mainWindow.Close();
+                return;
             }
 
+            //画面に表示
             //ここまで来たということは、VOICEVOXへ接続できたことになる。
             IsMainWindowEnabled = true;
             WaitCircleVisibility = Visibility.Collapsed;
@@ -137,8 +153,14 @@ namespace StyleRegistrationTool.ViewModel
         /// インストーラから起動された時に表示するDialogを表示する。
         /// </summary>
         /// <param name="window">親ウィンドウ</param>
-        private void ShowStartedInstallerDialog(MainWindow window)
+        /// <returns>
+        /// true:メインウィンドウを閉じない
+        /// false:メインウィンドウを閉じた
+        /// </returns>
+        private bool ShowStartedInstallerDialog(MainWindow window)
         {
+            bool isContinue = true;
+
             var dialog = new TaskDialog
             {
                 OwnerWindowHandle = window.Handle,
@@ -157,6 +179,7 @@ namespace StyleRegistrationTool.ViewModel
             {
                 dialog.Close();
                 this.AllStyleRegistration();
+                isContinue = false;
                 window.Close();
             };
             dialog.Controls.Add(link2);
@@ -165,19 +188,27 @@ namespace StyleRegistrationTool.ViewModel
             link3.Click += (sender1, e1) =>
             {
                 dialog.Close();
+                isContinue = false;
                 window.Close();
             };
             dialog.Controls.Add(link3);
 
             dialog.Show();
+            return isContinue;
         }
 
         /// <summary>
         /// VOICEVOXを起動したかどうかの確認ダイアログを表示します。中止が押された場合、親ウィンドウを閉じます。
         /// </summary>
         /// <param name="window">親ウィンドウ</param>
-        private void ShowVoicevoxConnectionDialog(MainWindow window)
+        /// <returns>
+        /// true:メインウィンドウを閉じない
+        /// false:メインウィンドウを閉じた
+        /// </returns>
+        private bool ShowVoicevoxConnectionDialog(MainWindow window)
         {
+            bool isContinue = true;
+
             var dialog = new TaskDialog();
 
             dialog.OwnerWindowHandle = window.Handle;
@@ -195,11 +226,14 @@ namespace StyleRegistrationTool.ViewModel
             link2.Click += (sender1, e1) =>
             {
                 dialog.Close();
+                isContinue = false;
                 window.Close();
             };
             dialog.Controls.Add(link2);
 
             dialog.Show();
+
+            return isContinue;
         }
 
         /// <summary>
