@@ -28,7 +28,6 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         HttpClient httpClient = new HttpClient();
 
-
         #region プロパティ
 
         private ObservableCollection<VoicevoxStyle> _voicevoxStyles = new ObservableCollection<VoicevoxStyle>();
@@ -78,6 +77,8 @@ namespace StyleRegistrationTool.ViewModel
 
 
         #endregion
+
+        #region イベント
 
         /// <summary>
         /// mainWindowのLoadedイベントハンドラ
@@ -146,6 +147,8 @@ namespace StyleRegistrationTool.ViewModel
                 VoicevoxStyles.Add(style);
             }
         }
+
+        #endregion
 
         #region メソッド
 

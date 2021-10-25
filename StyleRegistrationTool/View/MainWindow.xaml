@@ -27,9 +27,11 @@
                 <Button Margin="3" Width="70" IsDefault="True">OK</Button>
                 <Button Margin="3" Width="70" IsCancel="True">キャンセル</Button>
             </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="1" Margin="3" VerticalAlignment="Center">
-                <Button Margin="3" Width="70">追加 ＞＞</Button>
-                <Button Margin="3" Width="70">削除 ＜＜</Button>
+            <StackPanel Grid.Row="1" Grid.Column="1" Margin="3" Width="100" VerticalAlignment="Center">
+                <Button Margin="3, 3, 3, 30">すべて追加＞＞</Button>
+                <Button Margin="3">追加 ＞＞</Button>
+                <Button Margin="3">削除 ＜＜</Button>
+                <Button Margin="3, 30, 3, 3">すべて削除＜＜</Button>
             </StackPanel>
             <ListView Grid.Row="1" Grid.Column="0" Margin="3" ItemsSource="{Binding VoicevoxStyles}">
                 <ListView.View>
@@ -44,7 +46,7 @@
             <ListView Grid.Row="1" Grid.Column="2" Margin="3"/>
         </Grid>
         <!--待機ぐるぐる画面-->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding WaitCircleVisibility}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding WaitCircleVisibility}"  Background="White">
             <local:WaitingCircle Width="100" Height="100"/>
             <TextBlock Text="VOICEVOXへ接続中" FontSize="20"/>
         </StackPanel>
