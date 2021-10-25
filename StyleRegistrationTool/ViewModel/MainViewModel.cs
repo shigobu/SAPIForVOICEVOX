@@ -58,13 +58,60 @@ namespace StyleRegistrationTool.ViewModel
         {
             MainWindow mainWindow = (MainWindow)sender;
 
-            var dialog = new TaskDialog();
+            //コマンドラインを見て、インストーラから起動された場合、専用のダイアログを表示する。
+            string[] commandline = Environment.GetCommandLineArgs();
+            commandline = commandline.Select(str => str.ToLower()).ToArray();
+            if (commandline.Contains("/install"))
+            {
+                ShowStartedInstallerDialog(mainWindow);
+            }
+            else
+            {
+                ShowVoicevoxConnectionDialog(mainWindow);
+            }
 
-            dialog.OwnerWindowHandle = mainWindow.Handle;
 
-            dialog.Caption = "話者とスタイルの登録";
-            dialog.InstructionText = "話者とスタイルの登録を行います。";
-            dialog.Text = "後で登録することもできます。\nその場合、スタートの全てのプログラムから起動できます。";
+            //VOICEVOXから話者情報取得
+            VoicevoxStyle[] voicevoxStyles = null;
+            while(true)
+            {
+                try
+                {
+                    voicevoxStyles = await GetVoicevoxStyles();
+                    break;
+                }
+                catch (HttpRequestException ex)
+                {
+                    ShowVoicevoxConnectionDialog(mainWindow);
+                    continue;
+                }
+            }
+            //画面に表示
+            if (voicevoxStyles == null)
+            {
+                mainWindow.Close();
+            }
+            foreach (var style in voicevoxStyles)
+            {
+                VoicevoxStyles.Add(style);
+            }
+        }
+
+        #region メソッド
+
+        /// <summary>
+        /// インストーラから起動された時に表示するDialogを表示する。
+        /// </summary>
+        /// <param name="window">親ウィンドウ</param>
+        private void ShowStartedInstallerDialog(MainWindow window)
+        {
+            var dialog = new TaskDialog
+            {
+                OwnerWindowHandle = window.Handle,
+                Caption = "話者とスタイルの登録",
+                InstructionText = "話者とスタイルの登録を行います。",
+                Text = "後で登録することもできます。\n後で登録する場合、スタートの全てのプログラムから起動できます。"
+            };
 
             var link1 = new TaskDialogCommandLink("link1", "登録する話者とスタイルを選択", "VOICEVOXの起動が必要");
             link1.Click += (sender1, e1) => dialog.Close();
@@ -76,7 +123,7 @@ namespace StyleRegistrationTool.ViewModel
             {
                 dialog.Close();
                 this.AllStyleRegistration();
-                mainWindow.Close();
+                window.Close();
             };
             dialog.Controls.Add(link2);
 
@@ -84,21 +131,42 @@ namespace StyleRegistrationTool.ViewModel
             link3.Click += (sender1, e1) =>
             {
                 dialog.Close();
-                mainWindow.Close();
+                window.Close();
             };
             dialog.Controls.Add(link3);
 
             dialog.Show();
-
-            //VOICEVOXから話者情報取得
-            VoicevoxStyle[] voicevoxStyles = await GetVoicevoxStyles();
-            foreach (var item in voicevoxStyles)
-            {
-                VoicevoxStyles.Add(item);
-            }
         }
 
-        #region メソッド
+        /// <summary>
+        /// VOICEVOXを起動したかどうかの確認ダイアログを表示します。
+        /// </summary>
+        /// <param name="window">親ウィンドウ</param>
+        private void ShowVoicevoxConnectionDialog(MainWindow window)
+        {
+            var dialog = new TaskDialog();
+
+            dialog.OwnerWindowHandle = window.Handle;
+            //dialog.Icon = TaskDialogStandardIcon.Information;
+            dialog.Caption = "VOICEVOX起動の確認";
+            dialog.InstructionText = "VOICEVOXを起動しましたか？";
+            dialog.Text = "話者とスタイル登録には、VOICEVOXの起動が必要です。";
+
+            var link1 = new TaskDialogCommandLink("link1", "VOICEVOXを起動した", "VOICEVOXへの接続を試みます。");
+            link1.Click += (sender1, e1) => dialog.Close();
+            link1.Default = true;
+            dialog.Controls.Add(link1);
+
+            var link2 = new TaskDialogCommandLink("link2", "終了する", "話者とスタイルの登録を中止し、アプリを終了します。");
+            link2.Click += (sender1, e1) =>
+            {
+                dialog.Close();
+                window.Close();
+            };
+            dialog.Controls.Add(link2);
+
+            dialog.Show();
+        }
 
         /// <summary>
         /// VOICEVOXから話者とスタイル情報を取得します。
