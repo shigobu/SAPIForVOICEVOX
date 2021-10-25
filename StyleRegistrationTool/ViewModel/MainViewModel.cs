@@ -46,6 +46,36 @@ namespace StyleRegistrationTool.ViewModel
             }
         }
 
+        private bool _IsMainWindowEnabled = false;
+        /// <summary>
+        /// メイン画面が有効かどうか
+        /// </summary>
+        public bool IsMainWindowEnabled
+        {
+            get => _IsMainWindowEnabled;
+            set
+            {
+                if (_IsMainWindowEnabled == value) return;
+                _IsMainWindowEnabled = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private Visibility _WaitCircleVisibility = Visibility.Visible;
+        /// <summary>
+        /// 待機ぐるぐる画面の表示状態
+        /// </summary>
+        public Visibility WaitCircleVisibility
+        {
+            get => _WaitCircleVisibility;
+            set
+            {
+                if (_WaitCircleVisibility == value) return;
+                _WaitCircleVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
+
 
         #endregion
 
@@ -91,6 +121,10 @@ namespace StyleRegistrationTool.ViewModel
             {
                 mainWindow.Close();
             }
+
+            //ここまで来たということは、VOICEVOXへ接続できたことになる。
+            IsMainWindowEnabled = true;
+            WaitCircleVisibility = Visibility.Collapsed;
             foreach (var style in voicevoxStyles)
             {
                 VoicevoxStyles.Add(style);
