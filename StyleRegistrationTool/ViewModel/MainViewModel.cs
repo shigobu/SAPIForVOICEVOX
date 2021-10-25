@@ -161,7 +161,7 @@ namespace StyleRegistrationTool.ViewModel
             };
             dialog.Controls.Add(link2);
 
-            var link3 = new TaskDialogCommandLink("link3", "デフォルトの話者とスタイルを使用", "終了します");
+            var link3 = new TaskDialogCommandLink("link3", "後で行う", "デフォルトの話者とスタイルが登録されます。");
             link3.Click += (sender1, e1) =>
             {
                 dialog.Close();
@@ -173,7 +173,7 @@ namespace StyleRegistrationTool.ViewModel
         }
 
         /// <summary>
-        /// VOICEVOXを起動したかどうかの確認ダイアログを表示します。
+        /// VOICEVOXを起動したかどうかの確認ダイアログを表示します。中止が押された場合、親ウィンドウを閉じます。
         /// </summary>
         /// <param name="window">親ウィンドウ</param>
         private void ShowVoicevoxConnectionDialog(MainWindow window)
@@ -186,12 +186,12 @@ namespace StyleRegistrationTool.ViewModel
             dialog.InstructionText = "VOICEVOXを起動しましたか？";
             dialog.Text = "話者とスタイル登録には、VOICEVOXの起動が必要です。";
 
-            var link1 = new TaskDialogCommandLink("link1", "VOICEVOXを起動した", "VOICEVOXへの接続を試みます。");
+            var link1 = new TaskDialogCommandLink("link1", "VOICEVOXを起動した");
             link1.Click += (sender1, e1) => dialog.Close();
             link1.Default = true;
             dialog.Controls.Add(link1);
 
-            var link2 = new TaskDialogCommandLink("link2", "終了する", "話者とスタイルの登録を中止し、アプリを終了します。");
+            var link2 = new TaskDialogCommandLink("link2", "中止");
             link2.Click += (sender1, e1) =>
             {
                 dialog.Close();
