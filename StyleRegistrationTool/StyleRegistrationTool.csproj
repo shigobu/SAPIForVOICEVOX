@@ -87,6 +87,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\SapiStyle.cs" />
     <Compile Include="View\WaitingCircle.xaml.cs">
       <DependentUpon>WaitingCircle.xaml</DependentUpon>
     </Compile>

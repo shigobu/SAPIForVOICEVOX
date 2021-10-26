@@ -30,7 +30,7 @@ namespace StyleRegistrationTool.ViewModel
 
         #region プロパティ
 
-        private ObservableCollection<VoicevoxStyle> _voicevoxStyles = new ObservableCollection<VoicevoxStyle>();
+        private ObservableCollection<VoicevoxStyle> _voicevoxStyles = null;
         /// <summary>
         /// VOICEVOX側のスタイル一覧
         /// </summary>
@@ -41,6 +41,21 @@ namespace StyleRegistrationTool.ViewModel
             {
                 if (_voicevoxStyles == value) return;
                 _voicevoxStyles = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private ObservableCollection<VoicevoxStyle> _sapiStyles = new ObservableCollection<VoicevoxStyle>();
+        /// <summary>
+        /// SAPI側のスタイル一覧
+        /// </summary>
+        public ObservableCollection<VoicevoxStyle> SapiStyles
+        {
+            get => _sapiStyles;
+            set
+            {
+                if (_sapiStyles == value) return;
+                _sapiStyles = value;
                 RaisePropertyChanged();
             }
         }
@@ -121,8 +136,8 @@ namespace StyleRegistrationTool.ViewModel
                 }
                 catch (HttpRequestException ex)
                 {
-                    bool isContinue = ShowVoicevoxConnectionDialog(mainWindow);
-                    if (isContinue)
+                    bool shouldContinue = ShowVoicevoxConnectionDialog(mainWindow);
+                    if (shouldContinue)
                     {
                         continue;
                     }
@@ -142,10 +157,7 @@ namespace StyleRegistrationTool.ViewModel
             //ここまで来たということは、VOICEVOXへ接続できたことになる。
             IsMainWindowEnabled = true;
             WaitCircleVisibility = Visibility.Collapsed;
-            foreach (var style in voicevoxStyles)
-            {
-                VoicevoxStyles.Add(style);
-            }
+            VoicevoxStyles = new ObservableCollection<VoicevoxStyle>(voicevoxStyles);
         }
 
         #endregion
