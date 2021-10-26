@@ -94,16 +94,16 @@ namespace StyleRegistrationTool.ViewModel
             commandline = commandline.Select(str => str.ToLower()).ToArray();
             if (commandline.Contains("/install"))
             {
-                bool isContinue = ShowStartedInstallerDialog(mainWindow);
-                if (!isContinue)
+                bool shouldContinue = ShowStartedInstallerDialog(mainWindow);
+                if (!shouldContinue)
                 {
                     return;
                 }
             }
             else
             {
-                bool isContinue = ShowVoicevoxConnectionDialog(mainWindow);
-                if (!isContinue)
+                bool shouldContinue = ShowVoicevoxConnectionDialog(mainWindow);
+                if (!shouldContinue)
                 {
                     return;
                 }
@@ -162,7 +162,7 @@ namespace StyleRegistrationTool.ViewModel
         /// </returns>
         private bool ShowStartedInstallerDialog(MainWindow window)
         {
-            bool isContinue = true;
+            bool shouldContinue = true;
 
             var dialog = new TaskDialog
             {
@@ -182,7 +182,7 @@ namespace StyleRegistrationTool.ViewModel
             {
                 dialog.Close();
                 this.AllStyleRegistration();
-                isContinue = false;
+                shouldContinue = false;
                 window.Close();
             };
             dialog.Controls.Add(link2);
@@ -191,13 +191,13 @@ namespace StyleRegistrationTool.ViewModel
             link3.Click += (sender1, e1) =>
             {
                 dialog.Close();
-                isContinue = false;
+                shouldContinue = false;
                 window.Close();
             };
             dialog.Controls.Add(link3);
 
             dialog.Show();
-            return isContinue;
+            return shouldContinue;
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace StyleRegistrationTool.ViewModel
         /// </returns>
         private bool ShowVoicevoxConnectionDialog(MainWindow window)
         {
-            bool isContinue = true;
+            bool shouldContinue = true;
 
             var dialog = new TaskDialog();
 
@@ -229,14 +229,14 @@ namespace StyleRegistrationTool.ViewModel
             link2.Click += (sender1, e1) =>
             {
                 dialog.Close();
-                isContinue = false;
+                shouldContinue = false;
                 window.Close();
             };
             dialog.Controls.Add(link2);
 
             dialog.Show();
 
-            return isContinue;
+            return shouldContinue;
         }
 
         /// <summary>
