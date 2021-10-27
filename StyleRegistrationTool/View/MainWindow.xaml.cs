@@ -32,7 +32,7 @@ namespace StyleRegistrationTool
 #endif
             this.Title += bitStr;
 
-            MainViewModel viewModel = new MainViewModel();
+            MainViewModel viewModel = new MainViewModel(this);
             this.DataContext = viewModel;
             this.Loaded += viewModel.MainWindow_Loaded;
         }

@@ -11,11 +11,20 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace StyleRegistrationTool.ViewModel
 {
     class MainViewModel : INotifyPropertyChanged
     {
+
+        public MainViewModel(MainWindow mainWindow)
+        {
+            MainWindow = mainWindow;
+            OkCommand = new OkCommandImpl(this);
+            CancelCommand = new CancelCommandImpl(this);
+        }
+
         #region INotifyPropertyChangedの実装
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -29,6 +38,24 @@ namespace StyleRegistrationTool.ViewModel
         HttpClient httpClient = new HttpClient();
 
         #region プロパティ
+
+        /// <summary>
+        /// メインウィンドウを取得、設定します。
+        /// </summary>
+        public MainWindow MainWindow { get; set; }
+
+        /// <summary>
+        /// okボタンのコマンド
+        /// </summary>
+        public ICommand OkCommand { get; set; }
+
+        /// <summary>
+        /// okボタンのコマンド
+        /// </summary>
+        public ICommand CancelCommand { get; set; }
+
+
+        #region NotifyProperty
 
         private ObservableCollection<VoicevoxStyle> _voicevoxStyles = null;
         /// <summary>
@@ -89,7 +116,7 @@ namespace StyleRegistrationTool.ViewModel
                 RaisePropertyChanged();
             }
         }
-
+        #endregion
 
         #endregion
 
@@ -286,6 +313,54 @@ namespace StyleRegistrationTool.ViewModel
             //未実装
         }
 
+        #endregion
+
+        #region コマンドクラス
+
+        class OkCommandImpl : ICommand
+        {
+            public event EventHandler CanExecuteChanged;
+
+            public OkCommandImpl(MainViewModel viewModel)
+            {
+                ViewModel = viewModel;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                return true;
+            }
+
+            public void Execute(object parameter)
+            {
+                ViewModel.MainWindow.Close();
+            }
+
+            private MainViewModel ViewModel { get; set; }
+        }
+
+        class CancelCommandImpl : ICommand
+        {
+            public CancelCommandImpl(MainViewModel viewModel)
+            {
+                ViewModel = viewModel;
+            }
+
+            public event EventHandler CanExecuteChanged;
+
+            public bool CanExecute(object parameter)
+            {
+                return true;
+            }
+
+            public void Execute(object parameter)
+            {
+                ViewModel.MainWindow.Close();
+            }
+
+            private MainViewModel ViewModel { get; set; }
+
+        }
         #endregion
     }
 }

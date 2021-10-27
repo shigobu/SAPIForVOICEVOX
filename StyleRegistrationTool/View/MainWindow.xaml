@@ -24,8 +24,8 @@
             <TextBlock Grid.Row="0" Grid.Column="0" Margin="3,3,3,0" Text="VOICEVOX"/>
             <TextBlock Grid.Row="0" Grid.Column="2" Margin="3,3,3,0" Text="SAPI"/>
             <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,0">
-                <Button Margin="3" Width="70" IsDefault="True">OK</Button>
-                <Button Margin="3" Width="70" IsCancel="True">キャンセル</Button>
+                <Button Margin="3" Width="70" IsDefault="True" Command="{Binding OkCommand}">OK</Button>
+                <Button Margin="3" Width="70" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" Margin="3" Width="100" VerticalAlignment="Center">
                 <Button Margin="3, 3, 3, 30">すべて追加＞＞</Button>
@@ -55,7 +55,7 @@
             </ListView>
         </Grid>
         <!--待機ぐるぐる画面-->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding WaitCircleVisibility}"  Background="White">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding WaitCircleVisibility}" Background="White">
             <local:WaitingCircle Width="100" Height="100"/>
             <TextBlock Text="VOICEVOXへ接続中" FontSize="15"/>
         </StackPanel>
