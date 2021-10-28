@@ -21,8 +21,13 @@ namespace StyleRegistrationTool.ViewModel
         public MainViewModel(MainWindow mainWindow)
         {
             MainWindow = mainWindow;
-            OkCommand = new OkCommandImpl(this);
-            CancelCommand = new CancelCommandImpl(this);
+            OkCommand = new DelegateCommand(OkCommandExecute);
+            CancelCommand = new DelegateCommand(() => MainWindow.Close());
+            AddCommand = new DelegateCommand(AddCommandExecute);
+            RemoveCommand = new DelegateCommand(RemoveCommandExecute);
+            AllAddCommand = new DelegateCommand(AllAddCommandExecute);
+            AllRemoveCommand = new DelegateCommand(AllRemoveCommandExecute);
+
         }
 
         #region INotifyPropertyChangedの実装
@@ -50,9 +55,29 @@ namespace StyleRegistrationTool.ViewModel
         public ICommand OkCommand { get; set; }
 
         /// <summary>
-        /// okボタンのコマンド
+        /// キャンセルボタンのコマンド
         /// </summary>
         public ICommand CancelCommand { get; set; }
+
+        /// <summary>
+        /// 追加コマンド
+        /// </summary>
+        public ICommand AddCommand { get; set; }
+
+        /// <summary>
+        /// 削除コマンド
+        /// </summary>
+        public ICommand RemoveCommand { get; set; }
+
+        /// <summary>
+        /// 全て追加コマンド
+        /// </summary>
+        public ICommand AllAddCommand { get; set; }
+
+        /// <summary>
+        /// 全て削除コマンド
+        /// </summary>
+        public ICommand AllRemoveCommand { get; set; }
 
 
         #region NotifyProperty
@@ -187,6 +212,43 @@ namespace StyleRegistrationTool.ViewModel
             VoicevoxStyles = new ObservableCollection<VoicevoxStyle>(voicevoxStyles);
         }
 
+        private void OkCommandExecute()
+        {
+            MainWindow.Close();
+        }
+
+        /// <summary>
+        /// 追加ボタンの処理
+        /// </summary>
+        private void AddCommandExecute()
+        {
+
+        }
+
+        /// <summary>
+        /// 削除ボタンの処理
+        /// </summary>
+        private void RemoveCommandExecute()
+        {
+
+        }
+
+        /// <summary>
+        /// 全て追加ボタンの処理
+        /// </summary>
+        private void AllAddCommandExecute()
+        {
+
+        }
+
+        /// <summary>
+        /// 全て削除ボタンの処理
+        /// </summary>
+        private void AllRemoveCommandExecute()
+        {
+
+        }
+
         #endregion
 
         #region メソッド
@@ -317,13 +379,16 @@ namespace StyleRegistrationTool.ViewModel
 
         #region コマンドクラス
 
-        class OkCommandImpl : ICommand
+        /// <summary>
+        /// プリズムのコードを参考に、デリゲートコマンドを作成。
+        /// </summary>
+        class DelegateCommand : ICommand
         {
             public event EventHandler CanExecuteChanged;
 
-            public OkCommandImpl(MainViewModel viewModel)
+            public DelegateCommand(Action executeMethod)
             {
-                ViewModel = viewModel;
+                ExecuteMethod = executeMethod;
             }
 
             public bool CanExecute(object parameter)
@@ -333,34 +398,12 @@ namespace StyleRegistrationTool.ViewModel
 
             public void Execute(object parameter)
             {
-                ViewModel.MainWindow.Close();
+                ExecuteMethod();
             }
 
-            private MainViewModel ViewModel { get; set; }
+            private Action ExecuteMethod { get; set; }
         }
 
-        class CancelCommandImpl : ICommand
-        {
-            public CancelCommandImpl(MainViewModel viewModel)
-            {
-                ViewModel = viewModel;
-            }
-
-            public event EventHandler CanExecuteChanged;
-
-            public bool CanExecute(object parameter)
-            {
-                return true;
-            }
-
-            public void Execute(object parameter)
-            {
-                ViewModel.MainWindow.Close();
-            }
-
-            private MainViewModel ViewModel { get; set; }
-
-        }
         #endregion
     }
 }

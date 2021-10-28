@@ -28,10 +28,10 @@
                 <Button Margin="3" Width="70" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" Margin="3" Width="100" VerticalAlignment="Center">
-                <Button Margin="3, 3, 3, 30">すべて追加＞＞</Button>
-                <Button Margin="3">追加 ＞＞</Button>
-                <Button Margin="3">削除 ＜＜</Button>
-                <Button Margin="3, 30, 3, 3">すべて削除＜＜</Button>
+                <Button Margin="3, 3, 3, 30" Command="{Binding AllAddCommand}">すべて追加＞＞</Button>
+                <Button Margin="3" Command="{Binding AddCommand}">追加 ＞＞</Button>
+                <Button Margin="3" Command="{Binding RemoveCommand}">削除 ＜＜</Button>
+                <Button Margin="3, 30, 3, 3" Command="{Binding AllRemoveCommand}">すべて削除＜＜</Button>
             </StackPanel>
             <ListView Grid.Row="1" Grid.Column="0" Margin="3" ItemsSource="{Binding VoicevoxStyles}">
                 <ListView.View>
