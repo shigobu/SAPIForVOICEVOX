@@ -31,17 +31,8 @@ namespace StyleRegistrationTool.Model
         /// </summary>
         /// <param name="voicevoxStyle">VOICEVOXスタイル</param>
         /// <param name="clsid">SAPIエンジンのクラスID</param>
-        public SapiStyle(VoicevoxStyle voicevoxStyle, Guid clsid)
+        public SapiStyle(VoicevoxStyle voicevoxStyle, Guid clsid) : this(voicevoxStyle.Name, voicevoxStyle.StyleName, voicevoxStyle.ID, clsid)
         {
-            if (voicevoxStyle == null)
-            {
-                throw new ArgumentNullException(nameof(voicevoxStyle));
-            }
-
-            Name = voicevoxStyle.Name;
-            StyleName = voicevoxStyle.StyleName;
-            ID = voicevoxStyle.ID;
-            CLSID = clsid;
         }
 
         /// <summary>

@@ -7,7 +7,7 @@
         xmlns:viewModel="clr-namespace:StyleRegistrationTool.ViewModel"
         d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel}"
         mc:Ignorable="d"
-        Title="スタイル登録ツール " Height="450" Width="500" MinWidth="350" MinHeight="350" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+        Title="スタイル登録ツール " Height="450" Width="500" MinWidth="350" MinHeight="350" WindowStartupLocation="CenterScreen">
     <Grid Margin="5">
         <!--メイン画面-->
         <Grid IsEnabled="{Binding IsMainWindowEnabled}">
@@ -33,7 +33,7 @@
                 <Button Margin="3" Command="{Binding RemoveCommand}">削除 ＜＜</Button>
                 <Button Margin="3, 30, 3, 3" Command="{Binding AllRemoveCommand}">すべて削除＜＜</Button>
             </StackPanel>
-            <ListView Grid.Row="1" Grid.Column="0" Margin="3" ItemsSource="{Binding VoicevoxStyles}">
+            <ListView x:Name="VoicevoxStyleList" Grid.Row="1" Grid.Column="0" Margin="3" ItemsSource="{Binding VoicevoxStyles}" SelectionChanged="VoicevoxStyleList_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="キャラ" DisplayMemberBinding="{Binding Name}"/>
@@ -43,7 +43,7 @@
                 </ListView.View>
 
             </ListView>
-            <ListView Grid.Row="1" Grid.Column="2" Margin="3">
+            <ListView x:Name="SapiStyleList" Grid.Row="1" Grid.Column="2" Margin="3" ItemsSource="{Binding SapiStyles}" SelectionChanged="SapiStyleList_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="キャラ" DisplayMemberBinding="{Binding Name}"/>

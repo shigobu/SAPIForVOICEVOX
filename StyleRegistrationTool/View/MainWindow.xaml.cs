@@ -1,4 +1,5 @@
-﻿using StyleRegistrationTool.ViewModel;
+﻿using StyleRegistrationTool.Model;
+using StyleRegistrationTool.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace StyleRegistrationTool
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainViewModel viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +35,7 @@ namespace StyleRegistrationTool
 #endif
             this.Title += bitStr;
 
-            MainViewModel viewModel = new MainViewModel(this);
+            viewModel = new MainViewModel(this);
             this.DataContext = viewModel;
             this.Loaded += viewModel.MainWindow_Loaded;
         }
@@ -47,6 +50,16 @@ namespace StyleRegistrationTool
                 var helper = new System.Windows.Interop.WindowInteropHelper(this);
                 return helper.Handle;
             }
+        }
+
+        private void VoicevoxStyleList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            viewModel.VoicevoxStyle_SelectedItems = VoicevoxStyleList.SelectedItems.Cast<VoicevoxStyle>();
+        }
+
+        private void SapiStyleList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            viewModel.SapiStyle_SelectedItems = SapiStyleList.SelectedItems.Cast<SapiStyle>();
         }
     }
 }

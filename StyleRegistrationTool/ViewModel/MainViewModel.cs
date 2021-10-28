@@ -79,6 +79,15 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         public ICommand AllRemoveCommand { get; set; }
 
+        /// <summary>
+        /// VOICEVOX側リストの選択されてるアイテム一覧
+        /// </summary>
+        internal IEnumerable<VoicevoxStyle> VoicevoxStyle_SelectedItems { get; set; } = Enumerable.Empty<VoicevoxStyle>();
+
+        /// <summary>
+        /// SAPI側リストの選択されているアイテム一覧
+        /// </summary>
+        internal IEnumerable<SapiStyle> SapiStyle_SelectedItems { get; set; } = Enumerable.Empty<SapiStyle>();
 
         #region NotifyProperty
 
@@ -97,11 +106,11 @@ namespace StyleRegistrationTool.ViewModel
             }
         }
 
-        private ObservableCollection<VoicevoxStyle> _sapiStyles = new ObservableCollection<VoicevoxStyle>();
+        private ObservableCollection<SapiStyle> _sapiStyles = new ObservableCollection<SapiStyle>();
         /// <summary>
         /// SAPI側のスタイル一覧
         /// </summary>
-        public ObservableCollection<VoicevoxStyle> SapiStyles
+        public ObservableCollection<SapiStyle> SapiStyles
         {
             get => _sapiStyles;
             set
@@ -222,7 +231,7 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void AddCommandExecute()
         {
-
+            
         }
 
         /// <summary>
