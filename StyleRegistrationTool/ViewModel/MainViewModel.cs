@@ -259,7 +259,12 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void AllAddCommandExecute()
         {
-
+            SapiStyles.Clear();
+            foreach (var item in VoicevoxStyles)
+            {
+                SapiStyle sapiStyle = new SapiStyle(item, VoiceVoxTTSEngine.CLSID);
+                SapiStyles.Add(sapiStyle);
+            }
         }
 
         /// <summary>
