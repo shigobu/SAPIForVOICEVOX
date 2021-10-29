@@ -248,7 +248,10 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void RemoveCommandExecute()
         {
-
+            foreach (var item in SapiStyle_SelectedItems)
+            {
+                SapiStyles.Remove(item);
+            }
         }
 
         /// <summary>
@@ -264,7 +267,7 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void AllRemoveCommandExecute()
         {
-
+            SapiStyles.Clear();
         }
 
         #endregion
