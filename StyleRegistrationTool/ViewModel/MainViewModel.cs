@@ -186,10 +186,15 @@ namespace StyleRegistrationTool.ViewModel
                 }
             }
 
+            //VOICEVOXスタイルリストの更新
+            await UpdateVoicevoxStyles(false);
+        }
 
+        async private Task<bool> UpdateVoicevoxStyles(bool isAllStyleRegistration)
+        {
             //VOICEVOXから話者情報取得
             VoicevoxStyle[] voicevoxStyles = null;
-            while(true)
+            while (true)
             {
                 try
                 {
@@ -198,28 +203,34 @@ namespace StyleRegistrationTool.ViewModel
                 }
                 catch (HttpRequestException ex)
                 {
-                    bool shouldContinue = ShowVoicevoxConnectionDialog(mainWindow);
+                    bool shouldContinue = ShowVoicevoxConnectionDialog(MainWindow);
                     if (shouldContinue)
                     {
                         continue;
                     }
                     else
                     {
-                        return;
+                        return false;
                     }
                 }
             }
             if (voicevoxStyles == null)
             {
-                mainWindow.Close();
-                return;
+                MainWindow.Close();
+                return false;
             }
-
-            //画面に表示
-            //ここまで来たということは、VOICEVOXへ接続できたことになる。
-            IsMainWindowEnabled = true;
-            WaitCircleVisibility = Visibility.Collapsed;
+            if (isAllStyleRegistration)
+            {
+                IsMainWindowEnabled = false;
+                WaitCircleVisibility = Visibility.Visible;
+            }
+            else
+            {
+                IsMainWindowEnabled = true;
+                WaitCircleVisibility = Visibility.Collapsed;
+            }
             VoicevoxStyles = new ObservableCollection<VoicevoxStyle>(voicevoxStyles);
+            return true;
         }
 
         private void OkCommandExecute()
@@ -284,8 +295,8 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         /// <param name="window">親ウィンドウ</param>
         /// <returns>
-        /// true:メインウィンドウを閉じない
-        /// false:メインウィンドウを閉じた
+        /// true:処理継続
+        /// false:処理中止
         /// </returns>
         private bool ShowStartedInstallerDialog(MainWindow window)
         {
@@ -305,10 +316,10 @@ namespace StyleRegistrationTool.ViewModel
             dialog.Controls.Add(link1);
 
             var link2 = new TaskDialogCommandLink("link2", "全ての話者とスタイルを登録", "VOICEVOXの起動が必要");
-            link2.Click += (sender1, e1) =>
+            link2.Click += async (sender1, e1) =>
             {
                 dialog.Close();
-                this.AllStyleRegistration();
+                await AllStyleRegistration();
                 shouldContinue = false;
                 window.Close();
             };
@@ -332,8 +343,8 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         /// <param name="window">親ウィンドウ</param>
         /// <returns>
-        /// true:メインウィンドウを閉じない
-        /// false:メインウィンドウを閉じた
+        /// true:処理継続
+        /// false:処理中止
         /// </returns>
         private bool ShowVoicevoxConnectionDialog(MainWindow window)
         {
@@ -393,14 +404,20 @@ namespace StyleRegistrationTool.ViewModel
             return voicevoxStyles.ToArray();
         }
 
-
         /// <summary>
         /// 全てのスタイルを登録します。
         /// </summary>
-        void AllStyleRegistration()
+        async Task AllStyleRegistration()
         {
-            //未実装
+            bool shouldContinue = await UpdateVoicevoxStyles(true);
+            if (!shouldContinue)
+            {
+                return;
+            }
+            AllAddCommandExecute();
+            OkCommandExecute();
         }
+
 
         #endregion
 
