@@ -422,7 +422,10 @@ namespace SAPIForVOICEVOX
 
 #region レジストリ関連
 
-        static Guid CLSID { get; } = new Guid(guidString);
+        /// <summary>
+        /// TTSエンジンのcomで使用されるCLSID
+        /// </summary>
+        public static Guid CLSID { get; } = new Guid(guidString);
 
         const string regKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
         const string regName1 = "VOICEVOX1";

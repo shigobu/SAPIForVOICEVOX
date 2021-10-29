@@ -138,6 +138,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SAPIForVOICEVOX\SAPIForVOICEVOX.csproj">
+      <Project>{0ff58d47-c1c9-4873-8b1a-86d5123ef3fd}</Project>
+      <Name>SAPIForVOICEVOX</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

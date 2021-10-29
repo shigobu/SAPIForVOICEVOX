@@ -66,5 +66,38 @@ namespace StyleRegistrationTool.Model
         /// </summary>
         public Guid CLSID { get; set; }
 
+        #region Equalsの自動実装
+
+        public override bool Equals(object obj)
+        {
+            var style = obj as SapiStyle;
+            return style != null &&
+                   Name == style.Name &&
+                   StyleName == style.StyleName &&
+                   ID == style.ID &&
+                   CLSID.Equals(style.CLSID);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 2064203553;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(StyleName);
+            hashCode = hashCode * -1521134295 + ID.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Guid>.Default.GetHashCode(CLSID);
+            return hashCode;
+        }
+
+        public static bool operator ==(SapiStyle style1, SapiStyle style2)
+        {
+            return EqualityComparer<SapiStyle>.Default.Equals(style1, style2);
+        }
+
+        public static bool operator !=(SapiStyle style1, SapiStyle style2)
+        {
+            return !(style1 == style2);
+        }
+
+        #endregion
     }
 }

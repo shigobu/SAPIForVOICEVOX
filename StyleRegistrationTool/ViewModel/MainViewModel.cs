@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json.Linq;
+using SAPIForVOICEVOX;
 using StyleRegistrationTool.Model;
 using System;
 using System.Collections.Generic;
@@ -231,7 +232,15 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void AddCommandExecute()
         {
-            
+            foreach (var item in VoicevoxStyle_SelectedItems)
+            {
+                SapiStyle sapiStyle = new SapiStyle(item, VoiceVoxTTSEngine.CLSID);
+                if (!SapiStyles.Contains(sapiStyle))
+                {
+                    SapiStyles.Add(sapiStyle);
+                }
+            }
+            SapiStyles.OrderBy(x => x.Name).ThenBy(x => x.ID);
         }
 
         /// <summary>
@@ -372,7 +381,8 @@ namespace StyleRegistrationTool.ViewModel
                     }
                 }
             }
-            return voicevoxStyles.ToArray(); ;
+            voicevoxStyles.OrderBy(x => x.Name).ThenBy(x => x.ID);
+            return voicevoxStyles.ToArray();
         }
 
 
