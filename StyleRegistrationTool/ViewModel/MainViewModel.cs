@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using SAPIForVOICEVOX;
 using StyleRegistrationTool.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -28,7 +30,6 @@ namespace StyleRegistrationTool.ViewModel
             RemoveCommand = new DelegateCommand(RemoveCommandExecute);
             AllAddCommand = new DelegateCommand(AllAddCommandExecute);
             AllRemoveCommand = new DelegateCommand(AllRemoveCommandExecute);
-
         }
 
         #region INotifyPropertyChangedの実装
@@ -169,27 +170,48 @@ namespace StyleRegistrationTool.ViewModel
             //コマンドラインを見て、インストーラから起動された場合、専用のダイアログを表示する。
             string[] commandline = Environment.GetCommandLineArgs();
             commandline = commandline.Select(str => str.ToLower()).ToArray();
+            bool shouldContinue;
             if (commandline.Contains("/install"))
             {
-                bool shouldContinue = ShowStartedInstallerDialog(mainWindow);
-                if (!shouldContinue)
+                InstallerDialogResult dialogResult = ShowStartedInstallerDialog(mainWindow);
+                switch (dialogResult)
                 {
-                    return;
+                    case InstallerDialogResult.SelectStyle:
+                        //何もしない
+                        break;
+                    case InstallerDialogResult.AllStyle:
+                        await AllStyleRegistration();
+                        return;
+                    case InstallerDialogResult.DefaultStyle:
+                    default:
+                        mainWindow.Close();
+                        return;
                 }
             }
             else
             {
-                bool shouldContinue = ShowVoicevoxConnectionDialog(mainWindow);
+                shouldContinue = ShowVoicevoxConnectionDialog(mainWindow);
                 if (!shouldContinue)
                 {
+                    mainWindow.Close();
                     return;
                 }
             }
 
             //VOICEVOXスタイルリストの更新
-            await UpdateVoicevoxStyles(false);
+            shouldContinue = await UpdateVoicevoxStyles(false);
+            if (!shouldContinue)
+            {
+                mainWindow.Close();
+                return;
+            }
         }
 
+        /// <summary>
+        /// VOICEVOXスタイルの更新を行います。
+        /// </summary>
+        /// <param name="isAllStyleRegistration">初回インストール時の全て登録ボタンが押されたときの処理を行うかどうか。</param>
+        /// <returns></returns>
         async private Task<bool> UpdateVoicevoxStyles(bool isAllStyleRegistration)
         {
             //VOICEVOXから話者情報取得
@@ -216,9 +238,9 @@ namespace StyleRegistrationTool.ViewModel
             }
             if (voicevoxStyles == null)
             {
-                MainWindow.Close();
                 return false;
             }
+
             if (isAllStyleRegistration)
             {
                 IsMainWindowEnabled = false;
@@ -229,6 +251,7 @@ namespace StyleRegistrationTool.ViewModel
                 IsMainWindowEnabled = true;
                 WaitCircleVisibility = Visibility.Collapsed;
             }
+
             VoicevoxStyles = new ObservableCollection<VoicevoxStyle>(voicevoxStyles);
             return true;
         }
@@ -251,7 +274,7 @@ namespace StyleRegistrationTool.ViewModel
                     SapiStyles.Add(sapiStyle);
                 }
             }
-            SapiStyles.OrderBy(x => x.Name).ThenBy(x => x.ID);
+            SapiStyles = new ObservableCollection<SapiStyle>(SortStyle(SapiStyles).OfType<SapiStyle>());
         }
 
         /// <summary>
@@ -259,7 +282,8 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void RemoveCommandExecute()
         {
-            foreach (var item in SapiStyle_SelectedItems)
+            List<SapiStyle> sapiStyles = new List<SapiStyle>(SapiStyle_SelectedItems);
+            foreach (var item in sapiStyles)
             {
                 SapiStyles.Remove(item);
             }
@@ -298,9 +322,9 @@ namespace StyleRegistrationTool.ViewModel
         /// true:処理継続
         /// false:処理中止
         /// </returns>
-        private bool ShowStartedInstallerDialog(MainWindow window)
+        private InstallerDialogResult ShowStartedInstallerDialog(MainWindow window)
         {
-            bool shouldContinue = true;
+            InstallerDialogResult dialogResult = InstallerDialogResult.SelectStyle;
 
             var dialog = new TaskDialog
             {
@@ -311,17 +335,19 @@ namespace StyleRegistrationTool.ViewModel
             };
 
             var link1 = new TaskDialogCommandLink("link1", "登録する話者とスタイルを選択", "VOICEVOXの起動が必要");
-            link1.Click += (sender1, e1) => dialog.Close();
+            link1.Click += (sender1, e1) =>
+            {
+                dialog.Close();
+                dialogResult = InstallerDialogResult.SelectStyle;
+            };
             link1.Default = true;
             dialog.Controls.Add(link1);
 
             var link2 = new TaskDialogCommandLink("link2", "全ての話者とスタイルを登録", "VOICEVOXの起動が必要");
-            link2.Click += async (sender1, e1) =>
+            link2.Click += (sender1, e1) =>
             {
                 dialog.Close();
-                await AllStyleRegistration();
-                shouldContinue = false;
-                window.Close();
+                dialogResult = InstallerDialogResult.AllStyle;
             };
             dialog.Controls.Add(link2);
 
@@ -329,13 +355,12 @@ namespace StyleRegistrationTool.ViewModel
             link3.Click += (sender1, e1) =>
             {
                 dialog.Close();
-                shouldContinue = false;
-                window.Close();
+                dialogResult = InstallerDialogResult.DefaultStyle;
             };
             dialog.Controls.Add(link3);
 
             dialog.Show();
-            return shouldContinue;
+            return dialogResult;
         }
 
         /// <summary>
@@ -368,7 +393,6 @@ namespace StyleRegistrationTool.ViewModel
             {
                 dialog.Close();
                 shouldContinue = false;
-                window.Close();
             };
             dialog.Controls.Add(link2);
 
@@ -400,24 +424,43 @@ namespace StyleRegistrationTool.ViewModel
                     }
                 }
             }
-            voicevoxStyles.OrderBy(x => x.Name).ThenBy(x => x.ID);
-            return voicevoxStyles.ToArray();
+            return SortStyle(voicevoxStyles).OfType<VoicevoxStyle>().ToArray();
         }
 
         /// <summary>
         /// 全てのスタイルを登録します。
         /// </summary>
-        async Task AllStyleRegistration()
+        private async Task AllStyleRegistration()
         {
             bool shouldContinue = await UpdateVoicevoxStyles(true);
             if (!shouldContinue)
             {
+                MainWindow.Close();
                 return;
             }
             AllAddCommandExecute();
             OkCommandExecute();
         }
 
+        /// <summary>
+        /// スタイルの並び替えを行います。
+        /// </summary>
+        /// <param name="styles">スタイル配列</param>
+        /// <returns>並び替えされた配列</returns>
+        private IEnumerable SortStyle(IEnumerable styles)
+        {
+            IEnumerable<VoicevoxStyle> voicevoxStyles = styles.OfType<VoicevoxStyle>();
+            IEnumerable<SapiStyle> sapiStyles = styles.OfType<SapiStyle>();
+            if (voicevoxStyles.Count() > 0)
+            {
+                return voicevoxStyles.OrderBy(x => x.Name).ThenBy(x => x.ID);
+            }
+            else if (sapiStyles.Count() > 0)
+            {
+                return sapiStyles.OrderBy(x => x.Name).ThenBy(x => x.ID);
+            }
+            else { return new object[0]; }
+        }
 
         #endregion
 
@@ -449,5 +492,15 @@ namespace StyleRegistrationTool.ViewModel
         }
 
         #endregion
+
+        /// <summary>
+        /// インストール時に表示されるダイアログの押されたボタンを表す列挙型
+        /// </summary>
+        private enum InstallerDialogResult
+        {
+            SelectStyle,
+            AllStyle,
+            DefaultStyle,
+        }
     }
 }
