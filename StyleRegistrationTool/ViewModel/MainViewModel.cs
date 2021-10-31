@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json.Linq;
 using SAPIForVOICEVOX;
 using StyleRegistrationTool.Model;
@@ -258,6 +259,7 @@ namespace StyleRegistrationTool.ViewModel
 
         private void OkCommandExecute()
         {
+            RegistrationToWindowsRegistry();
             MainWindow.Close();
         }
 
@@ -461,6 +463,73 @@ namespace StyleRegistrationTool.ViewModel
             }
             else { return new object[0]; }
         }
+
+        #region レジストリ関連
+
+        const string tokensRegKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
+        const string regAttributes = "Attributes";
+        const string regSpeakerNumber = "SpeakerNumber";
+        const string regClsid = "CLSID";
+        const string regName = "Name";
+        const string regStyleName = "StyleName";
+
+        /// <summary>
+        /// Windowsのレジストリにスタイルを登録します。
+        /// </summary>
+        private void RegistrationToWindowsRegistry()
+        {
+            ClearStyleFromWindowsRegistry();
+
+            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
+            {
+                for (int i = 0; i < SapiStyles.Count(); i++)
+                {
+                    using (RegistryKey voiceVoxRegkey = regTokensKey.CreateSubKey("VOICEVOX" + i.ToString()))
+                    {
+                        voiceVoxRegkey.SetValue("", SapiStyles[i].SpaiName);
+                        voiceVoxRegkey.SetValue("411", SapiStyles[i].SpaiName);
+                        voiceVoxRegkey.SetValue(regClsid, VoiceVoxTTSEngine.CLSID.ToString("B"));
+                        voiceVoxRegkey.SetValue(regSpeakerNumber, SapiStyles[i].ID);
+                        voiceVoxRegkey.SetValue(regName, SapiStyles[i].Name);
+                        voiceVoxRegkey.SetValue(regStyleName, SapiStyles[i].StyleName);
+
+                        using (RegistryKey AttributesRegkey = voiceVoxRegkey.CreateSubKey(regAttributes))
+                        {
+                            AttributesRegkey.SetValue("Age", "Teen");
+                            AttributesRegkey.SetValue("Vendor", "Hiroshiba Kazuyuki");
+                            AttributesRegkey.SetValue("Language", "411");
+                            AttributesRegkey.SetValue("Gender", "Female");
+                            AttributesRegkey.SetValue("Name", SapiStyles[i].SpaiName);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Windowsのレジストリから、SAPIForVOICEVOXのスピーカー情報を削除します。
+        /// </summary>
+        private void ClearStyleFromWindowsRegistry()
+        {
+            //SAPIForVOICEVOXのトークンを表すキーの列挙
+            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
+            {
+                string[] tokenNames = regTokensKey.GetSubKeyNames();
+                foreach (string tokenName in tokenNames)
+                {
+                    using (RegistryKey tokenKey = regTokensKey.OpenSubKey(tokenName))
+                    {
+                        string clsid = (string)tokenKey.GetValue("CLSID");
+                        if (clsid == VoiceVoxTTSEngine.CLSID.ToString("B"))
+                        {
+                            regTokensKey.DeleteSubKeyTree(tokenName);
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion レジストリ関連
 
         #endregion
 
