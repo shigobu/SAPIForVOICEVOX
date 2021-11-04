@@ -206,6 +206,10 @@ namespace StyleRegistrationTool.ViewModel
                 mainWindow.Close();
                 return;
             }
+
+            //SAPI側の情報取得
+            SapiStyle[] sapiStyles = GetSapiStyles();
+            SapiStyles = new ObservableCollection<SapiStyle>(sapiStyles);
         }
 
         /// <summary>
@@ -519,7 +523,7 @@ namespace StyleRegistrationTool.ViewModel
                 {
                     using (RegistryKey tokenKey = regTokensKey.OpenSubKey(tokenName))
                     {
-                        string clsid = (string)tokenKey.GetValue("CLSID");
+                        string clsid = (string)tokenKey.GetValue(regClsid);
                         if (clsid == VoiceVoxTTSEngine.CLSID.ToString("B"))
                         {
                             regTokensKey.DeleteSubKeyTree(tokenName);
@@ -527,6 +531,38 @@ namespace StyleRegistrationTool.ViewModel
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// レジストリに登録されているSAPIの話者情報を取得します。
+        /// </summary>
+        /// <returns></returns>
+        private SapiStyle[] GetSapiStyles()
+        {
+            List<SapiStyle> sapiStyles = new List<SapiStyle>();
+
+            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
+            {
+                string[] tokenNames = regTokensKey.GetSubKeyNames();
+                foreach (string tokenName in tokenNames)
+                {
+                    using (RegistryKey tokenKey = regTokensKey.OpenSubKey(tokenName))
+                    {
+                        string clsid = (string)tokenKey.GetValue(regClsid);
+                        string name = (string)tokenKey.GetValue(regName);
+                        if (clsid == VoiceVoxTTSEngine.CLSID.ToString("B") &&
+                            name != null)
+                        {
+                            string styleName = (string)tokenKey.GetValue(regStyleName);
+                            int id = (int)tokenKey.GetValue(regSpeakerNumber);
+                            SapiStyle sapiStyle = new SapiStyle(name, styleName, id, new Guid(clsid));
+                            sapiStyles.Add(sapiStyle);
+                        }
+                    }
+                }
+            }
+
+            return sapiStyles.ToArray();
         }
 
         #endregion レジストリ関連
