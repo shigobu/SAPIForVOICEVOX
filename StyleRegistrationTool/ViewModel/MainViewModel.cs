@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json.Linq;
-using SAPIForVOICEVOX;
+using SFVvCommon;
 using StyleRegistrationTool.Model;
 using System;
 using System.Collections;
@@ -11,8 +11,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -274,7 +272,7 @@ namespace StyleRegistrationTool.ViewModel
         {
             foreach (var item in VoicevoxStyle_SelectedItems)
             {
-                SapiStyle sapiStyle = new SapiStyle(item, VoiceVoxTTSEngine.CLSID);
+                SapiStyle sapiStyle = new SapiStyle(item, Common.CLSID);
                 if (!SapiStyles.Contains(sapiStyle))
                 {
                     SapiStyles.Add(sapiStyle);
@@ -303,7 +301,7 @@ namespace StyleRegistrationTool.ViewModel
             SapiStyles.Clear();
             foreach (var item in VoicevoxStyles)
             {
-                SapiStyle sapiStyle = new SapiStyle(item, VoiceVoxTTSEngine.CLSID);
+                SapiStyle sapiStyle = new SapiStyle(item, Common.CLSID);
                 SapiStyles.Add(sapiStyle);
             }
         }
@@ -482,7 +480,7 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void RegistrationToWindowsRegistry()
         {
-            ClearStyleFromWindowsRegistry();
+            Common.ClearStyleFromWindowsRegistry();
 
             using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
             {
@@ -492,7 +490,7 @@ namespace StyleRegistrationTool.ViewModel
                     {
                         voiceVoxRegkey.SetValue("", SapiStyles[i].SpaiName);
                         voiceVoxRegkey.SetValue("411", SapiStyles[i].SpaiName);
-                        voiceVoxRegkey.SetValue(regClsid, VoiceVoxTTSEngine.CLSID.ToString("B"));
+                        voiceVoxRegkey.SetValue(regClsid, Common.CLSID.ToString("B"));
                         voiceVoxRegkey.SetValue(regSpeakerNumber, SapiStyles[i].ID);
                         voiceVoxRegkey.SetValue(regName, SapiStyles[i].Name);
                         voiceVoxRegkey.SetValue(regStyleName, SapiStyles[i].StyleName);
@@ -504,29 +502,6 @@ namespace StyleRegistrationTool.ViewModel
                             AttributesRegkey.SetValue("Language", "411");
                             AttributesRegkey.SetValue("Gender", "Female");
                             AttributesRegkey.SetValue("Name", SapiStyles[i].SpaiName);
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Windowsのレジストリから、SAPIForVOICEVOXのスピーカー情報を削除します。
-        /// </summary>
-        private void ClearStyleFromWindowsRegistry()
-        {
-            //SAPIForVOICEVOXのトークンを表すキーの列挙
-            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
-            {
-                string[] tokenNames = regTokensKey.GetSubKeyNames();
-                foreach (string tokenName in tokenNames)
-                {
-                    using (RegistryKey tokenKey = regTokensKey.OpenSubKey(tokenName))
-                    {
-                        string clsid = (string)tokenKey.GetValue(regClsid);
-                        if (clsid == VoiceVoxTTSEngine.CLSID.ToString("B"))
-                        {
-                            regTokensKey.DeleteSubKeyTree(tokenName);
                         }
                     }
                 }
@@ -550,7 +525,7 @@ namespace StyleRegistrationTool.ViewModel
                     {
                         string clsid = (string)tokenKey.GetValue(regClsid);
                         string name = (string)tokenKey.GetValue(regName);
-                        if (clsid == VoiceVoxTTSEngine.CLSID.ToString("B") &&
+                        if (clsid == Common.CLSID.ToString("B") &&
                             name != null)
                         {
                             string styleName = (string)tokenKey.GetValue(regStyleName);

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Setting;
+using SFVvCommon;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,16 +16,11 @@ using TTSEngineLib;
 
 namespace SAPIForVOICEVOX
 {
-    [Guid(guidString)]
+    [Guid(Common.guidString)]
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
     public class VoiceVoxTTSEngine : ISpTTSEngine, ISpObjectWithToken
     {
-        /// <summary>
-        /// このクラスのGUID
-        /// </summary>
-        public const string guidString = "7A1BB9C4-DF39-4E01-A8DC-20DC1A0C03C6";
-
         #region ネイティブ
 
         const ushort WAVE_FORMAT_PCM = 1;
@@ -422,11 +418,6 @@ namespace SAPIForVOICEVOX
 
 #region レジストリ関連
 
-        /// <summary>
-        /// TTSエンジンのcomで使用されるCLSID
-        /// </summary>
-        public static Guid CLSID { get; } = new Guid(guidString);
-
         const string regKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
         const string regName1 = "VOICEVOX1";
         const string regName2 = "VOICEVOX2";
@@ -446,7 +437,7 @@ namespace SAPIForVOICEVOX
                 registryKey.SetValue("", "VOICEVOX 四国めたん");
                 registryKey.SetValue("411", "VOICEVOX 四国めたん");
                 //B書式指定子は中かっこ"{"で囲われる
-                registryKey.SetValue("CLSID", CLSID.ToString("B"));
+                registryKey.SetValue("CLSID", Common.CLSID.ToString("B"));
                 registryKey.SetValue(regSpeakerNumber, 0);
             }
             using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName1 + @"\" + regAttributes))
@@ -464,7 +455,7 @@ namespace SAPIForVOICEVOX
                 registryKey.SetValue("", "VOICEVOX ずんだもん");
                 registryKey.SetValue("411", "VOICEVOX ずんだもん");
                 //B書式指定子は中かっこ"{"で囲われる
-                registryKey.SetValue("CLSID", CLSID.ToString("B"));
+                registryKey.SetValue("CLSID", Common.CLSID.ToString("B"));
                 registryKey.SetValue(regSpeakerNumber, 1);
             }
             using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName2 + @"\" + regAttributes))
@@ -484,8 +475,7 @@ namespace SAPIForVOICEVOX
         [ComUnregisterFunction()]
         public static void UnregisterClass(string key)
         {
-            Registry.LocalMachine.DeleteSubKeyTree(regKey + regName1);
-            Registry.LocalMachine.DeleteSubKeyTree(regKey + regName2);
+            Common.ClearStyleFromWindowsRegistry();
         }
 
 #endregion
