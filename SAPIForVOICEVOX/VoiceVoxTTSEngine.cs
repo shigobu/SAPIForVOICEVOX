@@ -436,8 +436,7 @@ namespace SAPIForVOICEVOX
             {
                 registryKey.SetValue("", "VOICEVOX 四国めたん");
                 registryKey.SetValue("411", "VOICEVOX 四国めたん");
-                //B書式指定子は中かっこ"{"で囲われる
-                registryKey.SetValue("CLSID", Common.CLSID.ToString("B"));
+                registryKey.SetValue("CLSID", Common.CLSID.ToString(Common.RegClsidFormatString));
                 registryKey.SetValue(regSpeakerNumber, 0);
             }
             using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName1 + @"\" + regAttributes))
@@ -454,8 +453,7 @@ namespace SAPIForVOICEVOX
             {
                 registryKey.SetValue("", "VOICEVOX ずんだもん");
                 registryKey.SetValue("411", "VOICEVOX ずんだもん");
-                //B書式指定子は中かっこ"{"で囲われる
-                registryKey.SetValue("CLSID", Common.CLSID.ToString("B"));
+                registryKey.SetValue("CLSID", Common.CLSID.ToString(Common.RegClsidFormatString));
                 registryKey.SetValue(regSpeakerNumber, 1);
             }
             using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName2 + @"\" + regAttributes))
@@ -569,7 +567,7 @@ namespace SAPIForVOICEVOX
         /// <param name="out_min">変換後の範囲の下限</param>
         /// <param name="out_max">変換後の範囲の上限</param>
         /// <returns>変換結果</returns>
-        double Map(double x, double in_min, double in_max, double out_min, double out_max)
+        private double Map(double x, double in_min, double in_max, double out_min, double out_max)
         {
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }

@@ -490,7 +490,7 @@ namespace StyleRegistrationTool.ViewModel
                     {
                         voiceVoxRegkey.SetValue("", SapiStyles[i].SpaiName);
                         voiceVoxRegkey.SetValue("411", SapiStyles[i].SpaiName);
-                        voiceVoxRegkey.SetValue(regClsid, Common.CLSID.ToString("B"));
+                        voiceVoxRegkey.SetValue(regClsid, SapiStyles[i].CLSID.ToString(Common.RegClsidFormatString));
                         voiceVoxRegkey.SetValue(regSpeakerNumber, SapiStyles[i].ID);
                         voiceVoxRegkey.SetValue(regName, SapiStyles[i].Name);
                         voiceVoxRegkey.SetValue(regStyleName, SapiStyles[i].StyleName);
@@ -525,7 +525,7 @@ namespace StyleRegistrationTool.ViewModel
                     {
                         string clsid = (string)tokenKey.GetValue(regClsid);
                         string name = (string)tokenKey.GetValue(regName);
-                        if (clsid == Common.CLSID.ToString("B") &&
+                        if (clsid == Common.CLSID.ToString(Common.RegClsidFormatString) &&
                             name != null)
                         {
                             string styleName = (string)tokenKey.GetValue(regStyleName);
