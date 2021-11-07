@@ -174,7 +174,12 @@ namespace Setting
             RaisePropertyChanged(null); 
 
             BatchParameter = new SynthesisParameter();
-            SpeakerParameter = new SynthesisParameter[2] { new SynthesisParameter(), new SynthesisParameter() };
+            SpeakerParameter = new SynthesisParameter[CharacterCount];
+            for (int i = 0; i < SpeakerParameter.Length; i++)
+            {
+                SpeakerParameter[i] = new SynthesisParameter();
+            }
+            RaisePropertyChanged(nameof(SpeakerParameter));
 
             //適応ボタン有効化のための、プロパティ変更通知登録
             BatchParameter.PropertyChanged += ViewModel_PropertyChanged;
