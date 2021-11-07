@@ -81,7 +81,7 @@ The CMU Pronouncing Dictionary(http://www.speech.cs.cmu.edu/cgi-bin/cmudict)
 ## ライセンス
 このアプリのライセンスは、「MIT License」です。
 
-また、VOICEVOX本体及び各音声ライブラリの利用規約にも従ってください。
+また、VOICEVOX本体及び各音声ライブラリの利用規約にも従ってください。  
 [ずんだもん、四国めたん音源利用規約](https://zunko.jp/con_ongen_kiyaku.html)
 
 ## 開発環境
