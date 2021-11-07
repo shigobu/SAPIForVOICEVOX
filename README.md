@@ -78,6 +78,12 @@ The CMU Pronouncing Dictionary(http://www.speech.cs.cmu.edu/cgi-bin/cmudict)
 エラー音声には、VOICEVOXの「四国めたん」の音声を使用しています。  
 エラー発生時には、予めVOICEVOXを使用し保存していたwavファイルを再生して、通知を行っています。
 
+## ライセンス
+このアプリのライセンスは、「MIT License」です。
+
+また、VOICEVOX本体及び各音声ライブラリの利用規約にも従ってください。
+[ずんだもん、四国めたん音源利用規約](https://zunko.jp/con_ongen_kiyaku.html)
+
 ## 開発環境
 Microsoft Visual Studio Community 2019  
 C#・C++
