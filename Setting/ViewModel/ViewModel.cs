@@ -101,7 +101,7 @@ namespace Setting
         }
 
 
-        private SynthesisParameter[] _SpeakerParameter = { new SynthesisParameter(), new SynthesisParameter() };
+        private SynthesisParameter[] _SpeakerParameter = new SynthesisParameter[CharacterCount];
         /// <summary>
         /// 各キャラクター調声設定
         /// </summary>
@@ -414,7 +414,7 @@ namespace Setting
             Mutex mutex = new Mutex(false, MutexName);
             try
             {
-                //ミューテックス取得
+                //同じファイルを同時に操作しないために、ミューテックスを使用
                 mutex.WaitOne();
 
                 var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter[]));
@@ -427,6 +427,17 @@ namespace Setting
                 {
                     //結果上書き
                     result = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
+                    if (result.Length < CharacterCount)
+                    {
+                        Array.Resize(ref result, CharacterCount);
+                        for (int i = 0; i < result.Length; i++)
+                        {
+                            if (result[i] == null)
+                            {
+                                result[i] = new SynthesisParameter();
+                            }
+                        }
+                    }
                 }
                 return result;
             }

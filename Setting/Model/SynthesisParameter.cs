@@ -114,21 +114,6 @@ namespace Setting
                 RaisePropertyChanged();
             }
         }
-
-        #region 演算子
-
-        public static bool operator ==(SynthesisParameter synthesisParameter1, SynthesisParameter synthesisParameter2)
-        {
-            return synthesisParameter1.Equals(synthesisParameter2);
-        }
-
-        public static bool operator !=(SynthesisParameter synthesisParameter1, SynthesisParameter synthesisParameter2)
-        {
-            return !synthesisParameter1.Equals(synthesisParameter2);
-        }
-
-        #endregion
-
     }
 
 }
