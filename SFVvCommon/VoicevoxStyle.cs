@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace StyleRegistrationTool.Model
+namespace SFVvCommon
 {
     /// <summary>
     /// VOICEVOX側のスタイル情報を表します。
     /// </summary>
-    class VoicevoxStyle
+    public class VoicevoxStyle
     {
         /// <summary>
         /// スタイル情報を初期化します。

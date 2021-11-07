@@ -44,7 +44,7 @@ namespace StyleRegistrationTool
 
         private void VoicevoxStyleList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            viewModel.VoicevoxStyle_SelectedItems = VoicevoxStyleList.SelectedItems.Cast<VoicevoxStyle>();
+            viewModel.VoicevoxStyle_SelectedItems = VoicevoxStyleList.SelectedItems.Cast<SFVvCommon.VoicevoxStyle>();
         }
 
         private void SapiStyleList_SelectionChanged(object sender, SelectionChangedEventArgs e)

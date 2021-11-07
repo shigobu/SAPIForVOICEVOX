@@ -141,5 +141,11 @@
   <ItemGroup>
     <Resource Include="icon\settings.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SFVvCommon\SFVvCommon.csproj">
+      <Project>{43723cd5-50fe-4be9-b8b7-7b08e3f2156c}</Project>
+      <Name>SFVvCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

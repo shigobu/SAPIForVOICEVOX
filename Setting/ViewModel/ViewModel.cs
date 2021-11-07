@@ -201,7 +201,7 @@ namespace Setting
         const string BatchParameterSettingXMLFileName = "BatchParameter.xml";
         const string SpeakerParameterSettingXMLFileName = "SpeakerParameter.xml";
 
-        const int CharacterCount = 2;
+        const int CharacterCount = 100;
 
 #if x64
         const string MutexName = "SAPIForVOICEVOX64bit";
