@@ -105,10 +105,6 @@ namespace SetupCustomActions
 
             // 起動
             process.Start();
-
-            // プロセス終了まで待機する
-            process.WaitForExit();
-            process.Close();
         }
 
         /// <summary>
