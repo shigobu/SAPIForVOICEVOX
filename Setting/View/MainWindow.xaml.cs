@@ -3,6 +3,7 @@ using SFVvCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,6 +23,51 @@ namespace Setting
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region 最大化ボタン無効化
+
+        /// <summary>
+        /// ウィンドウに関するデータを取得
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="nIndex"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        /// <summary>
+        /// ウィンドウの属性を変更
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="nIndex"></param>
+        /// <param name="dwNewLong"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        /// <summary>
+        /// ウィンドウスタイル
+        /// </summary>
+        private const int GWL_STYLE = -16;
+
+        /// <summary>
+        /// 最大化ボタン
+        /// </summary>
+        private const int WS_MAXIMIZEBOX = 0x0001_0000; // C#7より前の場合は 0x00010000
+
+        /// <summary>
+        /// 初期化時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper((Window)sender).Handle;
+            int value = GetWindowLong(hwnd, GWL_STYLE);
+            SetWindowLong(hwnd, GWL_STYLE, (int)(value & ~WS_MAXIMIZEBOX));
+        }
+
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
@@ -97,7 +143,7 @@ namespace Setting
                 if (tabItems.Count() == 0)
                 {
                     Binding binding = new Binding("IsChecked");
-                    binding.ElementName = "parCharacterRadioButton";
+                    binding.ElementName = nameof(parCharacterRadioButton);
                     binding.Converter = new BooleanToVisibilityConverter();
                     TabItem tabItem = new TabItem();
                     tabItem.Header = style.Name;
@@ -114,7 +160,7 @@ namespace Setting
                 }
 
                 VoicevoxParameterSlider parameterSlider = new VoicevoxParameterSlider();
-                parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, $"SpeakerParameter[{style.ID}]");
+                parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(ViewModel.SpeakerParameter) + $"[{style.ID}]");
 
                 TabItem styleTabItem = new TabItem();
                 styleTabItem.Header = style.StyleName;
@@ -127,10 +173,10 @@ namespace Setting
         private void AddTabDefault()
         {
             VoicevoxParameterSlider parameterSlider = new VoicevoxParameterSlider();
-            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, "SpeakerParameter[0]");
+            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(ViewModel.SpeakerParameter) + "[0]");
 
             Binding binding = new Binding("IsChecked");
-            binding.ElementName = "parCharacterRadioButton";
+            binding.ElementName = nameof(parCharacterRadioButton);
             binding.Converter = new BooleanToVisibilityConverter();
             TabItem tabItem = new TabItem();
             tabItem.Header = "四国めたん";
@@ -140,7 +186,7 @@ namespace Setting
             mainTab.Items.Add(tabItem);
 
             parameterSlider = new VoicevoxParameterSlider();
-            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, "SpeakerParameter[1]");
+            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(ViewModel.SpeakerParameter) + "[1]");
 
             tabItem = new TabItem();
             tabItem.Header = "ずんだもん";
