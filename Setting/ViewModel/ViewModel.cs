@@ -101,7 +101,7 @@ namespace Setting
         }
 
 
-        private SynthesisParameter[] _SpeakerParameter = { new SynthesisParameter(), new SynthesisParameter() };
+        private SynthesisParameter[] _SpeakerParameter = new SynthesisParameter[CharacterCount];
         /// <summary>
         /// 各キャラクター調声設定
         /// </summary>
@@ -174,7 +174,12 @@ namespace Setting
             RaisePropertyChanged(null); 
 
             BatchParameter = new SynthesisParameter();
-            SpeakerParameter = new SynthesisParameter[2] { new SynthesisParameter(), new SynthesisParameter() };
+            SpeakerParameter = new SynthesisParameter[CharacterCount];
+            for (int i = 0; i < SpeakerParameter.Length; i++)
+            {
+                SpeakerParameter[i] = new SynthesisParameter();
+            }
+            RaisePropertyChanged(nameof(SpeakerParameter));
 
             //適応ボタン有効化のための、プロパティ変更通知登録
             BatchParameter.PropertyChanged += ViewModel_PropertyChanged;
@@ -201,7 +206,7 @@ namespace Setting
         const string BatchParameterSettingXMLFileName = "BatchParameter.xml";
         const string SpeakerParameterSettingXMLFileName = "SpeakerParameter.xml";
 
-        const int CharacterCount = 2;
+        const int CharacterCount = 100;
 
 #if x64
         const string MutexName = "SAPIForVOICEVOX64bit";
@@ -414,7 +419,7 @@ namespace Setting
             Mutex mutex = new Mutex(false, MutexName);
             try
             {
-                //ミューテックス取得
+                //同じファイルを同時に操作しないために、ミューテックスを使用
                 mutex.WaitOne();
 
                 var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter[]));
@@ -427,6 +432,17 @@ namespace Setting
                 {
                     //結果上書き
                     result = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
+                    if (result.Length < CharacterCount)
+                    {
+                        Array.Resize(ref result, CharacterCount);
+                        for (int i = 0; i < result.Length; i++)
+                        {
+                            if (result[i] == null)
+                            {
+                                result[i] = new SynthesisParameter();
+                            }
+                        }
+                    }
                 }
                 return result;
             }

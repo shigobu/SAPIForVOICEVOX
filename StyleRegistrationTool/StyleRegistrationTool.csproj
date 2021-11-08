@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{91B73544-CF6A-4453-9AA8-9949D474E2B4}</ProjectGuid>
+    <ProjectGuid>{9FB0F305-CE4F-4D33-B968-6F861ECDBA8F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Setting</RootNamespace>
-    <AssemblyName>Setting</AssemblyName>
+    <RootNamespace>StyleRegistrationTool</RootNamespace>
+    <AssemblyName>StyleRegistrationTool</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -59,11 +59,19 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon\settings.ico</ApplicationIcon>
+    <ApplicationIcon>icon\users-alt.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net462\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -82,15 +90,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converter\ParameterValueModeToBool.cs" />
-    <Compile Include="Converter\SynthesisSettingModeToBool.cs" />
-    <Compile Include="Model\GeneralSetting.cs" />
-    <Compile Include="Model\SynthesisParameter.cs" />
-    <Compile Include="Model\ParameterValueMode.cs" />
-    <Compile Include="Model\SynthesisSettingMode.cs" />
-    <Compile Include="ViewModel\ViewModel.cs" />
-    <Compile Include="View\voicevoxParameterSlider.xaml.cs">
-      <DependentUpon>voicevoxParameterSlider.xaml</DependentUpon>
+    <Compile Include="Model\SapiStyle.cs" />
+    <Compile Include="View\WaitingCircle.xaml.cs">
+      <DependentUpon>WaitingCircle.xaml</DependentUpon>
     </Compile>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -100,13 +102,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converter\DoubleStringConverter.cs" />
-    <Compile Include="Converter\DoubleStringConverter2.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\voicevoxParameterSlider.xaml">
+    <Page Include="View\WaitingCircle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -130,6 +131,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -139,13 +141,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon\settings.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SFVvCommon\SFVvCommon.csproj">
       <Project>{43723cd5-50fe-4be9-b8b7-7b08e3f2156c}</Project>
       <Name>SFVvCommon</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon\License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon\users-alt.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

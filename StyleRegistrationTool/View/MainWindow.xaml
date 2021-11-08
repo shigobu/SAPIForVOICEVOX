@@ -1,0 +1,63 @@
+﻿<Window x:Class="StyleRegistrationTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StyleRegistrationTool.View"
+        xmlns:viewModel="clr-namespace:StyleRegistrationTool.ViewModel"
+        d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel}"
+        mc:Ignorable="d"
+        Title="スタイル登録ツール " Height="450" Width="500" MinWidth="350" MinHeight="350" WindowStartupLocation="CenterScreen" Icon="/StyleRegistrationTool;component/icon/users-alt.ico">
+    <Grid Margin="5">
+        <!--メイン画面-->
+        <Grid IsEnabled="{Binding IsMainWindowEnabled}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="AUTO"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="3,3,3,0" Text="VOICEVOX"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Margin="3,3,3,0" Text="SAPI"/>
+            <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,0">
+                <Button Margin="3" Width="70" IsDefault="True" Command="{Binding OkCommand}">OK</Button>
+                <Button Margin="3" Width="70" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="1" Margin="3" Width="100" VerticalAlignment="Center">
+                <Button Margin="3, 3, 3, 30" Command="{Binding AllAddCommand}">すべて追加＞＞</Button>
+                <Button Margin="3" Command="{Binding AddCommand}">追加 ＞＞</Button>
+                <Button Margin="3" Command="{Binding RemoveCommand}">削除 ＜＜</Button>
+                <Button Margin="3, 30, 3, 3" Command="{Binding AllRemoveCommand}">すべて削除＜＜</Button>
+            </StackPanel>
+            <ListView x:Name="VoicevoxStyleList" Grid.Row="1" Grid.Column="0" Margin="3" ItemsSource="{Binding VoicevoxStyles}" SelectionChanged="VoicevoxStyleList_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="キャラ" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="スタイル" DisplayMemberBinding="{Binding StyleName}"/>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
+                    </GridView>
+                </ListView.View>
+
+            </ListView>
+            <ListView x:Name="SapiStyleList" Grid.Row="1" Grid.Column="2" Margin="3" ItemsSource="{Binding SapiStyles}" SelectionChanged="SapiStyleList_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="キャラ" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="スタイル" DisplayMemberBinding="{Binding StyleName}"/>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
+                    </GridView>
+                </ListView.View>
+
+            </ListView>
+        </Grid>
+        <!--待機ぐるぐる画面-->
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding WaitCircleVisibility}" Background="White">
+            <local:WaitingCircle Width="100" Height="100"/>
+            <TextBlock Text="VOICEVOXへ接続中" FontSize="15"/>
+        </StackPanel>
+    </Grid>
+</Window>

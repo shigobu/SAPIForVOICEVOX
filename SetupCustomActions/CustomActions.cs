@@ -24,6 +24,8 @@ namespace SetupCustomActions
             base.Install(stateSaver);
 
             RegisterDLL(RegisterType.Register);
+
+            ExecuteStyleRegistrationTool();
         }
 
         /// <summary>
@@ -86,6 +88,23 @@ namespace SetupCustomActions
             // プロセス終了まで待機する
             process.WaitForExit();
             process.Close();
+        }
+
+        private void ExecuteStyleRegistrationTool()
+        {
+            string installDirectory = this.Context.Parameters["dir"];
+            string targetExeName = "StyleRegistrationTool.exe";
+            string targetExePath = Path.Combine(installDirectory, targetExeName);
+
+            Process process = new Process();
+            process.StartInfo.FileName = targetExePath;
+
+            //コマンドライン引数の作成
+            string arguments = "/install";
+            process.StartInfo.Arguments = arguments;
+
+            // 起動
+            process.Start();
         }
 
         /// <summary>
