@@ -98,3 +98,14 @@ C#・C++
 
 インストーラのビルドには、「Microsoft Visual Studio Installer Projects」の拡張機能が必要です。  
 Visual Studioの「ツール」→「拡張機能」からインストールしてください。  
+
+## フォルダ構成
+SAPIForVOICEVOX：本体  
+SAPIGetStaticValueLib：必要な定数を取得するc++のライブラリ  
+SFVvCommon：C#で使用する共通ライブラリ  
+Setting：設定アプリ  
+Setup：32bitインストーラ  
+Setup64：64bitインストーラ  
+SetupCustomActions：インストーラのカスタムアクション  
+StyleRegistrationTool：スタイル登録ツール  
+
