@@ -515,7 +515,7 @@ namespace StyleRegistrationTool.ViewModel
                 }
             }
 
-            return sapiStyles.ToArray();
+            return Common.SortStyle(sapiStyles).Cast<SapiStyle>().ToArray();
         }
 
         #endregion レジストリ関連
