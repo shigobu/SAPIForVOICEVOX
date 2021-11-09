@@ -427,7 +427,7 @@ namespace StyleRegistrationTool.ViewModel
                     }
                 }
             }
-            return SFVvCommon.Common.SortStyle(voicevoxStyles).OfType<VoicevoxStyle>().ToArray();
+            return Common.SortStyle(voicevoxStyles).OfType<VoicevoxStyle>().ToArray();
         }
 
         /// <summary>

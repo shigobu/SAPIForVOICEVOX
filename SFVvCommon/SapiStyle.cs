@@ -7,7 +7,7 @@ namespace SFVvCommon
     /// <summary>
     /// SAPI用のスタイル。レジストリ登録に必要なものを保持します。
     /// </summary>
-    public class SapiStyle
+    public class SapiStyle : StyleBase
     {
         /// <summary>
         /// SAPIスタイルを初期化します。
@@ -16,11 +16,8 @@ namespace SFVvCommon
         /// <param name="styleName">スタイル名</param>
         /// <param name="iD">ID</param>
         /// <param name="clsid">SAPIエンジンのクラスID</param>
-        public SapiStyle(string name, string styleName, int iD, Guid clsid)
+        public SapiStyle(string name, string styleName, int iD, Guid clsid) : base(name, styleName, iD)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            StyleName = styleName ?? throw new ArgumentNullException(nameof(styleName));
-            ID = iD;
             CLSID = clsid;
         }
 
@@ -34,16 +31,6 @@ namespace SFVvCommon
         }
 
         /// <summary>
-        /// 話者名
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// スタイル
-        /// </summary>
-        public string StyleName { get; set; }
-
-        /// <summary>
         /// sapiに表示される名前
         /// </summary>
         public string SpaiName
@@ -53,11 +40,6 @@ namespace SFVvCommon
                 return "VOICEVOX " + Name + " " + StyleName;
             }
         }
-
-        /// <summary>
-        /// ID
-        /// </summary>
-        public int ID { get; set; }
 
         /// <summary>
         /// SAPIForVOICEVOXモジュールのGuid
