@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SFVvCommon
+﻿namespace SFVvCommon
 {
     /// <summary>
     /// VOICEVOX側のスタイル情報を表します。
