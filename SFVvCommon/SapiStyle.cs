@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace StyleRegistrationTool.Model
+namespace SFVvCommon
 {
     /// <summary>
     /// SAPI用のスタイル。レジストリ登録に必要なものを保持します。
     /// </summary>
-    class SapiStyle
+    public class SapiStyle
     {
         /// <summary>
         /// SAPIスタイルを初期化します。

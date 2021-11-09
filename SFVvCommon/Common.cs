@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,7 +57,24 @@ namespace SFVvCommon
 
         #endregion
 
-
-
+        /// <summary>
+        /// スタイルの並び替えを行います。
+        /// </summary>
+        /// <param name="styles">スタイル配列</param>
+        /// <returns>並び替えされた配列</returns>
+        public static IEnumerable SortStyle(IEnumerable styles)
+        {
+            IEnumerable<VoicevoxStyle> voicevoxStyles = styles.OfType<VoicevoxStyle>();
+            IEnumerable<SapiStyle> sapiStyles = styles.OfType<SapiStyle>();
+            if (voicevoxStyles.Count() > 0)
+            {
+                return voicevoxStyles.OrderBy(x => x.Name).ThenBy(x => x.ID);
+            }
+            else if (sapiStyles.Count() > 0)
+            {
+                return sapiStyles.OrderBy(x => x.Name).ThenBy(x => x.ID);
+            }
+            else { return new object[0]; }
+        }
     }
 }

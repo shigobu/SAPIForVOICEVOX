@@ -2,7 +2,6 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json.Linq;
 using SFVvCommon;
-using StyleRegistrationTool.Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -278,7 +277,7 @@ namespace StyleRegistrationTool.ViewModel
                     SapiStyles.Add(sapiStyle);
                 }
             }
-            SapiStyles = new ObservableCollection<SapiStyle>(SortStyle(SapiStyles).OfType<SapiStyle>());
+            SapiStyles = new ObservableCollection<SapiStyle>(Common.SortStyle(SapiStyles).OfType<SapiStyle>());
         }
 
         /// <summary>
@@ -428,7 +427,7 @@ namespace StyleRegistrationTool.ViewModel
                     }
                 }
             }
-            return SortStyle(voicevoxStyles).OfType<VoicevoxStyle>().ToArray();
+            return SFVvCommon.Common.SortStyle(voicevoxStyles).OfType<VoicevoxStyle>().ToArray();
         }
 
         /// <summary>
@@ -444,26 +443,6 @@ namespace StyleRegistrationTool.ViewModel
             }
             AllAddCommandExecute();
             OkCommandExecute();
-        }
-
-        /// <summary>
-        /// スタイルの並び替えを行います。
-        /// </summary>
-        /// <param name="styles">スタイル配列</param>
-        /// <returns>並び替えされた配列</returns>
-        private IEnumerable SortStyle(IEnumerable styles)
-        {
-            IEnumerable<VoicevoxStyle> voicevoxStyles = styles.OfType<VoicevoxStyle>();
-            IEnumerable<SapiStyle> sapiStyles = styles.OfType<SapiStyle>();
-            if (voicevoxStyles.Count() > 0)
-            {
-                return voicevoxStyles.OrderBy(x => x.Name).ThenBy(x => x.ID);
-            }
-            else if (sapiStyles.Count() > 0)
-            {
-                return sapiStyles.OrderBy(x => x.Name).ThenBy(x => x.ID);
-            }
-            else { return new object[0]; }
         }
 
         #region レジストリ関連
