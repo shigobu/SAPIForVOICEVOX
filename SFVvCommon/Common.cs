@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,7 +57,14 @@ namespace SFVvCommon
 
         #endregion
 
-
-
+        /// <summary>
+        /// スタイルの並び替えを行います。
+        /// </summary>
+        /// <param name="styles">スタイル配列</param>
+        /// <returns>並び替えされた配列</returns>
+        public static IEnumerable<StyleBase> SortStyle(IEnumerable<StyleBase> styles)
+        {
+            return styles.OrderBy(x => x.Name, new StyleComparer()).ThenBy(x => x.ID);
+        }
     }
 }

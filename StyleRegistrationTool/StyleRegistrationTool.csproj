@@ -90,7 +90,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\SapiStyle.cs" />
     <Compile Include="View\WaitingCircle.xaml.cs">
       <DependentUpon>WaitingCircle.xaml</DependentUpon>
     </Compile>
@@ -151,6 +150,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon\users-alt.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Licence\WindowsAPICodePackLicence.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -125,7 +125,7 @@ namespace Setting
                 }
             }
 
-            styles = styles.OrderBy(x => x.Name).ThenBy(x => x.ID).ToList();
+            styles = Common.SortStyle(styles).OfType<VoicevoxStyle>().ToList();
 
             foreach (var style in styles)
             {
