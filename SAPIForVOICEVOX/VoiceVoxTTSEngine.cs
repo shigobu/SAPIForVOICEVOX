@@ -13,6 +13,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using TTSEngineLib;
+using NAudio.MediaFoundation;
+using NAudio.Wave;
 
 namespace SAPIForVOICEVOX
 {
@@ -135,6 +137,15 @@ namespace SAPIForVOICEVOX
         /// 英語カナ辞書
         /// </summary>
         EnglishKanaDictionary engKanaDict;
+
+        const int defaultChannels = 1;
+        const int defaultSamplesPerSec = 24000;
+        const int defaultBitsPerSample = 16;
+
+        /// <summary>
+        /// 音声フォーマット
+        /// </summary>
+        WaveFormat OutWaveFormat { get; set; } = new WaveFormat(defaultSamplesPerSec, defaultBitsPerSample, defaultChannels);
 
         /// <summary>
         /// コンストラクタ
@@ -266,30 +277,31 @@ namespace SAPIForVOICEVOX
 
                         //VOICEVOXへ送信
                         //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
-                        Task<byte[]> waveDataTask = SendToVoiceVox(replaceString, SpeakerNumber, speed, pitch, intonation, volume);
-                        byte[] waveData;
-                        try
+                        using (WaveFileReader waveFileReader = new WaveFileReader(new MemoryStream()))
                         {
-                            waveDataTask.Wait();
-                            waveData = waveDataTask.Result;
-                        }
-                        catch (AggregateException ex) when (ex.InnerException is VoiceVoxEngineException)
-                        {
-                            //エンジンエラーを通知するかどうか
-                            if (generalSetting.shouldNotifyEngineError ?? false)
+                            Task waveDataTask = SendToVoiceVox(waveFileReader, replaceString, SpeakerNumber, speed, pitch, intonation, volume);
+                            WaveFileReader waveData;
+                            try
                             {
-                                VoiceVoxEngineException voiceNotification = ex.InnerException as VoiceVoxEngineException;
-                                waveData = voiceNotification.ErrorVoice;
+                                waveDataTask.Wait();
+                                waveData = waveFileReader;
                             }
-                            else
+                            catch (AggregateException ex) when (ex.InnerException is VoiceVoxEngineException)
                             {
-                                waveData = new byte[0];
+                                //エンジンエラーを通知するかどうか
+                                if (generalSetting.shouldNotifyEngineError ?? false)
+                                {
+                                    VoiceVoxEngineException voiceNotification = ex.InnerException as VoiceVoxEngineException;
+                                    waveData = voiceNotification.ErrorVoice;
+                                }
+                                else
+                                {
+                                    waveData = null;
+                                }
                             }
+                            //書き込み
+                            writtenWavLength += OutputSiteWriteSafe(pOutputSite, waveData);
                         }
-                        waveData = DeleteHeaderFromWaveData(waveData);
-
-                        //書き込み
-                        writtenWavLength += OutputSiteWriteSafe(pOutputSite, waveData);
                     }
 
                     //次のデータを設定
@@ -307,11 +319,8 @@ namespace SAPIForVOICEVOX
             catch (AggregateException ex) when (ex.InnerException is VoiceNotificationException)
             {
                 VoiceNotificationException voiceNotification = ex.InnerException as VoiceNotificationException;
-                byte[] waveData = voiceNotification.ErrorVoice;
-                waveData = DeleteHeaderFromWaveData(waveData);
-
                 //書き込み
-                OutputSiteWriteSafe(pOutputSite, waveData);
+                OutputSiteWriteSafe(pOutputSite, voiceNotification.ErrorVoice);
             }
             catch (Exception ex)
             {
@@ -320,10 +329,34 @@ namespace SAPIForVOICEVOX
         }
 
         /// <summary>
-        /// SAPI音声出力へ、安全な書き込みを行います。
+        /// SAPI音声出力へ、WaveStreamから安全な書き込みを行います。フォーマットの変更を行います。
+        /// </summary>
+        /// <param name="pOutputSite">TTSEngineSiteオブジェクト</param>
+        /// <param name="waveStream">音声データ</param>
+        /// <returns>書き込んだバイト数</returns>
+        private uint OutputSiteWriteSafe(ISpTTSEngineSite pOutputSite, WaveStream waveStream)
+        {
+            if (waveStream == null)
+            {
+                return OutputSiteWriteSafe(pOutputSite, new byte[0]);
+            }
+
+            using (MediaFoundationResampler mediaFoundationResampler = new MediaFoundationResampler(waveStream, OutWaveFormat))
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                WaveFileWriter.WriteWavFileToStream(memoryStream, mediaFoundationResampler);
+                byte[] wavData = new byte[memoryStream.Length];
+                memoryStream.Read(wavData, 0, (int)memoryStream.Length);
+                return OutputSiteWriteSafe(pOutputSite, wavData);
+            }
+        }
+
+        /// <summary>
+        /// SAPI音声出力へ、安全な書き込みを行います。フォーマットの変更は行いません。
         /// </summary>
         /// <param name="pOutputSite">TTSEngineSiteオブジェクト</param>
         /// <param name="data">音声データ</param>
+        /// <returns>書き込んだバイト数</returns>
         private uint OutputSiteWriteSafe(ISpTTSEngineSite pOutputSite, byte[] data)
         {
             if (data is null)
@@ -355,10 +388,6 @@ namespace SAPIForVOICEVOX
             }
         }
 
-        const ushort channels = 1;
-        const uint samplesPerSec = 24000;
-        const ushort bitsPerSample = 16;
-
         /// <summary>
         /// 読み上げ指示の前に呼ばれるはず。
         /// 音声データの形式を指定する。
@@ -371,17 +400,43 @@ namespace SAPIForVOICEVOX
         {
             pOutputFormatId = GetSPDFIDWaveFormatEx();
 
+            uint targetSamplePerSec = pTargetWaveFormatEx.nSamplesPerSec;
+            uint outSamplePerSec;
+            if (8000 <= targetSamplePerSec && targetSamplePerSec <= 96000)
+            {
+                outSamplePerSec = targetSamplePerSec;
+            }
+            else
+            {
+                outSamplePerSec = defaultSamplesPerSec;
+            }
+
+            ushort channels;
+            if (pTargetWaveFormatEx.nChannels == 1 || pTargetWaveFormatEx.nChannels == 2)
+            {
+                channels = pTargetWaveFormatEx.nChannels;
+            }
+            else
+            {
+                channels = defaultChannels;
+            }
+
+            OutWaveFormat = new WaveFormat((int)outSamplePerSec, defaultBitsPerSample, channels);
+
+            WAVEFORMATEX wAVEFORMATEX = new WAVEFORMATEX
+            {
+                wFormatTag = WAVE_FORMAT_PCM,
+                nChannels = (ushort)OutWaveFormat.Channels,
+                nSamplesPerSec = (uint)OutWaveFormat.SampleRate,
+                wBitsPerSample = (ushort)OutWaveFormat.BitsPerSample,
+                cbSize = 0
+            };
+            wAVEFORMATEX.nBlockAlign = (ushort)(wAVEFORMATEX.nChannels * wAVEFORMATEX.wBitsPerSample / 8);
+            wAVEFORMATEX.nAvgBytesPerSec = wAVEFORMATEX.nSamplesPerSec * wAVEFORMATEX.nBlockAlign;
+
             //comインターフェースのラップクラス自動生成がうまく行かなかったので、unsafeでポインタを直接使用する
             unsafe
             {
-                WAVEFORMATEX wAVEFORMATEX = new WAVEFORMATEX();
-                wAVEFORMATEX.wFormatTag = WAVE_FORMAT_PCM;
-                wAVEFORMATEX.nChannels = channels;
-                wAVEFORMATEX.nSamplesPerSec = samplesPerSec;
-                wAVEFORMATEX.wBitsPerSample = bitsPerSample;
-                wAVEFORMATEX.nBlockAlign = (ushort)(wAVEFORMATEX.nChannels * wAVEFORMATEX.wBitsPerSample / 8);
-                wAVEFORMATEX.nAvgBytesPerSec = wAVEFORMATEX.nSamplesPerSec * wAVEFORMATEX.nBlockAlign;
-                wAVEFORMATEX.cbSize = 0;
                 IntPtr intPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(wAVEFORMATEX));
                 Marshal.StructureToPtr(wAVEFORMATEX, intPtr, false);
 
@@ -483,6 +538,7 @@ namespace SAPIForVOICEVOX
         /// <summary>
         /// VOICEVOXへ音声データ作成の指示を送ります。
         /// </summary>
+        /// <param name="outWaveFileReader">出力ストリーム</param>
         /// <param name="text">セリフ</param>
         /// <param name="speakerNum">話者番号</param>
         /// <param name="speedScale">話速 0.5~2.0 中央=1</param>
@@ -490,7 +546,7 @@ namespace SAPIForVOICEVOX
         /// <param name="intonation">抑揚 0~2 中央=1</param>
         /// <param name="volumeScale">音量 0.0~1.0</param>
         /// <returns>waveデータ</returns>
-        async Task<byte[]> SendToVoiceVox(string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale)
+        async Task SendToVoiceVox(WaveFileReader outWaveFileReader, string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale)
         {
             //エンジンが起動中か確認を行う
             Process[] ps = Process.GetProcessesByName("run");
@@ -539,11 +595,8 @@ namespace SAPIForVOICEVOX
                             throw new VoiceVoxEngineException();
                         }
                         //戻り値をストリームで受け取る
-                        Stream stream = await httpContent.ReadAsStreamAsync();
-                        //byte配列に変換
-                        byte[] wavData = new byte[stream.Length];
-                        stream.Read(wavData, 0, (int)stream.Length);
-                        return wavData;
+                        Stream httpStream = await httpContent.ReadAsStreamAsync();
+                        httpStream.CopyTo(outWaveFileReader);
                     }
                 }
             }
@@ -584,42 +637,6 @@ namespace SAPIForVOICEVOX
             {
                 jobject[propertyName] = value;
             }
-        }
-
-        /// <summary>
-        /// Wavデータからヘッダーを削除します。
-        /// </summary>
-        /// <param name="waveData">Wavデータ</param>
-        /// <returns>
-        /// ヘッダーの無いWavデータ。
-        /// ただのPCMデータ。
-        /// </returns>
-        public static byte[] DeleteHeaderFromWaveData(byte[] waveData)
-        {
-            if (waveData is null)
-            {
-                throw new ArgumentNullException(nameof(waveData));
-            }
-
-            //先頭にWaveのヘッダーがあるかどうかの確認
-            byte[] RIFF = { 0x52, 0x49, 0x46, 0x46 };
-            if (waveData.Length < RIFF.Length)
-            {
-                return waveData;
-            }
-            for (int i = 0; i < RIFF.Length; i++)
-            {
-                if (waveData[i] != RIFF[i])
-                {
-                    //異なる場合、そのまま返す。
-                    return waveData;
-                }
-            }
-            int wavHeaderSize = 44;
-            byte[] voiceData = new byte[waveData.Length - wavHeaderSize];
-            //waveデータからヘッダー部分を削除
-            Array.Copy(waveData, wavHeaderSize, voiceData, 0, voiceData.Length);
-            return voiceData;
         }
 
 #region 設定データ取得関連

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 
 namespace SAPIForVOICEVOX
 {
@@ -23,6 +24,6 @@ namespace SAPIForVOICEVOX
         /// <summary>
         /// エラー音声を取得、設定します。
         /// </summary>
-        public byte[] ErrorVoice { get; protected set; } = null;
+        public WaveFileReader ErrorVoice { get; protected set; } = null;
     }
 }

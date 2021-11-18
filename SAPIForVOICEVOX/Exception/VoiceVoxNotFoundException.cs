@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.IO;
 
 namespace SAPIForVOICEVOX
@@ -14,8 +15,7 @@ namespace SAPIForVOICEVOX
         public VoiceVoxNotFoundException() : base(message)
         {
             Stream stream = Properties.Resources.ボイスボックスが見つかりません;
-            ErrorVoice = new byte[stream.Length];
-            stream.Read(ErrorVoice, 0, (int)stream.Length);
+            ErrorVoice = new WaveFileReader(stream);
         }
 
         public VoiceVoxNotFoundException(Exception innerException) : base(message, innerException) { }
