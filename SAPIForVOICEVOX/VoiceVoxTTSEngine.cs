@@ -338,7 +338,7 @@ namespace SAPIForVOICEVOX
         {
             if (waveStream == null)
             {
-                return OutputSiteWriteSafe(pOutputSite, new byte[0]);
+                return 0;
             }
 
             using (MediaFoundationResampler mediaFoundationResampler = new MediaFoundationResampler(waveStream, OutWaveFormat))
@@ -361,7 +361,7 @@ namespace SAPIForVOICEVOX
         {
             if (data is null)
             {
-                data = new byte[0];
+                return 0;
             }
 
             //受け取った音声データをpOutputSiteへ書き込む
