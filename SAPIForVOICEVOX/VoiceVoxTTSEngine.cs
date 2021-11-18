@@ -400,25 +400,39 @@ namespace SAPIForVOICEVOX
         {
             pOutputFormatId = GetSPDFIDWaveFormatEx();
 
-            uint targetSamplePerSec = pTargetWaveFormatEx.nSamplesPerSec;
             uint outSamplePerSec;
-            if (8000 <= targetSamplePerSec && targetSamplePerSec <= 96000)
-            {
-                outSamplePerSec = targetSamplePerSec;
-            }
-            else
-            {
-                outSamplePerSec = defaultSamplesPerSec;
-            }
-
             ushort channels;
-            if (pTargetWaveFormatEx.nChannels == 1 || pTargetWaveFormatEx.nChannels == 2)
+            unsafe
             {
-                channels = pTargetWaveFormatEx.nChannels;
-            }
-            else
-            {
-                channels = defaultChannels;
+                fixed(WAVEFORMATEX* tempPtr = &pTargetWaveFormatEx)
+                {
+                    if (tempPtr == null)
+                    {
+                        outSamplePerSec = defaultSamplesPerSec;
+                        channels = defaultChannels;
+                    }
+                    else
+                    {
+                        uint targetSamplePerSec = pTargetWaveFormatEx.nSamplesPerSec;
+                        if (8000 <= targetSamplePerSec && targetSamplePerSec <= 96000)
+                        {
+                            outSamplePerSec = targetSamplePerSec;
+                        }
+                        else
+                        {
+                            outSamplePerSec = defaultSamplesPerSec;
+                        }
+
+                        if (pTargetWaveFormatEx.nChannels == 1 || pTargetWaveFormatEx.nChannels == 2)
+                        {
+                            channels = pTargetWaveFormatEx.nChannels;
+                        }
+                        else
+                        {
+                            channels = defaultChannels;
+                        }
+                    }
+                }
             }
 
             OutWaveFormat = new WaveFormat((int)outSamplePerSec, defaultBitsPerSample, channels);
