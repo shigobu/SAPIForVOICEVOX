@@ -277,14 +277,14 @@ namespace SAPIForVOICEVOX
 
                         //VOICEVOXへ送信
                         //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
-                        using (WaveFileReader waveFileReader = new WaveFileReader(new MemoryStream()))
+                        using (MemoryStream waveDataStream = new MemoryStream())
                         {
-                            Task waveDataTask = SendToVoiceVox(waveFileReader, replaceString, SpeakerNumber, speed, pitch, intonation, volume);
-                            WaveFileReader waveData;
+                            Task waveDataTask = SendToVoiceVox(waveDataStream, replaceString, SpeakerNumber, speed, pitch, intonation, volume);
+                            WaveFileReader waveDataReader;
                             try
                             {
                                 waveDataTask.Wait();
-                                waveData = waveFileReader;
+                                waveDataReader = new WaveFileReader(waveDataStream);
                             }
                             catch (AggregateException ex) when (ex.InnerException is VoiceVoxEngineException)
                             {
@@ -292,15 +292,15 @@ namespace SAPIForVOICEVOX
                                 if (generalSetting.shouldNotifyEngineError ?? false)
                                 {
                                     VoiceVoxEngineException voiceNotification = ex.InnerException as VoiceVoxEngineException;
-                                    waveData = voiceNotification.ErrorVoice;
+                                    waveDataReader = voiceNotification.ErrorVoice;
                                 }
                                 else
                                 {
-                                    waveData = null;
+                                    waveDataReader = null;
                                 }
                             }
                             //書き込み
-                            writtenWavLength += OutputSiteWriteSafe(pOutputSite, waveData);
+                            writtenWavLength += OutputSiteWriteSafe(pOutputSite, waveDataReader);
                         }
                     }
 
@@ -538,7 +538,7 @@ namespace SAPIForVOICEVOX
         /// <summary>
         /// VOICEVOXへ音声データ作成の指示を送ります。
         /// </summary>
-        /// <param name="outWaveFileReader">出力ストリーム</param>
+        /// <param name="outStream">出力ストリーム</param>
         /// <param name="text">セリフ</param>
         /// <param name="speakerNum">話者番号</param>
         /// <param name="speedScale">話速 0.5~2.0 中央=1</param>
@@ -546,7 +546,7 @@ namespace SAPIForVOICEVOX
         /// <param name="intonation">抑揚 0~2 中央=1</param>
         /// <param name="volumeScale">音量 0.0~1.0</param>
         /// <returns>waveデータ</returns>
-        async Task SendToVoiceVox(WaveFileReader outWaveFileReader, string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale)
+        async Task SendToVoiceVox(MemoryStream outStream, string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale)
         {
             //エンジンが起動中か確認を行う
             Process[] ps = Process.GetProcessesByName("run");
@@ -596,7 +596,7 @@ namespace SAPIForVOICEVOX
                         }
                         //戻り値をストリームで受け取る
                         Stream httpStream = await httpContent.ReadAsStreamAsync();
-                        httpStream.CopyTo(outWaveFileReader);
+                        httpStream.CopyTo(outStream);
                     }
                 }
             }
