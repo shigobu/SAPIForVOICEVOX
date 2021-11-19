@@ -339,8 +339,8 @@ namespace SAPIForVOICEVOX
             ulong wParam = (ulong)speakTargetText.Length;
             long lParam = allText.IndexOf(speakTargetText);
 #else
-            uint wParam = (uint)str.Length;
-            int lParam = currentTextList.pTextStart.IndexOf(str);
+            uint wParam = (uint)speakTargetText.Length;
+            int lParam = allText.IndexOf(speakTargetText);
 #endif
             //SPEI_SENTENCE_BOUNDARYとWORD_BOUNDARY_EVENTにのみ対応
             if ((ulongValue & SPFEI(SPEVENTENUM.SPEI_SENTENCE_BOUNDARY)) == SPFEI(SPEVENTENUM.SPEI_SENTENCE_BOUNDARY))
