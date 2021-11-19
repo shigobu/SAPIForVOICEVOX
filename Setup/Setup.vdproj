@@ -57,6 +57,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_6B7F40FCE3DF8F240B02542A8D137A12"
+        "OwnerKey" = "8:_C32AF89E34B244079C1EE119323D0CCD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_82E3E385C0EE4CCCAF1BF281C5346F1D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -64,7 +70,13 @@
         "Entry"
         {
         "MsmKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
-        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
+        "OwnerKey" = "8:_17F814DDAA3A458CB26CAA6D9ABCB11A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
+        "OwnerKey" = "8:_C32AF89E34B244079C1EE119323D0CCD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -75,14 +87,32 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
+        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A11C5257BD2301EA2691496E0021390B"
-        "OwnerKey" = "8:_1047A1E0933DB945F30D442E5BBB68BB"
+        "OwnerKey" = "8:_17F814DDAA3A458CB26CAA6D9ABCB11A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A11C5257BD2301EA2691496E0021390B"
+        "OwnerKey" = "8:_C32AF89E34B244079C1EE119323D0CCD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_A11C5257BD2301EA2691496E0021390B"
         "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A11C5257BD2301EA2691496E0021390B"
+        "OwnerKey" = "8:_1047A1E0933DB945F30D442E5BBB68BB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -95,6 +125,12 @@
         {
         "MsmKey" = "8:_C32AF89E34B244079C1EE119323D0CCD"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C7B8A4856A315D5B10247A4A8CF3CA85"
+        "OwnerKey" = "8:_C32AF89E34B244079C1EE119323D0CCD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -112,6 +148,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C7B8A4856A315D5B10247A4A8CF3CA85"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_ABEF4ADC41C64D988831EE35FB55C9F6"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -124,25 +166,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A11C5257BD2301EA2691496E0021390B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_6B7F40FCE3DF8F240B02542A8D137A12"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
+        "OwnerKey" = "8:_17F814DDAA3A458CB26CAA6D9ABCB11A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_17F814DDAA3A458CB26CAA6D9ABCB11A"
+        "OwnerKey" = "8:_A11C5257BD2301EA2691496E0021390B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -500,6 +542,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C7B8A4856A315D5B10247A4A8CF3CA85"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C7B8A4856A315D5B10247A4A8CF3CA85"
+                    {
+                    "Name" = "8:Microsoft.WindowsAPICodePack.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.WindowsAPICodePack.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -578,15 +651,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX32"
-        "ProductCode" = "8:{7C6C09E1-1C36-41E6-94E9-4AC61ADB6ACD}"
-        "PackageCode" = "8:{81D4E4DA-526C-4828-9244-BCD3059EC90F}"
+        "ProductCode" = "8:{812EE36E-DD54-42CC-AB03-1FDF34784EED}"
+        "PackageCode" = "8:{B5213D87-2D0C-4D32-BD41-8F57D88F823A}"
         "UpgradeCode" = "8:{8EEDF03C-0AFA-4727-87B5-8DF30280E85C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.0"
+        "ProductVersion" = "8:1.2.1"
         "Manufacturer" = "8:Shigobu"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1100,7 +1173,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_17F814DDAA3A458CB26CAA6D9ABCB11A"
             {
-            "SourcePath" = "8:..\\Setting\\obj\\x64\\Release\\Setting.exe"
+            "SourcePath" = "8:..\\Setting\\obj\\x86\\Release\\Setting.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
@@ -1184,7 +1257,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C32AF89E34B244079C1EE119323D0CCD"
             {
-            "SourcePath" = "8:..\\StyleRegistrationTool\\obj\\x64\\Release\\StyleRegistrationTool.exe"
+            "SourcePath" = "8:..\\StyleRegistrationTool\\obj\\x86\\Release\\StyleRegistrationTool.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
