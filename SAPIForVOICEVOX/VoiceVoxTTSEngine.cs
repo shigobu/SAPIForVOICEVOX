@@ -226,7 +226,7 @@ namespace SAPIForVOICEVOX
                         //SAPIイベント
                         if (generalSetting.useSspiEvent ?? false)
                         {
-                            AddEventToSAPI(pOutputSite, currentTextList, str, writtenWavLength);
+                            AddEventToSAPI(pOutputSite, currentTextList.pTextStart, str, writtenWavLength);
                         }
 
                         //英単語をカナへ置換
@@ -326,18 +326,18 @@ namespace SAPIForVOICEVOX
         /// <summary>
         /// SAPIへイベントを追加します。
         /// </summary>
-        /// <param name="pOutputSite"></param>
-        /// <param name="currentTextList"></param>
-        /// <param name="str"></param>
+        /// <param name="outputSite"></param>
+        /// <param name="textList"></param>
+        /// <param name="speakTargetText"></param>
         /// <param name="writtenWavLength"></param>
-        private void AddEventToSAPI(ISpTTSEngineSite pOutputSite, SPVTEXTFRAG currentTextList, string str, ulong writtenWavLength)
+        private void AddEventToSAPI(ISpTTSEngineSite outputSite, string allText, string speakTargetText, ulong writtenWavLength)
         {
-            pOutputSite.GetEventInterest(out ulong ulongValue);
+            outputSite.GetEventInterest(out ulong ulongValue);
             List<SPEVENT> sPEVENTList = new List<SPEVENT>();
             //プラットフォームのビット数に応じて、wParamとlParamの型が異なるので、分岐
 #if x64
-            ulong wParam = (ulong)str.Length;
-            long lParam = currentTextList.pTextStart.IndexOf(str);
+            ulong wParam = (ulong)speakTargetText.Length;
+            long lParam = allText.IndexOf(speakTargetText);
 #else
             uint wParam = (uint)str.Length;
             int lParam = currentTextList.pTextStart.IndexOf(str);
@@ -367,7 +367,7 @@ namespace SAPIForVOICEVOX
             if (sPEVENTList.Count > 0)
             {
                 SPEVENT[] sPEVENTArr = sPEVENTList.ToArray();
-                pOutputSite.AddEvents(ref sPEVENTArr[0], (uint)sPEVENTArr.Length);
+                outputSite.AddEvents(ref sPEVENTArr[0], (uint)sPEVENTArr.Length);
             }
         }
 
