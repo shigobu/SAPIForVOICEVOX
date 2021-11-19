@@ -130,6 +130,20 @@ namespace Setting
             }
         }
 
+        /// <summary>
+        /// SAPIイベントを通知するかどうかを取得、設定します。
+        /// </summary>
+        public bool? UseSapiEvent
+        {
+            get => generalSetting.useSspiEvent;
+            set
+            {
+                if (generalSetting.useSspiEvent == value) return;
+                generalSetting.useSspiEvent = value;
+                RaisePropertyChanged();
+            }
+        }
+
 
         #endregion
 

@@ -224,43 +224,11 @@ namespace SAPIForVOICEVOX
                         }
 
                         //SAPIイベント
-                        pOutputSite.GetEventInterest(out ulong ulongValue);
-                        List<SPEVENT> sPEVENTList = new List<SPEVENT>();
-                        //プラットフォームのビット数に応じて、wParamとlParamの型が異なるので、分岐
-#if x64
-                        ulong wParam = (ulong)str.Length;
-                        long lParam = currentTextList.pTextStart.IndexOf(str);
-#else
-                        uint wParam = (uint)str.Length;
-                        int lParam = currentTextList.pTextStart.IndexOf(str);
-#endif
-                        //SPEI_SENTENCE_BOUNDARYとWORD_BOUNDARY_EVENTにのみ対応
-                        if ((ulongValue & SPFEI(SPEVENTENUM.SPEI_SENTENCE_BOUNDARY)) == SPFEI(SPEVENTENUM.SPEI_SENTENCE_BOUNDARY))
+                        if (generalSetting.useSspiEvent ?? false)
                         {
-                            SPEVENT SENTENCE_BOUNDARY_EVENT = new SPEVENT();
-                            SENTENCE_BOUNDARY_EVENT.eEventId = (ushort)SPEVENTENUM.SPEI_SENTENCE_BOUNDARY;
-                            SENTENCE_BOUNDARY_EVENT.elParamType = (ushort)SPEVENTLPARAMTYPE.SPET_LPARAM_IS_UNDEFINED;
-                            SENTENCE_BOUNDARY_EVENT.wParam = wParam;
-                            SENTENCE_BOUNDARY_EVENT.lParam = lParam;
-                            SENTENCE_BOUNDARY_EVENT.ullAudioStreamOffset = writtenWavLength;
+                            AddEventToSAPI(pOutputSite, currentTextList.pTextStart, str, writtenWavLength);
+                        }
 
-                            sPEVENTList.Add(SENTENCE_BOUNDARY_EVENT);
-                        }
-                        if ((ulongValue & SPFEI(SPEVENTENUM.SPEI_WORD_BOUNDARY)) == SPFEI(SPEVENTENUM.SPEI_WORD_BOUNDARY))
-                        {
-                            SPEVENT WORD_BOUNDARY_EVENT = new SPEVENT();
-                            WORD_BOUNDARY_EVENT.eEventId = (ushort)SPEVENTENUM.SPEI_WORD_BOUNDARY;
-                            WORD_BOUNDARY_EVENT.elParamType = (ushort)SPEVENTLPARAMTYPE.SPET_LPARAM_IS_UNDEFINED;
-                            WORD_BOUNDARY_EVENT.wParam = wParam;
-                            WORD_BOUNDARY_EVENT.lParam = lParam;
-                            WORD_BOUNDARY_EVENT.ullAudioStreamOffset = writtenWavLength;
-                            sPEVENTList.Add(WORD_BOUNDARY_EVENT);
-                        }
-                        if (sPEVENTList.Count > 0)
-                        {
-                            SPEVENT[] sPEVENTArr = sPEVENTList.ToArray();
-                            pOutputSite.AddEvents(ref sPEVENTArr[0], (uint)sPEVENTArr.Length);
-                        }
                         //英単語をカナへ置換
                         string replaceString = engKanaDict.ReplaceEnglishToKana(str);
 
@@ -352,6 +320,54 @@ namespace SAPIForVOICEVOX
                 {
                     Marshal.FreeCoTaskMem(pWavData);
                 }
+            }
+        }
+
+        /// <summary>
+        /// SAPIへイベントを追加します。
+        /// </summary>
+        /// <param name="outputSite"></param>
+        /// <param name="textList"></param>
+        /// <param name="speakTargetText"></param>
+        /// <param name="writtenWavLength"></param>
+        private void AddEventToSAPI(ISpTTSEngineSite outputSite, string allText, string speakTargetText, ulong writtenWavLength)
+        {
+            outputSite.GetEventInterest(out ulong ulongValue);
+            List<SPEVENT> sPEVENTList = new List<SPEVENT>();
+            //プラットフォームのビット数に応じて、wParamとlParamの型が異なるので、分岐
+#if x64
+            ulong wParam = (ulong)speakTargetText.Length;
+            long lParam = allText.IndexOf(speakTargetText);
+#else
+            uint wParam = (uint)str.Length;
+            int lParam = currentTextList.pTextStart.IndexOf(str);
+#endif
+            //SPEI_SENTENCE_BOUNDARYとWORD_BOUNDARY_EVENTにのみ対応
+            if ((ulongValue & SPFEI(SPEVENTENUM.SPEI_SENTENCE_BOUNDARY)) == SPFEI(SPEVENTENUM.SPEI_SENTENCE_BOUNDARY))
+            {
+                SPEVENT SENTENCE_BOUNDARY_EVENT = new SPEVENT();
+                SENTENCE_BOUNDARY_EVENT.eEventId = (ushort)SPEVENTENUM.SPEI_SENTENCE_BOUNDARY;
+                SENTENCE_BOUNDARY_EVENT.elParamType = (ushort)SPEVENTLPARAMTYPE.SPET_LPARAM_IS_UNDEFINED;
+                SENTENCE_BOUNDARY_EVENT.wParam = wParam;
+                SENTENCE_BOUNDARY_EVENT.lParam = lParam;
+                SENTENCE_BOUNDARY_EVENT.ullAudioStreamOffset = writtenWavLength;
+
+                sPEVENTList.Add(SENTENCE_BOUNDARY_EVENT);
+            }
+            if ((ulongValue & SPFEI(SPEVENTENUM.SPEI_WORD_BOUNDARY)) == SPFEI(SPEVENTENUM.SPEI_WORD_BOUNDARY))
+            {
+                SPEVENT WORD_BOUNDARY_EVENT = new SPEVENT();
+                WORD_BOUNDARY_EVENT.eEventId = (ushort)SPEVENTENUM.SPEI_WORD_BOUNDARY;
+                WORD_BOUNDARY_EVENT.elParamType = (ushort)SPEVENTLPARAMTYPE.SPET_LPARAM_IS_UNDEFINED;
+                WORD_BOUNDARY_EVENT.wParam = wParam;
+                WORD_BOUNDARY_EVENT.lParam = lParam;
+                WORD_BOUNDARY_EVENT.ullAudioStreamOffset = writtenWavLength;
+                sPEVENTList.Add(WORD_BOUNDARY_EVENT);
+            }
+            if (sPEVENTList.Count > 0)
+            {
+                SPEVENT[] sPEVENTArr = sPEVENTList.ToArray();
+                outputSite.AddEvents(ref sPEVENTArr[0], (uint)sPEVENTArr.Length);
             }
         }
 

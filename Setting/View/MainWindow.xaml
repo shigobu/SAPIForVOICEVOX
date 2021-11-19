@@ -32,9 +32,10 @@
                                 <RadioButton x:Name="parCharacterRadioButton" Margin="3" Content="キャラクター毎に設定する"  IsChecked="{Binding SynthesisSettingMode, ConverterParameter=EachCharacter, Converter={StaticResource SettinModeConverter}}"/>
                             </StackPanel>
                         </GroupBox>
-                        <GroupBox DockPanel.Dock="Top" Header="エラーハンドリング">
+                        <GroupBox DockPanel.Dock="Top" Header="高度な設定">
                             <StackPanel>
-                                <CheckBox Content="エンジンエラーを通知する。" Margin="3" IsChecked="{Binding ShouldNotifyEngineError}"/>
+                                <CheckBox Content="エンジンエラーを通知する" Margin="3" IsChecked="{Binding ShouldNotifyEngineError}"/>
+                                <CheckBox Content="SAPIイベントを使用する" Margin="3" IsChecked="{Binding UseSapiEvent}" ToolTip="N Airで使用する場合はチェックを外してください"/>
                             </StackPanel>
                         </GroupBox>
                         <Button x:Name="resetButton" DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Left" Content="初期状態へ戻す"/>

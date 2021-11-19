@@ -31,5 +31,10 @@ namespace Setting
         /// </summary>
         public bool? shouldNotifyEngineError = true;
 
+        /// <summary>
+        /// SAPIイベントを使うかどうか
+        /// </summary>
+        public bool? useSspiEvent = true;
+
     }
 }
