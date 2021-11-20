@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1047A1E0933DB945F30D442E5BBB68BB"
+        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_17F814DDAA3A458CB26CAA6D9ABCB11A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -35,6 +41,12 @@
         {
         "MsmKey" = "8:_2FD8E099C1CC4644AB69F775E6DF62DA"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_48FD1BCCF607502149BB94CEB0F7014E"
+        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -57,8 +69,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_71E151B175C648881CBE31F8FA0E0110"
+        "MsmKey" = "8:_73E967F98387B265569F5C32443A84C0"
         "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_73E967F98387B265569F5C32443A84C0"
+        "OwnerKey" = "8:_48FD1BCCF607502149BB94CEB0F7014E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -93,6 +111,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_93D41D16B3894B39B112731666422336"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A11C5257BD2301EA2691496E0021390B"
         "OwnerKey" = "8:_17F814DDAA3A458CB26CAA6D9ABCB11A"
         "MsmSig" = "8:_UNDEFINED"
@@ -112,13 +136,7 @@
         "Entry"
         {
         "MsmKey" = "8:_A11C5257BD2301EA2691496E0021390B"
-        "OwnerKey" = "8:_71E151B175C648881CBE31F8FA0E0110"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A8B9CD08E8D44CAFBA2D0D6C9F84D773"
-        "OwnerKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1047A1E0933DB945F30D442E5BBB68BB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -166,13 +184,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_71E151B175C648881CBE31F8FA0E0110"
+        "OwnerKey" = "8:_1047A1E0933DB945F30D442E5BBB68BB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_6B7F40FCE3DF8F240B02542A8D137A12"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_48FD1BCCF607502149BB94CEB0F7014E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_73E967F98387B265569F5C32443A84C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -364,6 +394,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1047A1E0933DB945F30D442E5BBB68BB"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Setting, Version=1.2.1.0, Culture=neutral, processorArchitecture=AMD64"
+                "ScatterAssemblies"
+                {
+                    "_1047A1E0933DB945F30D442E5BBB68BB"
+                    {
+                    "Name" = "8:Setting.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Setting.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2FD8E099C1CC4644AB69F775E6DF62DA"
             {
             "SourcePath" = "8:..\\StyleRegistrationTool\\Licence\\WindowsAPICodePackLicence.txt"
@@ -382,6 +443,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_48FD1BCCF607502149BB94CEB0F7014E"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:JpnKanaConvHelper, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f107c6e5af142f74, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_48FD1BCCF607502149BB94CEB0F7014E"
+                    {
+                    "Name" = "8:JpnKanaConvHelper.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:JpnKanaConvHelper.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_51AAEAD46D164F428603679CCBF52389"
@@ -435,20 +527,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_71E151B175C648881CBE31F8FA0E0110"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_73E967F98387B265569F5C32443A84C0"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Setting, Version=1.2.1.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:JpnKanaConversion, Version=1.0.1.0, Culture=neutral, PublicKeyToken=fd2deb9ec9e60ff4, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_71E151B175C648881CBE31F8FA0E0110"
+                    "_73E967F98387B265569F5C32443A84C0"
                     {
-                    "Name" = "8:Setting.exe"
+                    "Name" = "8:JpnKanaConversion.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Setting.exe"
+            "SourcePath" = "8:JpnKanaConversion.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
@@ -517,6 +609,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_93D41D16B3894B39B112731666422336"
+            {
+            "SourcePath" = "8:..\\SAPIForVOICEVOX\\EnglishToKana\\MICROSOFT JAPANESE KANA CONVERSION LIBRARY Licence.rtf"
+            "TargetName" = "8:MICROSOFT JAPANESE KANA CONVERSION LIBRARY Licence.rtf"
+            "Tag" = "8:"
+            "Folder" = "8:_43BBF41332F244F2AFA1A745571AA04B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A11C5257BD2301EA2691496E0021390B"
             {
             "AssemblyRegister" = "3:1"
@@ -546,26 +658,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A8B9CD08E8D44CAFBA2D0D6C9F84D773"
-            {
-            "SourcePath" = "8:C:\\Program Files (x86)\\Microsoft Visual Studio International Pack\\Japanese Kana Converter Library\\eula.rtf"
-            "TargetName" = "8:MICROSOFT JAPANESE KANA CONVERSION LIBRARY.rtf"
-            "Tag" = "8:"
-            "Folder" = "8:_43BBF41332F244F2AFA1A745571AA04B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C7B8A4856A315D5B10247A4A8CF3CA85"

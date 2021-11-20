@@ -107,6 +107,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="EnglishToKana\MICROSOFT JAPANESE KANA CONVERSION LIBRARY Licence.rtf" />
     <None Include="packages.config" />
     <None Include="ボイスボックスと通信ができません.wav" />
   </ItemGroup>
