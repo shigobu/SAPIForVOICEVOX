@@ -340,7 +340,7 @@ namespace StyleRegistrationTool.ViewModel
             var dialog = new TaskDialog
             {
                 OwnerWindowHandle = window.Handle,
-                Caption = "話者とスタイルの登録",
+                Caption = $"話者とスタイルの登録",
                 InstructionText = "話者とスタイルの登録を行います。",
                 Text = "後で登録することもできます。\n後で登録する場合、スタートの全てのプログラムから起動できます。"
             };
@@ -365,15 +365,7 @@ namespace StyleRegistrationTool.ViewModel
             var link3 = new TaskDialogCommandLink("link3", "ポート変更", "COEIROINK等のVOICEVOX互換のエンジンを登録します");
             link3.Click += (sender1, e1) =>
             {
-                ChangePortWindow portWindow = new ChangePortWindow(Port)
-                {
-                    Owner = MainWindow
-                };
-                bool? portWindowResult = portWindow.ShowDialog();
-                if (portWindowResult ?? false)
-                {
-                    Port = portWindow.Port;
-                }
+                ShowChangePortWindow();
             };
             dialog.Controls.Add(link3);
 
@@ -414,17 +406,40 @@ namespace StyleRegistrationTool.ViewModel
             link1.Default = true;
             dialog.Controls.Add(link1);
 
-            var link2 = new TaskDialogCommandLink("link2", "中止");
+            var link2 = new TaskDialogCommandLink("link2", "ポート変更");
             link2.Click += (sender1, e1) =>
+            {
+                ShowChangePortWindow();
+            };
+            dialog.Controls.Add(link2);
+
+            var link3 = new TaskDialogCommandLink("link3", "中止");
+            link3.Click += (sender1, e1) =>
             {
                 dialog.Close();
                 shouldContinue = false;
             };
-            dialog.Controls.Add(link2);
+            dialog.Controls.Add(link3);
 
             dialog.Show();
 
             return shouldContinue;
+        }
+
+        /// <summary>
+        /// ポート変更ダイアログを表示し、ユーザーの選択に応じて、Portプロパティを更新します。
+        /// </summary>
+        private void ShowChangePortWindow()
+        {
+            ChangePortWindow portWindow = new ChangePortWindow(Port)
+            {
+                Owner = MainWindow
+            };
+            bool? portWindowResult = portWindow.ShowDialog();
+            if (portWindowResult ?? false)
+            {
+                Port = portWindow.Port;
+            }
         }
 
         /// <summary>
