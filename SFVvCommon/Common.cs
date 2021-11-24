@@ -29,8 +29,14 @@ namespace SFVvCommon
 
         #region レジストリ
 
-        private const string tokensRegKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
-        private const string regClsid = "CLSID";
+        public const string tokensRegKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
+        public const string regSpeakerNumber = "SpeakerNumber";
+        public const string regClsid = "CLSID";
+        public const string regName = "Name";
+        public const string regStyleName = "StyleName";
+        public const string regPort = "Port";
+        public const string regAttributes = "Attributes";
+
 
         /// <summary>
         /// Windowsのレジストリから、SAPIForVOICEVOXのスピーカー情報を削除します。

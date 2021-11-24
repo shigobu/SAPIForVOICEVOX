@@ -82,13 +82,6 @@ namespace Setting
             AddTabControl();
         }
 
-        const string tokensRegKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
-        const string regSpeakerNumber = "SpeakerNumber";
-        const string regClsid = "CLSID";
-        const string regName = "Name";
-        const string regStyleName = "StyleName";
-
-
         /// <summary>
         /// 各キャラクターやスタイルのタブを追加します。
         /// </summary>
@@ -96,20 +89,20 @@ namespace Setting
         {
             List<VoicevoxStyle> styles = new List<VoicevoxStyle>();
 
-            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey))
+            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(Common.tokensRegKey))
             {
                 string[] tokenNames = regTokensKey.GetSubKeyNames();
                 foreach (string tokenName in tokenNames)
                 {
                     using (RegistryKey tokenKey = regTokensKey.OpenSubKey(tokenName))
                     {
-                        string clsid = (string)tokenKey.GetValue(regClsid);
+                        string clsid = (string)tokenKey.GetValue(Common.regClsid);
                         if (clsid != Common.CLSID.ToString(Common.RegClsidFormatString))
                         {
                             continue;
                         }
 
-                        string name = (string)tokenKey.GetValue(regName);
+                        string name = (string)tokenKey.GetValue(Common.regName);
                         if (name == null)
                         {
                             AddTabDefault();
@@ -117,9 +110,10 @@ namespace Setting
                         }
                         else
                         {
-                            string styleName = (string)tokenKey.GetValue(regStyleName);
-                            int id = (int)tokenKey.GetValue(regSpeakerNumber);
-                            styles.Add(new VoicevoxStyle(name, styleName, id));
+                            string styleName = (string)tokenKey.GetValue(Common.regStyleName);
+                            int id = (int)tokenKey.GetValue(Common.regSpeakerNumber);
+                            int port = (int)tokenKey.GetValue(Common.regPort);
+                            styles.Add(new VoicevoxStyle(name, styleName, id, port));
                         }
                     }
                 }

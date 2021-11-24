@@ -485,14 +485,6 @@ namespace StyleRegistrationTool.ViewModel
 
         #region レジストリ関連
 
-        const string tokensRegKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
-        const string regAttributes = "Attributes";
-        const string regSpeakerNumber = "SpeakerNumber";
-        const string regClsid = "CLSID";
-        const string regName = "Name";
-        const string regStyleName = "StyleName";
-        const string regPort = "Port";
-
         /// <summary>
         /// Windowsのレジストリにスタイルを登録します。
         /// </summary>
@@ -500,7 +492,7 @@ namespace StyleRegistrationTool.ViewModel
         {
             Common.ClearStyleFromWindowsRegistry();
 
-            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
+            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(Common.tokensRegKey, true))
             {
                 for (int i = 0; i < SapiStyles.Count(); i++)
                 {
@@ -508,13 +500,13 @@ namespace StyleRegistrationTool.ViewModel
                     {
                         voiceVoxRegkey.SetValue("", SapiStyles[i].SpaiName);
                         voiceVoxRegkey.SetValue("411", SapiStyles[i].SpaiName);
-                        voiceVoxRegkey.SetValue(regClsid, SapiStyles[i].CLSID.ToString(Common.RegClsidFormatString));
-                        voiceVoxRegkey.SetValue(regSpeakerNumber, SapiStyles[i].ID);
-                        voiceVoxRegkey.SetValue(regName, SapiStyles[i].Name);
-                        voiceVoxRegkey.SetValue(regStyleName, SapiStyles[i].StyleName);
-                        voiceVoxRegkey.SetValue(regPort, SapiStyles[i].Port);
+                        voiceVoxRegkey.SetValue(Common.regClsid, SapiStyles[i].CLSID.ToString(Common.RegClsidFormatString));
+                        voiceVoxRegkey.SetValue(Common.regSpeakerNumber, SapiStyles[i].ID);
+                        voiceVoxRegkey.SetValue(Common.regName, SapiStyles[i].Name);
+                        voiceVoxRegkey.SetValue(Common.regStyleName, SapiStyles[i].StyleName);
+                        voiceVoxRegkey.SetValue(Common.regPort, SapiStyles[i].Port);
 
-                        using (RegistryKey AttributesRegkey = voiceVoxRegkey.CreateSubKey(regAttributes))
+                        using (RegistryKey AttributesRegkey = voiceVoxRegkey.CreateSubKey(Common.regAttributes))
                         {
                             AttributesRegkey.SetValue("Age", "Teen");
                             AttributesRegkey.SetValue("Vendor", "Hiroshiba Kazuyuki");
@@ -535,21 +527,21 @@ namespace StyleRegistrationTool.ViewModel
         {
             List<SapiStyle> sapiStyles = new List<SapiStyle>();
 
-            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
+            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(Common.tokensRegKey, true))
             {
                 string[] tokenNames = regTokensKey.GetSubKeyNames();
                 foreach (string tokenName in tokenNames)
                 {
                     using (RegistryKey tokenKey = regTokensKey.OpenSubKey(tokenName))
                     {
-                        string clsid = (string)tokenKey.GetValue(regClsid);
-                        string name = (string)tokenKey.GetValue(regName);
+                        string clsid = (string)tokenKey.GetValue(Common.regClsid);
+                        string name = (string)tokenKey.GetValue(Common.regName);
                         if (clsid == Common.CLSID.ToString(Common.RegClsidFormatString) &&
                             name != null)
                         {
-                            string styleName = (string)tokenKey.GetValue(regStyleName);
-                            int id = (int)tokenKey.GetValue(regSpeakerNumber);
-                            int port = (int)tokenKey.GetValue(regPort);
+                            string styleName = (string)tokenKey.GetValue(Common.regStyleName);
+                            int id = (int)tokenKey.GetValue(Common.regSpeakerNumber);
+                            int port = (int)tokenKey.GetValue(Common.regPort);
                             SapiStyle sapiStyle = new SapiStyle(name, styleName, id, port, new Guid(clsid));
                             sapiStyles.Add(sapiStyle);
                         }
