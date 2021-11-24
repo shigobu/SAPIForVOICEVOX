@@ -2,6 +2,7 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json.Linq;
 using SFVvCommon;
+using StyleRegistrationTool.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -87,6 +88,11 @@ namespace StyleRegistrationTool.ViewModel
         /// SAPI側リストの選択されているアイテム一覧
         /// </summary>
         internal IEnumerable<SapiStyle> SapiStyle_SelectedItems { get; set; } = Enumerable.Empty<SapiStyle>();
+
+        /// <summary>
+        /// ポート番号
+        /// </summary>
+        internal int Port { get; set; } = 50021;
 
         #region NotifyProperty
 
@@ -179,6 +185,9 @@ namespace StyleRegistrationTool.ViewModel
                     case InstallerDialogResult.AllStyle:
                         await AllStyleRegistration();
                         return;
+                    case InstallerDialogResult.ChangePort:
+
+                        break;
                     case InstallerDialogResult.DefaultStyle:
                     default:
                         mainWindow.Close();
@@ -353,13 +362,28 @@ namespace StyleRegistrationTool.ViewModel
             };
             dialog.Controls.Add(link2);
 
-            var link3 = new TaskDialogCommandLink("link3", "後で行う", "デフォルトの話者とスタイルが登録されます。");
+            var link3 = new TaskDialogCommandLink("link3", "ポート変更", "COEIROINK等のVOICEVOX互換のエンジンを登録します");
             link3.Click += (sender1, e1) =>
+            {
+                ChangePortWindow portWindow = new ChangePortWindow(Port)
+                {
+                    Owner = MainWindow
+                };
+                bool? portWindowResult = portWindow.ShowDialog();
+                if (portWindowResult ?? false)
+                {
+                    Port = portWindow.Port;
+                }
+            };
+            dialog.Controls.Add(link3);
+
+            var link4 = new TaskDialogCommandLink("link4", "後で行う", "デフォルトの話者とスタイルが登録されます。");
+            link4.Click += (sender1, e1) =>
             {
                 dialog.Close();
                 dialogResult = InstallerDialogResult.DefaultStyle;
             };
-            dialog.Controls.Add(link3);
+            dialog.Controls.Add(link4);
 
             dialog.Show();
             return dialogResult;
@@ -410,7 +434,7 @@ namespace StyleRegistrationTool.ViewModel
         async Task<VoicevoxStyle[]> GetVoicevoxStyles()
         {
             List<VoicevoxStyle> voicevoxStyles = new List<VoicevoxStyle>();
-            using (var resultSpeakers = await httpClient.GetAsync(@"http://127.0.0.1:50021/speakers"))
+            using (var resultSpeakers = await httpClient.GetAsync($"http://127.0.0.1:{Port}/speakers"))
             {
                 //戻り値を文字列にする
                 string resBodyStr = await resultSpeakers.Content.ReadAsStringAsync();
@@ -422,7 +446,7 @@ namespace StyleRegistrationTool.ViewModel
                     {
                         string styleName = style["name"].ToString();
                         int id = style.Value<int>("id");
-                        voicevoxStyles.Add(new VoicevoxStyle(name, styleName, id));
+                        voicevoxStyles.Add(new VoicevoxStyle(name, styleName, id, Port));
                     }
                 }
             }
@@ -452,6 +476,7 @@ namespace StyleRegistrationTool.ViewModel
         const string regClsid = "CLSID";
         const string regName = "Name";
         const string regStyleName = "StyleName";
+        const string regPort = "Port";
 
         /// <summary>
         /// Windowsのレジストリにスタイルを登録します。
@@ -472,6 +497,7 @@ namespace StyleRegistrationTool.ViewModel
                         voiceVoxRegkey.SetValue(regSpeakerNumber, SapiStyles[i].ID);
                         voiceVoxRegkey.SetValue(regName, SapiStyles[i].Name);
                         voiceVoxRegkey.SetValue(regStyleName, SapiStyles[i].StyleName);
+                        voiceVoxRegkey.SetValue(regPort, SapiStyles[i].Port);
 
                         using (RegistryKey AttributesRegkey = voiceVoxRegkey.CreateSubKey(regAttributes))
                         {
@@ -508,7 +534,8 @@ namespace StyleRegistrationTool.ViewModel
                         {
                             string styleName = (string)tokenKey.GetValue(regStyleName);
                             int id = (int)tokenKey.GetValue(regSpeakerNumber);
-                            SapiStyle sapiStyle = new SapiStyle(name, styleName, id, new Guid(clsid));
+                            int port = (int)tokenKey.GetValue(regPort);
+                            SapiStyle sapiStyle = new SapiStyle(name, styleName, id, port, new Guid(clsid));
                             sapiStyles.Add(sapiStyle);
                         }
                     }
@@ -559,6 +586,7 @@ namespace StyleRegistrationTool.ViewModel
             SelectStyle,
             AllStyle,
             DefaultStyle,
+            ChangePort,
         }
     }
 }

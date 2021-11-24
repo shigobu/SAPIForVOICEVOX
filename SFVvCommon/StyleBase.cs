@@ -7,13 +7,13 @@ namespace SFVvCommon
     /// </summary>
     public class StyleBase
     {
-        public StyleBase(string name, string styleName, int iD)
+        public StyleBase(string name, string styleName, int iD, int port)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             StyleName = styleName ?? throw new ArgumentNullException(nameof(styleName));
             ID = iD;
+            Port = port;
         }
-
 
         /// <summary>
         /// 話者名
@@ -29,5 +29,10 @@ namespace SFVvCommon
         /// ID
         /// </summary>
         public int ID { get; set; }
+
+        /// <summary>
+        /// ポート番号
+        /// </summary>
+        public int Port { get; set; }
     }
 }
