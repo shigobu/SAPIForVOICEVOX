@@ -1,4 +1,4 @@
-﻿using Microsoft.International.Converters;
+﻿using RomajiToHiraganaLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,12 +88,15 @@ namespace SAPIForVOICEVOX
                     string temp = TwoWordEngToKana(english);
                     if (temp == null)
                     {
-                        temp = KanaConverter.RomajiToHiragana(english);
+                        continue;
                     }
                     kana = temp;
                 }
                 returnString = returnString.ToLowerInvariant().Replace(english, kana);
             }
+
+            //ローマ字辞書を全て走査し置換を行うため、最後に行う。
+            returnString = RomajiToHiragana.Convert(returnString);
 
             return returnString;
         }
