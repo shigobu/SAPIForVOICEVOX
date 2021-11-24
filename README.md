@@ -109,10 +109,8 @@ C#・C++
 インストーラのビルドには、「Microsoft Visual Studio Installer Projects」の拡張機能が必要です。  
 Visual Studioの「ツール」→「拡張機能」からインストールしてください。  
 
-ローマ字変換ライブラリ以外の依存ライブラリは、NuGetで取得します。  
+依存ライブラリは、NuGetで取得します。  
 参照できない場合は、「NuGetパッケージの復元」を実行してください。  
-ローマ字変換は、「Visual Studio International Pack 1.0」を使用しています。  
-規定の場所にインストールしてください。
 
 ## フォルダ構成
 SAPIForVOICEVOX：本体  
