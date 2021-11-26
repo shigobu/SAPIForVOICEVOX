@@ -7,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TTSEngineLib;
 
@@ -211,8 +213,24 @@ namespace SAPIForVOICEVOX
                 SPVTEXTFRAG currentTextList = pTextFragList;
                 while (true)
                 {
+                    //XMLタグの抽出
+                    Regex regex = new Regex(@"<.+?>", RegexOptions.IgnoreCase);
+                    string sentenceExcludedXMLTag = regex.Replace(currentTextList.pTextStart, "");
+                    if (string.IsNullOrWhiteSpace(sentenceExcludedXMLTag))
+                    {
+                        return;
+                    }
+
                     //分割
-                    string[] splitedString = currentTextList.pTextStart.Split(charSeparators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+                    string[] splitedString;
+                    if (charSeparators.Count() == 0)
+                    {
+                        splitedString = new string[] { sentenceExcludedXMLTag };
+                    }
+                    else
+                    {
+                        splitedString = sentenceExcludedXMLTag.Split(charSeparators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+                    }
 
                     foreach (string str in splitedString)
                     {
