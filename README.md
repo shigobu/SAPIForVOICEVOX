@@ -93,7 +93,9 @@ The CMU Pronouncing Dictionary(http://www.speech.cs.cmu.edu/cgi-bin/cmudict)
 
 また、VOICEVOX本体及び各音声ライブラリの利用規約にも従ってください。  
 [VOICEVOX公式ホームページ](https://voicevox.hiroshiba.jp/)　(ダウンロード→利用規約から確認できます)  
-[ずんだもん、四国めたん音源利用規約](https://zunko.jp/con_ongen_kiyaku.html)
+[ずんだもん、四国めたん音源利用規約](https://zunko.jp/con_ongen_kiyaku.html)  
+[春日部つむぎ利用規約](https://tsukushinyoki10.wixsite.com/ktsumugiofficial/%E5%88%A9%E7%94%A8%E8%A6%8F%E7%B4%84)  
+[波音リツ利用規約](http://canon-voice.com/kiyaku.html)
 
 ## 開発環境
 Microsoft Visual Studio Community 2019  
