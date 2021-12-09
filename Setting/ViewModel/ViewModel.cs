@@ -263,7 +263,7 @@ namespace Setting
         }
 
         /// <summary>
-        /// キャラ調声設定ファイルを取得します。
+        /// キャラ調声設定ファイル名を取得します。
         /// </summary>
         /// <returns></returns>
         static public string GetSpeakerParameterSettingFileName()

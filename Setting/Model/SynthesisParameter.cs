@@ -114,6 +114,36 @@ namespace Setting
                 RaisePropertyChanged();
             }
         }
-    }
 
+        private int _Port = 50021;
+        /// <summary>
+        /// ポートを取得、設定します。
+        /// </summary>
+        public int Port
+        {
+            get => _Port;
+            set
+            {
+                if (_Port == value) return;
+                _Port = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _ID;
+        /// <summary>
+        /// 話者IDを取得、設定します。
+        /// </summary>
+        public int ID
+        {
+            get => _ID;
+            set
+            {
+                if (_ID == value) return;
+                _ID = value;
+                RaisePropertyChanged();
+            }
+        }
+
+    }
 }

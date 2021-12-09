@@ -185,9 +185,6 @@ namespace StyleRegistrationTool.ViewModel
                     case InstallerDialogResult.AllStyle:
                         await AllStyleRegistration();
                         return;
-                    case InstallerDialogResult.ChangePort:
-
-                        break;
                     case InstallerDialogResult.DefaultStyle:
                     default:
                         mainWindow.Close();
@@ -305,11 +302,13 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void AllAddCommandExecute()
         {
-            SapiStyles.Clear();
             foreach (var item in VoicevoxStyles)
             {
                 SapiStyle sapiStyle = new SapiStyle(item, Common.CLSID);
-                SapiStyles.Add(sapiStyle);
+                if (!SapiStyles.Contains(sapiStyle))
+                {
+                    SapiStyles.Add(sapiStyle);
+                }
             }
         }
 
@@ -409,6 +408,7 @@ namespace StyleRegistrationTool.ViewModel
             var link2 = new TaskDialogCommandLink("link2", "ポート変更");
             link2.Click += (sender1, e1) =>
             {
+                dialog.Close();
                 ShowChangePortWindow();
             };
             dialog.Controls.Add(link2);
@@ -540,8 +540,8 @@ namespace StyleRegistrationTool.ViewModel
                             name != null)
                         {
                             string styleName = (string)tokenKey.GetValue(Common.regStyleName);
-                            int id = (int)tokenKey.GetValue(Common.regSpeakerNumber);
-                            int port = (int)tokenKey.GetValue(Common.regPort);
+                            int id = (int)tokenKey.GetValue(Common.regSpeakerNumber, 0);
+                            int port = (int)tokenKey.GetValue(Common.regPort, 50021);
                             SapiStyle sapiStyle = new SapiStyle(name, styleName, id, port, new Guid(clsid));
                             sapiStyles.Add(sapiStyle);
                         }
@@ -593,7 +593,6 @@ namespace StyleRegistrationTool.ViewModel
             SelectStyle,
             AllStyle,
             DefaultStyle,
-            ChangePort,
         }
     }
 }

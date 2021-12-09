@@ -111,8 +111,8 @@ namespace Setting
                         else
                         {
                             string styleName = (string)tokenKey.GetValue(Common.regStyleName);
-                            int id = (int)tokenKey.GetValue(Common.regSpeakerNumber);
-                            int port = (int)tokenKey.GetValue(Common.regPort);
+                            int id = (int)tokenKey.GetValue(Common.regSpeakerNumber, 0);
+                            int port = (int)tokenKey.GetValue(Common.regPort, 50021);
                             styles.Add(new VoicevoxStyle(name, styleName, id, port));
                         }
                     }
