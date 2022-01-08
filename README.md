@@ -22,6 +22,10 @@ setup.exeを起動し、インストールしてください。
 インストール場所の初期値は「c:\SAPIForVOICEVOX(32or64)」になっています。  
 「C:\Program Files (x86)」へインストールしないでください。何故か正常にインストールできません。  
 
+利用には、「Visual C++ 再頒布可能パッケージ」の2019が必要です。  
+インストールされていない場合、以下のリンクからダウンロードしインストールしてください。32bit版は「x86」、64bit版は「x64」をそれぞれインストールしてください。  
+[Visual C++ 再頒布可能パッケージのダウンロード](https://docs.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170)  
+
 VOICEVOX本体が必要です。[VOICEVOX公式ホームページ](https://voicevox.hiroshiba.jp/)  
 VOICEVOXエンジンの自動起動機能は実装していないので、あらかじめVOICEVOXを起動しておいてください。  
 
