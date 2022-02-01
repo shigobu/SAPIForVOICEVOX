@@ -130,7 +130,7 @@ namespace Setting
             }
         }
 
-        private int _ID;
+        private int _ID = 0;
         /// <summary>
         /// 話者IDを取得、設定します。
         /// </summary>

@@ -60,6 +60,15 @@ namespace Setting
 
         #endregion
 
+        #region プロパティ
+
+        /// <summary>
+        /// メインのビューモデル
+        /// </summary>
+        ViewModel MainViewModel { get; set; }
+
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
@@ -71,11 +80,11 @@ namespace Setting
 #endif
             this.Title += bitStr;
 
-            ViewModel viewModel = new ViewModel(this);
-            this.DataContext = viewModel;
-            OkButton.Click += viewModel.OkButton_Click;
-            ApplyButton.Click += viewModel.ApplyButton_Click;
-            resetButton.Click += viewModel.ResetButton_Click;
+            MainViewModel = new ViewModel(this);
+            this.DataContext = MainViewModel;
+            OkButton.Click += MainViewModel.OkButton_Click;
+            ApplyButton.Click += MainViewModel.ApplyButton_Click;
+            resetButton.Click += MainViewModel.ResetButton_Click;
 
             ApplyButton.IsEnabled = false;
 
@@ -145,8 +154,14 @@ namespace Setting
                     tabControl = tabItems.First().Content as TabControl;
                 }
 
+                int index = Array.FindIndex(MainViewModel.SpeakerParameter, x => x.ID == style.ID && x.Port == style.Port);
+                if (index < 0)
+                {
+                    throw new KeyNotFoundException();
+                }
+
                 VoicevoxParameterSlider parameterSlider = new VoicevoxParameterSlider();
-                parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(ViewModel.SpeakerParameter) + $"[{style.ID}]");
+                parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(Setting.ViewModel.SpeakerParameter) + $"[{index}]");
 
                 TabItem styleTabItem = new TabItem();
                 styleTabItem.Header = style.StyleName;
@@ -159,7 +174,7 @@ namespace Setting
         private void AddTabDefault()
         {
             VoicevoxParameterSlider parameterSlider = new VoicevoxParameterSlider();
-            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(ViewModel.SpeakerParameter) + "[0]");
+            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(Setting.ViewModel.SpeakerParameter) + "[0]");
 
             Binding binding = new Binding("IsChecked");
             binding.ElementName = nameof(parCharacterRadioButton);
@@ -172,7 +187,7 @@ namespace Setting
             mainTab.Items.Add(tabItem);
 
             parameterSlider = new VoicevoxParameterSlider();
-            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(ViewModel.SpeakerParameter) + "[1]");
+            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(Setting.ViewModel.SpeakerParameter) + "[1]");
 
             tabItem = new TabItem();
             tabItem.Header = "ずんだもん";
