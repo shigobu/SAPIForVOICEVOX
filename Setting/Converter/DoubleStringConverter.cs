@@ -16,7 +16,7 @@ namespace Setting
             { 
                 return ""; 
             }
-            return doubleValue.ToString("F1");
+            return doubleValue.ToString("F2");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

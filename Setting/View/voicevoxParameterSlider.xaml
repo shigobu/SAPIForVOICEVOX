@@ -7,8 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
     <UserControl.Resources>
-        <local:DoubleStringConverter x:Key="DoubleConverter1"/>
-        <local:DoubleStringConverter2 x:Key="DoubleConverter2"/>
+        <local:DoubleStringConverter x:Key="DoubleConverter"/>
         <local:ParameterValueModeToBool x:Key="ValueModeToBool"/>
     </UserControl.Resources>
     <StackPanel>
@@ -21,24 +20,24 @@
         <StackPanel IsEnabled="{Binding IsChecked, ElementName=thisRadio}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="音量" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
-                <TextBlock Text="{Binding Value, ElementName=volumeSlider, Converter={StaticResource DoubleConverter1}}" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
+                <TextBlock Text="{Binding Value, ElementName=volumeSlider, Converter={StaticResource DoubleConverter}}" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
             </StackPanel>
-            <Slider x:Name="volumeSlider" Minimum="0" Maximum="2" SmallChange="1" LargeChange="0.1" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True" Value="{Binding Volume}"/>
+            <Slider x:Name="volumeSlider" Minimum="0" Maximum="2" SmallChange="0.01" LargeChange="0.1" TickFrequency="0.01" TickPlacement="None" IsSnapToTickEnabled="True" Value="{Binding Volume}"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="話速" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
-                <TextBlock Text="{Binding Value, ElementName=speedSlider, Converter={StaticResource DoubleConverter1}}" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
+                <TextBlock Text="{Binding Value, ElementName=speedSlider, Converter={StaticResource DoubleConverter}}" Margin="3" Foreground="Gray" IsEnabledChanged="TextBlock_IsEnabledChanged"/>
             </StackPanel>
-            <Slider x:Name="speedSlider" Minimum="0.5" Maximum="2.0" SmallChange="0.1" LargeChange="0.1" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True" Value="{Binding Speed}"/>
+            <Slider x:Name="speedSlider" Minimum="0.5" Maximum="2.0" SmallChange="0.01" LargeChange="0.1" TickFrequency="0.01" TickPlacement="None" IsSnapToTickEnabled="True" Value="{Binding Speed}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="音高" Margin="3"/>
-            <TextBlock Text="{Binding Value, ElementName=pitchSlider, Converter={StaticResource DoubleConverter2}}" Margin="3"/>
+            <TextBlock Text="{Binding Value, ElementName=pitchSlider, Converter={StaticResource DoubleConverter}}" Margin="3"/>
         </StackPanel>
         <Slider x:Name="pitchSlider" Maximum="0.15" Minimum="-0.15" SmallChange="0.01" LargeChange="0.01" TickFrequency="0.01" TickPlacement="None" IsSnapToTickEnabled="True" Value="{Binding Pitch}"/>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="抑揚" Margin="3"/>
-            <TextBlock Text="{Binding Value, ElementName=intonationSlider, Converter={StaticResource DoubleConverter1}}" Margin="3"/>
+            <TextBlock Text="{Binding Value, ElementName=intonationSlider, Converter={StaticResource DoubleConverter}}" Margin="3"/>
         </StackPanel>
-        <Slider x:Name="intonationSlider" Maximum="2.0" Minimum="0" SmallChange="0.1" LargeChange="0.1" TickFrequency="0.1" TickPlacement="None" IsSnapToTickEnabled="True" Value="{Binding Intonation}"/>
+        <Slider x:Name="intonationSlider" Maximum="2.0" Minimum="0" SmallChange="0.01" LargeChange="0.1" TickFrequency="0.01" TickPlacement="None" IsSnapToTickEnabled="True" Value="{Binding Intonation}"/>
     </StackPanel>
 </UserControl>
