@@ -38,6 +38,11 @@
                                 <CheckBox Content="SAPIイベントを使用する" Margin="3" IsChecked="{Binding UseSapiEvent}" ToolTip="N Airで使用する場合はチェックを外してください"/>
                             </StackPanel>
                         </GroupBox>
+                        <GroupBox DockPanel.Dock="Top" Header="VOICEVOX実験機能">
+                            <StackPanel>
+                                <CheckBox Content="疑問文を自動調整" Margin="3"/>
+                            </StackPanel>
+                        </GroupBox>
                         <Button x:Name="resetButton" DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Left" Content="初期状態へ戻す"/>
                         <Rectangle/>
                     </DockPanel>
