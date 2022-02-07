@@ -144,6 +144,19 @@ namespace Setting
             }
         }
 
+        /// <summary>
+        /// 疑問文を自動調声するかどうかを取得、設定します。
+        /// </summary>
+        public bool? UseInterrogativeAutoAdjustment
+        {
+            get => generalSetting.useInterrogativeAutoAdjustment;
+            set
+            {
+                if (generalSetting.useInterrogativeAutoAdjustment == value) return;
+                generalSetting.useInterrogativeAutoAdjustment = value;
+                RaisePropertyChanged();
+            }
+        }
 
         #endregion
 
