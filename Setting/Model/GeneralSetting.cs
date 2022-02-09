@@ -36,5 +36,10 @@ namespace Setting
         /// </summary>
         public bool? useSspiEvent = true;
 
+        /// <summary>
+        /// 疑問文を自動調声するかどうか
+        /// </summary>
+        public bool? useInterrogativeAutoAdjustment = false;
+
     }
 }

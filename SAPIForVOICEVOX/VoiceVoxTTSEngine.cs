@@ -195,6 +195,7 @@ namespace SAPIForVOICEVOX
             }
             double pitch = synthesisParameter.Pitch;
             double intonation = synthesisParameter.Intonation;
+            bool enableInterrogativeUpspeak = generalSetting.useInterrogativeAutoAdjustment ?? false;
 
             //区切り文字設定
             List<char> charSeparators = new List<char>();
@@ -252,7 +253,7 @@ namespace SAPIForVOICEVOX
 
                         //VOICEVOXへ送信
                         //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
-                        Task<byte[]> waveDataTask = SendToVoiceVox(replaceString, SpeakerNumber, speed, pitch, intonation, volume);
+                        Task<byte[]> waveDataTask = SendToVoiceVox(replaceString, SpeakerNumber, speed, pitch, intonation, volume, enableInterrogativeUpspeak);
                         byte[] waveData;
                         try
                         {
@@ -524,7 +525,7 @@ namespace SAPIForVOICEVOX
         /// <param name="intonation">抑揚 0~2 中央=1</param>
         /// <param name="volumeScale">音量 0.0~1.0</param>
         /// <returns>waveデータ</returns>
-        async Task<byte[]> SendToVoiceVox(string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale)
+        async Task<byte[]> SendToVoiceVox(string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale, bool enableInterrogativeUpspeak)
         {
             //エンジンが起動中か確認を行う
             Process[] ps = Process.GetProcessesByName("run");
@@ -564,7 +565,7 @@ namespace SAPIForVOICEVOX
                     //jsonコンテンツに変換
                     var content = new StringContent(jsonString, Encoding.UTF8, @"application/json");
                     //synthesis送信
-                    using (var resultSynthesis = await httpClient.PostAsync(@"http://127.0.0.1:50021/synthesis?speaker=" + speakerString, content))
+                    using (var resultSynthesis = await httpClient.PostAsync(@"http://127.0.0.1:50021/synthesis?" + $"speaker={speakerString}&enable_interrogative_upspeak={enableInterrogativeUpspeak}", content))
                     {
                         HttpContent httpContent = resultSynthesis.Content;
                         //音声データで無い場合
