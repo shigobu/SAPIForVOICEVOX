@@ -50,7 +50,7 @@ namespace SFVvCommon
             {
                 return 1;
             }
-            if(yIndex < 0)
+            if (yIndex < 0)
             {
                 return -1;
             }

@@ -3,7 +3,7 @@
     /// <summary>
     /// VOICEVOX側のスタイル情報を表します。
     /// </summary>
-    public class VoicevoxStyle :StyleBase
+    public class VoicevoxStyle : StyleBase
     {
         /// <summary>
         /// スタイル情報を初期化します。

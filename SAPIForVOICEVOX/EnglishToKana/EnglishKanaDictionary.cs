@@ -49,8 +49,8 @@ namespace SAPIForVOICEVOX
         /// </summary>
         /// <param name="key">英単語</param>
         /// <returns>カナ</returns>
-        public new string this[string key] 
-        { 
+        public new string this[string key]
+        {
             get
             {
                 return base[key];

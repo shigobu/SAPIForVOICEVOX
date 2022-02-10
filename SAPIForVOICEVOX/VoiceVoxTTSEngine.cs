@@ -425,7 +425,7 @@ namespace SAPIForVOICEVOX
             }
         }
 
-#region トークン関連
+        #region トークン関連
 
         /// <summary>
         /// ここでトークンを使用し、初期化を行う。
@@ -449,9 +449,9 @@ namespace SAPIForVOICEVOX
             ppToken = Token;
         }
 
-#endregion
+        #endregion
 
-#region レジストリ関連
+        #region レジストリ関連
 
         const string regKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
         const string regName1 = "VOICEVOX1";
@@ -511,7 +511,7 @@ namespace SAPIForVOICEVOX
             Common.ClearStyleFromWindowsRegistry();
         }
 
-#endregion
+        #endregion
 
         const string wavMediaType = "audio/wav";
 
@@ -657,7 +657,7 @@ namespace SAPIForVOICEVOX
             return voiceData;
         }
 
-#region 設定データ取得関連
+        #region 設定データ取得関連
 
         /// <summary>
         /// 設定データを取得します。
@@ -682,6 +682,6 @@ namespace SAPIForVOICEVOX
             }
         }
 
-#endregion
+        #endregion
     }
 }
