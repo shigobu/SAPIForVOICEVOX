@@ -43,7 +43,10 @@
                                 <CheckBox Content="疑問文を自動調整" Margin="3" IsChecked="{Binding UseInterrogativeAutoAdjustment}"/>
                             </StackPanel>
                         </GroupBox>
-                        <Button x:Name="resetButton" DockPanel.Dock="Bottom" Margin="3" HorizontalAlignment="Left" Content="初期状態へ戻す"/>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+                            <Button x:Name="resetButton" Margin="3" Width="100" HorizontalAlignment="Left" Content="初期状態へ戻す"/>
+                            <Button x:Name="versionInfoButton" Margin="3" Width="100" Content="バージョン情報"/>
+                        </StackPanel>
                         <Rectangle/>
                     </DockPanel>
                 </TabItem>

@@ -76,6 +76,7 @@ namespace Setting
             OkButton.Click += viewModel.OkButton_Click;
             ApplyButton.Click += viewModel.ApplyButton_Click;
             resetButton.Click += viewModel.ResetButton_Click;
+            versionInfoButton.Click += viewModel.VersionInfoButton_Click;
 
             ApplyButton.IsEnabled = false;
 

@@ -214,6 +214,16 @@ namespace Setting
         }
 
         /// <summary>
+        /// バージョン情報ボタン押下イベント
+        /// </summary>
+        public void VersionInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            View.VersionInfoWindow versionInfoWindow = new View.VersionInfoWindow();
+            versionInfoWindow.Owner = owner;
+            versionInfoWindow.ShowDialog();
+        }
+
+        /// <summary>
         /// プロパティ変更の通知受取り
         /// </summary>
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
