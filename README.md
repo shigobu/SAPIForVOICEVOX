@@ -8,6 +8,9 @@ SAPI5対応のアプリケーションから使用することができます。
 新しい方の、設定アプリ→時刻と言語→音声認識→音声→音声を選択するドロップダウンには表示されません。  
 したがって、新しい方の音声合成機能しか対応していないアプリには対応していません。  
 
+コントロールパネルはOSのbit数と同じで64bitアプリなので、64bit版の情報が表示され、32bit版の情報は表示されません。
+32bit版のみをインストールすると、コントロールパネルには表示されませんが、棒読みちゃん等の32bitアプリには表示されます。  
+
 32bit版は、棒読みちゃんでテストしています。  
 64bit版は、やります！アンコちゃんでテストしています。  
 
@@ -18,6 +21,10 @@ setup.exeを起動し、インストールしてください。
 両方インストールすることもできます。その場合、同じ場所にインストールしないでください。  
 インストール場所の初期値は「c:\SAPIForVOICEVOX(32or64)」になっています。  
 「C:\Program Files (x86)」へインストールしないでください。何故か正常にインストールできません。  
+
+利用には、「Visual C++ 再頒布可能パッケージ」の2019が必要です。  
+インストールされていない場合、以下のリンクからダウンロードしインストールしてください。32bit版は「x86」、64bit版は「x64」をそれぞれインストールしてください。  
+[Visual C++ 再頒布可能パッケージのダウンロード](https://docs.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170)  
 
 VOICEVOX本体が必要です。[VOICEVOX公式ホームページ](https://voicevox.hiroshiba.jp/)  
 VOICEVOXエンジンの自動起動機能は実装していないので、あらかじめVOICEVOXを起動しておいてください。  
@@ -92,8 +99,11 @@ The CMU Pronouncing Dictionary(http://www.speech.cs.cmu.edu/cgi-bin/cmudict)
 このアプリのライセンスは、「MIT License」です。
 
 また、VOICEVOX本体及び各音声ライブラリの利用規約にも従ってください。  
-[VOICEVOX公式ホームページ](https://voicevox.hiroshiba.jp/)　(ダウンロード→利用規約から確認できます)  
-[ずんだもん、四国めたん音源利用規約](https://zunko.jp/con_ongen_kiyaku.html)
+[VOICEVOX利用規約](https://voicevox.hiroshiba.jp/term)  
+[ずんだもん、四国めたん音源利用規約](https://zunko.jp/con_ongen_kiyaku.html)  
+[春日部つむぎ利用規約](https://tsukushinyoki10.wixsite.com/ktsumugiofficial/%E5%88%A9%E7%94%A8%E8%A6%8F%E7%B4%84)  
+[波音リツ利用規約](http://canon-voice.com/kiyaku.html)  
+[雨晴はう利用規約](https://amehau.com/?page_id=225)  
 
 ## 開発環境
 Microsoft Visual Studio Community 2019  

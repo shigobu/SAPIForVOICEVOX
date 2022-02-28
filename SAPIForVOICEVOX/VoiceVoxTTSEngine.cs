@@ -7,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TTSEngineLib;
 
@@ -198,6 +200,7 @@ namespace SAPIForVOICEVOX
             }
             double pitch = synthesisParameter.Pitch;
             double intonation = synthesisParameter.Intonation;
+            bool enableInterrogativeUpspeak = generalSetting.useInterrogativeAutoAdjustment ?? false;
 
             //区切り文字設定
             List<char> charSeparators = new List<char>();
@@ -216,8 +219,24 @@ namespace SAPIForVOICEVOX
                 SPVTEXTFRAG currentTextList = pTextFragList;
                 while (true)
                 {
+                    //XMLタグの抽出
+                    Regex regex = new Regex(@"<.+?>", RegexOptions.IgnoreCase);
+                    string sentenceExcludedXMLTag = regex.Replace(currentTextList.pTextStart, "");
+                    if (string.IsNullOrWhiteSpace(sentenceExcludedXMLTag))
+                    {
+                        return;
+                    }
+
                     //分割
-                    string[] splitedString = currentTextList.pTextStart.Split(charSeparators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+                    string[] splitedString;
+                    if (charSeparators.Count() == 0)
+                    {
+                        splitedString = new string[] { sentenceExcludedXMLTag };
+                    }
+                    else
+                    {
+                        splitedString = sentenceExcludedXMLTag.Split(charSeparators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+                    }
 
                     foreach (string str in splitedString)
                     {
@@ -239,7 +258,7 @@ namespace SAPIForVOICEVOX
 
                         //VOICEVOXへ送信
                         //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
-                        Task<byte[]> waveDataTask = SendToVoiceVox(replaceString, SpeakerNumber, speed, pitch, intonation, volume);
+                        Task<byte[]> waveDataTask = SendToVoiceVox(replaceString, SpeakerNumber, speed, pitch, intonation, volume, enableInterrogativeUpspeak);
                         byte[] waveData;
                         try
                         {
@@ -411,7 +430,7 @@ namespace SAPIForVOICEVOX
             }
         }
 
-#region トークン関連
+        #region トークン関連
 
         /// <summary>
         /// ここでトークンを使用し、初期化を行う。
@@ -438,9 +457,9 @@ namespace SAPIForVOICEVOX
             ppToken = Token;
         }
 
-#endregion
+        #endregion
 
-#region レジストリ関連
+        #region レジストリ関連
 
         const string regName1 = "VOICEVOX1";
         const string regName2 = "VOICEVOX2";
@@ -497,7 +516,7 @@ namespace SAPIForVOICEVOX
             Common.ClearStyleFromWindowsRegistry();
         }
 
-#endregion
+        #endregion
 
         const string wavMediaType = "audio/wav";
 
@@ -511,7 +530,7 @@ namespace SAPIForVOICEVOX
         /// <param name="intonation">抑揚 0~2 中央=1</param>
         /// <param name="volumeScale">音量 0.0~1.0</param>
         /// <returns>waveデータ</returns>
-        async Task<byte[]> SendToVoiceVox(string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale)
+        async Task<byte[]> SendToVoiceVox(string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale, bool enableInterrogativeUpspeak)
         {
             //エンジンが起動中か確認を行う
             Process[] ps = Process.GetProcessesByName("run");
@@ -552,7 +571,7 @@ namespace SAPIForVOICEVOX
                     //jsonコンテンツに変換
                     var content = new StringContent(jsonString, Encoding.UTF8, @"application/json");
                     //synthesis送信
-                    using (var resultSynthesis = await httpClient.PostAsync($"{url}synthesis?speaker={speakerString}", content))
+                    using (var resultSynthesis = await httpClient.PostAsync($"{url}synthesis?speaker={speakerString}&enable_interrogative_upspeak={enableInterrogativeUpspeak}", content))
                     {
                         HttpContent httpContent = resultSynthesis.Content;
                         //音声データで無い場合
@@ -644,7 +663,7 @@ namespace SAPIForVOICEVOX
             return voiceData;
         }
 
-#region 設定データ取得関連
+        #region 設定データ取得関連
 
         /// <summary>
         /// 設定データを取得します。
@@ -669,6 +688,6 @@ namespace SAPIForVOICEVOX
             }
         }
 
-#endregion
+        #endregion
     }
 }

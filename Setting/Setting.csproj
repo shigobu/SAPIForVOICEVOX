@@ -89,6 +89,9 @@
     <Compile Include="Model\ParameterValueMode.cs" />
     <Compile Include="Model\SynthesisSettingMode.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
+    <Compile Include="View\VersionInfoWindow.xaml.cs">
+      <DependentUpon>VersionInfoWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\voicevoxParameterSlider.xaml.cs">
       <DependentUpon>voicevoxParameterSlider.xaml</DependentUpon>
     </Compile>
@@ -101,11 +104,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converter\DoubleStringConverter.cs" />
-    <Compile Include="Converter\DoubleStringConverter2.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\VersionInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\voicevoxParameterSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

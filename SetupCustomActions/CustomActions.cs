@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration.Install;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
 using System.Collections;
-using System.Runtime.InteropServices;
-using System.IO;
+using System.ComponentModel;
+using System.Configuration.Install;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace SetupCustomActions
 {

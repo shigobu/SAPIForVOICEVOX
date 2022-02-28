@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Setting
+﻿namespace Setting
 {
     /// <summary>
     /// 全般設定を定義します。
@@ -35,6 +29,11 @@ namespace Setting
         /// SAPIイベントを使うかどうか
         /// </summary>
         public bool? useSspiEvent = true;
+
+        /// <summary>
+        /// 疑問文を自動調声するかどうか
+        /// </summary>
+        public bool? useInterrogativeAutoAdjustment = false;
 
     }
 }

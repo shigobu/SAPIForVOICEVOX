@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Xml.Serialization;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
-using System.Threading;
+using System.Xml.Serialization;
 
 namespace Setting
 {
@@ -144,6 +141,19 @@ namespace Setting
             }
         }
 
+        /// <summary>
+        /// 疑問文を自動調声するかどうかを取得、設定します。
+        /// </summary>
+        public bool? UseInterrogativeAutoAdjustment
+        {
+            get => generalSetting.useInterrogativeAutoAdjustment;
+            set
+            {
+                if (generalSetting.useInterrogativeAutoAdjustment == value) return;
+                generalSetting.useInterrogativeAutoAdjustment = value;
+                RaisePropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -185,7 +195,7 @@ namespace Setting
             generalSetting = new GeneralSetting();
             //null指定で全てのプロパティ。
             //propertyName引数はオプション引数だがCallerMemberName属性が付いてるので、明示的に指定が必要。多分
-            RaisePropertyChanged(null); 
+            RaisePropertyChanged(null);
 
             BatchParameter = new SynthesisParameter();
             SpeakerParameter = new SynthesisParameter[CharacterCount];
@@ -201,6 +211,16 @@ namespace Setting
             {
                 item.PropertyChanged += ViewModel_PropertyChanged;
             }
+        }
+
+        /// <summary>
+        /// バージョン情報ボタン押下イベント
+        /// </summary>
+        public void VersionInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            View.VersionInfoWindow versionInfoWindow = new View.VersionInfoWindow();
+            versionInfoWindow.Owner = owner;
+            versionInfoWindow.ShowDialog();
         }
 
         /// <summary>
@@ -271,7 +291,7 @@ namespace Setting
             string directoryName = GetThisAppDirectory();
             return Path.Combine(directoryName, SpeakerParameterSettingXMLFileName);
         }
-        
+
         /// <summary>
         /// 保存します。
         /// </summary>
