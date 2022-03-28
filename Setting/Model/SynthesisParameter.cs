@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Setting
@@ -39,6 +40,11 @@ namespace Setting
         }
 
         #endregion
+
+        /// <summary>
+        /// 設定ファイルバージョン
+        /// </summary>
+        public Version Version { get; set; } = new Version(1, 0);
 
         private ParameterValueMode _ValueMode = ParameterValueMode.SAPI;
         /// <summary>

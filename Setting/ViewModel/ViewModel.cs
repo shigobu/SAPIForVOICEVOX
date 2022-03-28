@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
+using System.Reflection;
 
 namespace Setting
 {
@@ -226,7 +228,7 @@ namespace Setting
         /// <summary>
         /// プロパティ変更の通知受取り
         /// </summary>
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        public void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             //適応ボタンの有効化
             owner.ApplyButton.IsEnabled = true;
@@ -251,6 +253,14 @@ namespace Setting
         #endregion
 
         #region メソッド
+        /// <summary>
+        /// 現在実行中のコードを含むアセンブリを返します。
+        /// </summary>
+        /// <returns></returns>
+        static public Assembly GetThisAssembly()
+        {
+            return Assembly.GetExecutingAssembly();
+        }
 
         /// <summary>
         /// 実行中のコードを格納しているアセンブリのある場所を返します。
@@ -258,8 +268,17 @@ namespace Setting
         /// <returns></returns>
         static public string GetThisAppDirectory()
         {
-            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string appPath = GetThisAssembly().Location;
             return Path.GetDirectoryName(appPath);
+        }
+
+        /// <summary>
+        /// 実行中のコードを格納しているアセンブリのバージョンは返します。
+        /// </summary>
+        /// <returns>アセンブリバーション</returns>
+        static public Version GetThisAppVersion()
+        {
+            return GetThisAssembly().GetName().Version;
         }
 
         /// <summary>
@@ -437,11 +456,7 @@ namespace Setting
             string settingFileName = GetSpeakerParameterSettingFileName();
 
             //戻り値を作成、初期化
-            SynthesisParameter[] result = new SynthesisParameter[CharacterCount];
-            for (int i = 0; i < result.Length; i++)
-            {
-                result[i] = new SynthesisParameter();
-            }
+            SynthesisParameter[] result = new SynthesisParameter[0];
 
             //ファイル存在確認
             if (!File.Exists(settingFileName))
@@ -464,21 +479,21 @@ namespace Setting
                 using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
                 using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
                 {
-                    //結果上書き
-                    result = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
-                    if (result.Length < CharacterCount)
+                    SynthesisParameter[] resultTemp = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
+                    if (resultTemp.Length == 0)
                     {
-                        Array.Resize(ref result, CharacterCount);
-                        for (int i = 0; i < result.Length; i++)
-                        {
-                            if (result[i] == null)
-                            {
-                                result[i] = new SynthesisParameter();
-                            }
-                        }
+                        //要素数0の場合、初期値返す
+                        return result;
+                    }
+                    else if (resultTemp.First().Version.Major == 1)
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        return resultTemp;
                     }
                 }
-                return result;
             }
             catch (Exception)
             {

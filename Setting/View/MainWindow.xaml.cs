@@ -158,7 +158,13 @@ namespace Setting
                 int index = Array.FindIndex(MainViewModel.SpeakerParameter, x => x.ID == style.ID && x.Port == style.Port);
                 if (index < 0)
                 {
-                    throw new KeyNotFoundException();
+                    //配列に要素を追加する
+                    SynthesisParameter[] parameterTemp = MainViewModel.SpeakerParameter;    //プロパティにrefが使えないため、一時的に変数へ格納しメソッドに渡している。
+                    Array.Resize(ref parameterTemp, parameterTemp.Length + 1);
+                    index = parameterTemp.Length - 1;
+                    parameterTemp[index] = new SynthesisParameter() {Version = ViewModel.GetThisAppVersion(), ID = style.ID, Port = style.Port };
+                    parameterTemp[index].PropertyChanged += MainViewModel.ViewModel_PropertyChanged;
+                    MainViewModel.SpeakerParameter = parameterTemp;
                 }
 
                 VoicevoxParameterSlider parameterSlider = new VoicevoxParameterSlider();
