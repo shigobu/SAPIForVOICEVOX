@@ -280,13 +280,13 @@ namespace SAPIForVOICEVOX
                     }
 
                     //次のデータを設定
-                    if (pTextFragList.pNext == IntPtr.Zero)
+                    if (currentTextList.pNext == IntPtr.Zero)
                     {
                         break;
                     }
                     else
                     {
-                        currentTextList = Marshal.PtrToStructure<SPVTEXTFRAG>(pTextFragList.pNext);
+                        currentTextList = Marshal.PtrToStructure<SPVTEXTFRAG>(currentTextList.pNext);
                     }
                 }
             }
