@@ -11,13 +11,13 @@ namespace SAPIForVOICEVOX
     {
         const string message = "エンジンエラーです";
 
-        public VoiceVoxEngineException() : base(message)
+        public VoiceVoxEngineException() : this(null) { }
+
+        public VoiceVoxEngineException(Exception innerException) : base(message, innerException)
         {
             Stream stream = Properties.Resources.エンジンエラーです;
             ErrorVoice = new byte[stream.Length];
             stream.Read(ErrorVoice, 0, (int)stream.Length);
         }
-
-        public VoiceVoxEngineException(Exception innerException) : base(message, innerException) { }
     }
 }
