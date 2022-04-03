@@ -11,13 +11,13 @@ namespace SAPIForVOICEVOX
     {
         const string message = "VOICEVOXが見つかりません";
 
-        public VoiceVoxNotFoundException() : base(message)
+        public VoiceVoxNotFoundException() : this(null) { }
+
+        public VoiceVoxNotFoundException(Exception innerException) : base(message, innerException)
         {
             Stream stream = Properties.Resources.ボイスボックスが見つかりません;
             ErrorVoice = new byte[stream.Length];
             stream.Read(ErrorVoice, 0, (int)stream.Length);
         }
-
-        public VoiceVoxNotFoundException(Exception innerException) : base(message, innerException) { }
     }
 }
