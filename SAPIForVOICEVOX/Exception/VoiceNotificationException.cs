@@ -12,7 +12,7 @@ namespace SAPIForVOICEVOX
         {
         }
 
-        public VoiceNotificationException(string message) : base(message)
+        public VoiceNotificationException(string message) : this(message, null)
         {
         }
 
