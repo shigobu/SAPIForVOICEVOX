@@ -11,14 +11,14 @@ namespace SAPIForVOICEVOX
     {
         const string message = "ボイスボックスと通信ができません";
 
-        public VoiceVoxConnectionException() : base(message)
+        public VoiceVoxConnectionException() : this(null) { }
+
+        public VoiceVoxConnectionException(Exception innerException) : base(message, innerException)
         {
             Stream stream = Properties.Resources.ボイスボックスと通信ができません;
             ErrorVoice = new byte[stream.Length];
             stream.Read(ErrorVoice, 0, (int)stream.Length);
         }
-
-        public VoiceVoxConnectionException(Exception innerException) : base(message, innerException) { }
 
     }
 }
