@@ -680,7 +680,8 @@ namespace SAPIForVOICEVOX
                     synthesisParameter = ViewModel.LoadBatchSynthesisParameter();
                     break;
                 case SynthesisSettingMode.EachCharacter:
-                    synthesisParameter = ViewModel.LoadSpeakerSynthesisParameter()[speakerNum];
+                    List<SynthesisParameter> parameters = ViewModel.LoadSpeakerSynthesisParameter();
+                    synthesisParameter = parameters.FirstOrDefault(x => x.ID == speakerNum && x.Port == Port) ?? new SynthesisParameter();
                     break;
                 default:
                     synthesisParameter = new SynthesisParameter();

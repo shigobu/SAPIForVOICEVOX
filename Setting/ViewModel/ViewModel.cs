@@ -492,6 +492,7 @@ namespace Setting
                 {
                     result = new List<SynthesisParameter>();
                 }
+                return result;
             }
             catch (Exception)
             {
