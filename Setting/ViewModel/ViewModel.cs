@@ -253,6 +253,14 @@ namespace Setting
         #endregion
 
         #region メソッド
+        /// <summary>
+        /// 現在実行中のコードを含むアセンブリを返します。
+        /// </summary>
+        /// <returns></returns>
+        static public Assembly GetThisAssembly()
+        {
+            return Assembly.GetExecutingAssembly();
+        }
 
         /// <summary>
         /// 実行中のコードを格納しているアセンブリのある場所を返します。
@@ -260,8 +268,17 @@ namespace Setting
         /// <returns></returns>
         static public string GetThisAppDirectory()
         {
-            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string appPath = GetThisAssembly().Location;
             return Path.GetDirectoryName(appPath);
+        }
+
+        /// <summary>
+        /// 実行中のコードを格納しているアセンブリのバージョンは返します。
+        /// </summary>
+        /// <returns>アセンブリバーション</returns>
+        static public Version GetThisAppVersion()
+        {
+            return GetThisAssembly().GetName().Version;
         }
 
         /// <summary>
@@ -475,7 +492,6 @@ namespace Setting
                 {
                     result = new List<SynthesisParameter>();
                 }
-                return result;
             }
             catch (Exception)
             {

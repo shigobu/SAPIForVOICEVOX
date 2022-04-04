@@ -41,6 +41,11 @@ namespace Setting
 
         #endregion
 
+        /// <summary>
+        /// 設定ファイルバージョン
+        /// </summary>
+        public Version Version { get; set; } = new Version(1, 0);
+
         private ParameterValueMode _ValueMode = ParameterValueMode.SAPI;
         /// <summary>
         /// SAPIの値を使用するか、設定アプリの値を使用するかを取得、設定します。
