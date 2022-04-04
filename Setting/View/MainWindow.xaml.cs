@@ -155,15 +155,14 @@ namespace Setting
                     tabControl = tabItems.First().Content as TabControl;
                 }
 
-                int index = Array.FindIndex(MainViewModel.SpeakerParameter, x => x.ID == style.ID && x.Port == style.Port);
+                //int index = Array.FindIndex(MainViewModel.SpeakerParameter, x => x.ID == style.ID && x.Port == style.Port);
+                int index = MainViewModel.SpeakerParameter.FindIndex(x => x.ID == style.ID && x.Port == style.Port);
                 if (index < 0)
                 {
                     SynthesisParameter parameter = new SynthesisParameter() { ID = style.ID, Port = style.Port };
                     parameter.PropertyChanged += MainViewModel.ViewModel_PropertyChanged;
-                    var temp = MainViewModel.SpeakerParameter;
-                    Common.ArrayAdd(ref temp, parameter);
-                    MainViewModel.SpeakerParameter = temp;
-                    index = MainViewModel.SpeakerParameter.Length - 1;
+                    MainViewModel.SpeakerParameter.Add(parameter);
+                    index = MainViewModel.SpeakerParameter.Count - 1;
                 }
 
                 VoicevoxParameterSlider parameterSlider = new VoicevoxParameterSlider();

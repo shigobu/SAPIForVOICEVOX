@@ -149,6 +149,6 @@ namespace Setting
         /// <summary>
         /// 設定ファイルのバージョンを所得、設定します。
         /// </summary>
-        public Version Version { get; set; } = new Version(1, 0, 0, 0);
+        public string Version { get; set; } = new Version(1, 0, 0).ToString();
     }
 }

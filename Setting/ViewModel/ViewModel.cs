@@ -101,11 +101,11 @@ namespace Setting
         }
 
 
-        private SynthesisParameter[] _SpeakerParameter = new SynthesisParameter[0];
+        private List<SynthesisParameter> _SpeakerParameter = new List<SynthesisParameter>();
         /// <summary>
         /// 各キャラクター調声設定
         /// </summary>
-        public SynthesisParameter[] SpeakerParameter
+        public List<SynthesisParameter> SpeakerParameter
         {
             get => _SpeakerParameter;
             set
@@ -201,7 +201,7 @@ namespace Setting
             RaisePropertyChanged(null);
 
             BatchParameter = new SynthesisParameter();
-            for (int i = 0; i < SpeakerParameter.Length; i++)
+            for (int i = 0; i < SpeakerParameter.Count; i++)
             {
                 SpeakerParameter[i] = new SynthesisParameter();
             }
@@ -306,12 +306,17 @@ namespace Setting
                 serializerGeneralSeting.Serialize(streamWriter, generalSetting);
             }
 
+            BatchParameter.Version = Common.GetCurrentVersion().ToString();
             var serializerBatchParameter = new XmlSerializer(typeof(SynthesisParameter));
             using (var streamWriter = new StreamWriter(GetBatchParameterSettingFileName(), false, Encoding.UTF8))
             {
                 serializerBatchParameter.Serialize(streamWriter, BatchParameter);
             }
 
+            foreach (var param in SpeakerParameter)
+            {
+                param.Version = Common.GetCurrentVersion().ToString();
+            }
             var serializerSpeakerParameter = new XmlSerializer(typeof(List<SynthesisParameter>));
             using (var streamWriter = new StreamWriter(GetSpeakerParameterSettingFileName(), false, Encoding.UTF8))
             {
@@ -434,12 +439,12 @@ namespace Setting
         /// キャラ調声設定を読み込みます。
         /// </summary>
         /// <returns>キャラ調声設定配列</returns>
-        static public SynthesisParameter[] LoadSpeakerSynthesisParameter()
+        static public List<SynthesisParameter> LoadSpeakerSynthesisParameter()
         {
             string settingFileName = GetSpeakerParameterSettingFileName();
 
             //戻り値を作成、初期化
-            SynthesisParameter[] result = new SynthesisParameter[0];
+            List<SynthesisParameter> result = new List<SynthesisParameter>();
 
             //ファイル存在確認
             if (!File.Exists(settingFileName))
@@ -454,7 +459,7 @@ namespace Setting
                 //同じファイルを同時に操作しないために、ミューテックスを使用
                 mutex.WaitOne();
 
-                var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter[]));
+                var serializerSynthesisParameter = new XmlSerializer(typeof(List<SynthesisParameter>));
                 var xmlSettings = new XmlReaderSettings()
                 {
                     CheckCharacters = false,
@@ -463,12 +468,12 @@ namespace Setting
                 using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
                 {
                     //結果上書き
-                    result = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
+                    result = (List<SynthesisParameter>)serializerSynthesisParameter.Deserialize(xmlReader);
                 }
                 //データが古い場合
-                if (result.Length != 0 && result.First().Version.Major < Common.GetCurrentVersion().Major)
+                if (result.Count != 0 && new Version(result.First().Version).Major < Common.GetCurrentVersion().Major)
                 {
-                    result = new SynthesisParameter[0];
+                    result = new List<SynthesisParameter>();
                 }
                 return result;
             }
