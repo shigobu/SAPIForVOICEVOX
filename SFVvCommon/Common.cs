@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace SFVvCommon
 {
@@ -67,6 +68,29 @@ namespace SFVvCommon
         public static IEnumerable<StyleBase> SortStyle(IEnumerable<StyleBase> styles)
         {
             return styles.OrderBy(x => x.Name, new StyleComparer()).ThenBy(x => x.ID);
+        }
+
+        /// <summary>
+        /// 配列に値を追加します。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array">配列</param>
+        /// <param name="value">追加する値</param>
+        public static void ArrayAdd<T>(ref T[] array, T value)
+        {
+            Array.Resize(ref array, array.Length + 1);
+            array[array.Length - 1] = value;
+        }
+
+        /// <summary>
+        /// 現在のバージョンを取得します。
+        /// </summary>
+        /// <returns></returns>
+        public static Version GetCurrentVersion()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            AssemblyName asmName = assembly.GetName();
+            return asmName.Version;
         }
     }
 }

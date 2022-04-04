@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Setting
@@ -11,7 +12,7 @@ namespace Setting
         #region INotifyPropertyChangedの実装
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
           => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         #endregion
@@ -145,5 +146,9 @@ namespace Setting
             }
         }
 
+        /// <summary>
+        /// 設定ファイルのバージョンを所得、設定します。
+        /// </summary>
+        public Version Version { get; set; } = new Version(1, 0, 0, 0);
     }
 }

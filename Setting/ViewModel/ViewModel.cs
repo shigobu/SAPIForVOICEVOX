@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
+using SFVvCommon;
 
 namespace Setting
 {
@@ -16,7 +19,7 @@ namespace Setting
         #region INotifyPropertyChangedの実装
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
           => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
@@ -98,7 +101,7 @@ namespace Setting
         }
 
 
-        private SynthesisParameter[] _SpeakerParameter = new SynthesisParameter[CharacterCount];
+        private SynthesisParameter[] _SpeakerParameter = new SynthesisParameter[0];
         /// <summary>
         /// 各キャラクター調声設定
         /// </summary>
@@ -198,7 +201,6 @@ namespace Setting
             RaisePropertyChanged(null);
 
             BatchParameter = new SynthesisParameter();
-            SpeakerParameter = new SynthesisParameter[CharacterCount];
             for (int i = 0; i < SpeakerParameter.Length; i++)
             {
                 SpeakerParameter[i] = new SynthesisParameter();
@@ -226,7 +228,7 @@ namespace Setting
         /// <summary>
         /// プロパティ変更の通知受取り
         /// </summary>
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        public void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             //適応ボタンの有効化
             owner.ApplyButton.IsEnabled = true;
@@ -310,7 +312,7 @@ namespace Setting
                 serializerBatchParameter.Serialize(streamWriter, BatchParameter);
             }
 
-            var serializerSpeakerParameter = new XmlSerializer(typeof(SynthesisParameter[]));
+            var serializerSpeakerParameter = new XmlSerializer(typeof(List<SynthesisParameter>));
             using (var streamWriter = new StreamWriter(GetSpeakerParameterSettingFileName(), false, Encoding.UTF8))
             {
                 serializerSpeakerParameter.Serialize(streamWriter, SpeakerParameter);
@@ -437,11 +439,7 @@ namespace Setting
             string settingFileName = GetSpeakerParameterSettingFileName();
 
             //戻り値を作成、初期化
-            SynthesisParameter[] result = new SynthesisParameter[CharacterCount];
-            for (int i = 0; i < result.Length; i++)
-            {
-                result[i] = new SynthesisParameter();
-            }
+            SynthesisParameter[] result = new SynthesisParameter[0];
 
             //ファイル存在確認
             if (!File.Exists(settingFileName))
@@ -466,17 +464,11 @@ namespace Setting
                 {
                     //結果上書き
                     result = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
-                    if (result.Length < CharacterCount)
-                    {
-                        Array.Resize(ref result, CharacterCount);
-                        for (int i = 0; i < result.Length; i++)
-                        {
-                            if (result[i] == null)
-                            {
-                                result[i] = new SynthesisParameter();
-                            }
-                        }
-                    }
+                }
+                //データが古い場合
+                if (result.Length != 0 && result.First().Version.Major < Common.GetCurrentVersion().Major)
+                {
+                    result = new SynthesisParameter[0];
                 }
                 return result;
             }

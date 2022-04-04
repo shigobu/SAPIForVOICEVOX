@@ -158,7 +158,12 @@ namespace Setting
                 int index = Array.FindIndex(MainViewModel.SpeakerParameter, x => x.ID == style.ID && x.Port == style.Port);
                 if (index < 0)
                 {
-                    throw new KeyNotFoundException();
+                    SynthesisParameter parameter = new SynthesisParameter() { ID = style.ID, Port = style.Port };
+                    parameter.PropertyChanged += MainViewModel.ViewModel_PropertyChanged;
+                    var temp = MainViewModel.SpeakerParameter;
+                    Common.ArrayAdd(ref temp, parameter);
+                    MainViewModel.SpeakerParameter = temp;
+                    index = MainViewModel.SpeakerParameter.Length - 1;
                 }
 
                 VoicevoxParameterSlider parameterSlider = new VoicevoxParameterSlider();

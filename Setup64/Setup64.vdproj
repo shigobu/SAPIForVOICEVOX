@@ -724,15 +724,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX64"
-        "ProductCode" = "8:{D2F35C1B-F695-45CD-9810-566D0BBAB682}"
-        "PackageCode" = "8:{D444EE31-AA51-460D-A664-A5BEA1EC08E3}"
+        "ProductCode" = "8:{D0E1AE1F-2C0D-46A5-8F38-99A811BFC20B}"
+        "PackageCode" = "8:{5E630232-BFD8-4F7D-8E84-827B4038B26C}"
         "UpgradeCode" = "8:{38748062-1F81-49A9-AE59-A3DCE9BD3967}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.3"
+        "ProductVersion" = "8:2.0.0"
         "Manufacturer" = "8:Shigobu"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1368,7 +1368,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_35B3989C6F904D4F80C8BE5D728A489C"
             {
-            "SourcePath" = "8:..\\StyleRegistrationTool\\obj\\x64\\Release\\StyleRegistrationTool.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9D017E7FA90A4DBDB255A2A5F1CA3A6D"
@@ -1396,7 +1396,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3689B44B2C874C22A99B4079678C8B58"
             {
-            "SourcePath" = "8:..\\SAPIForVOICEVOX\\obj\\x64\\Release\\SAPIForVOICEVOX.dll"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9D017E7FA90A4DBDB255A2A5F1CA3A6D"
@@ -1452,7 +1452,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A909083F989E4A14A366788EC2F774BF"
             {
-            "SourcePath" = "8:..\\Setting\\obj\\x64\\Release\\Setting.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9D017E7FA90A4DBDB255A2A5F1CA3A6D"
@@ -1480,7 +1480,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_ED863E916E664F7E84254EF95ADF42AB"
             {
-            "SourcePath" = "8:..\\SetupCustomActions\\obj\\Release\\SetupCustomActions.dll"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9D017E7FA90A4DBDB255A2A5F1CA3A6D"
