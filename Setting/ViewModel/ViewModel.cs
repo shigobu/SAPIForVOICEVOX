@@ -11,6 +11,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Linq;
 using SFVvCommon;
+using System.Reflection;
 
 namespace Setting
 {
@@ -270,15 +271,6 @@ namespace Setting
         {
             string appPath = GetThisAssembly().Location;
             return Path.GetDirectoryName(appPath);
-        }
-
-        /// <summary>
-        /// 実行中のコードを格納しているアセンブリのバージョンは返します。
-        /// </summary>
-        /// <returns>アセンブリバーション</returns>
-        static public Version GetThisAppVersion()
-        {
-            return GetThisAssembly().GetName().Version;
         }
 
         /// <summary>
