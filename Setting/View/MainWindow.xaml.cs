@@ -60,6 +60,15 @@ namespace Setting
 
         #endregion
 
+        #region プロパティ
+
+        /// <summary>
+        /// メインのビューモデル
+        /// </summary>
+        ViewModel MainViewModel { get; set; }
+
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
@@ -71,24 +80,17 @@ namespace Setting
 #endif
             this.Title += bitStr;
 
-            ViewModel viewModel = new ViewModel(this);
-            this.DataContext = viewModel;
-            OkButton.Click += viewModel.OkButton_Click;
-            ApplyButton.Click += viewModel.ApplyButton_Click;
-            resetButton.Click += viewModel.ResetButton_Click;
-            versionInfoButton.Click += viewModel.VersionInfoButton_Click;
+            MainViewModel = new ViewModel(this);
+            this.DataContext = MainViewModel;
+            OkButton.Click += MainViewModel.OkButton_Click;
+            ApplyButton.Click += MainViewModel.ApplyButton_Click;
+            resetButton.Click += MainViewModel.ResetButton_Click;
+            versionInfoButton.Click += MainViewModel.VersionInfoButton_Click;
 
             ApplyButton.IsEnabled = false;
 
             AddTabControl();
         }
-
-        const string tokensRegKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
-        const string regSpeakerNumber = "SpeakerNumber";
-        const string regClsid = "CLSID";
-        const string regName = "Name";
-        const string regStyleName = "StyleName";
-
 
         /// <summary>
         /// 各キャラクターやスタイルのタブを追加します。
@@ -97,20 +99,20 @@ namespace Setting
         {
             List<VoicevoxStyle> styles = new List<VoicevoxStyle>();
 
-            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey))
+            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(Common.tokensRegKey))
             {
                 string[] tokenNames = regTokensKey.GetSubKeyNames();
                 foreach (string tokenName in tokenNames)
                 {
                     using (RegistryKey tokenKey = regTokensKey.OpenSubKey(tokenName))
                     {
-                        string clsid = (string)tokenKey.GetValue(regClsid);
+                        string clsid = (string)tokenKey.GetValue(Common.regClsid);
                         if (clsid != Common.CLSID.ToString(Common.RegClsidFormatString))
                         {
                             continue;
                         }
 
-                        string name = (string)tokenKey.GetValue(regName);
+                        string name = (string)tokenKey.GetValue(Common.regName);
                         if (name == null)
                         {
                             AddTabDefault();
@@ -118,9 +120,10 @@ namespace Setting
                         }
                         else
                         {
-                            string styleName = (string)tokenKey.GetValue(regStyleName);
-                            int id = (int)tokenKey.GetValue(regSpeakerNumber);
-                            styles.Add(new VoicevoxStyle(name, styleName, id));
+                            string styleName = (string)tokenKey.GetValue(Common.regStyleName);
+                            int id = (int)tokenKey.GetValue(Common.regSpeakerNumber, 0);
+                            int port = (int)tokenKey.GetValue(Common.regPort, 50021);
+                            styles.Add(new VoicevoxStyle(name, styleName, id, port));
                         }
                     }
                 }
@@ -152,8 +155,18 @@ namespace Setting
                     tabControl = tabItems.First().Content as TabControl;
                 }
 
+                //int index = Array.FindIndex(MainViewModel.SpeakerParameter, x => x.ID == style.ID && x.Port == style.Port);
+                int index = MainViewModel.SpeakerParameter.FindIndex(x => x.ID == style.ID && x.Port == style.Port);
+                if (index < 0)
+                {
+                    SynthesisParameter parameter = new SynthesisParameter() { ID = style.ID, Port = style.Port };
+                    parameter.PropertyChanged += MainViewModel.ViewModel_PropertyChanged;
+                    MainViewModel.SpeakerParameter.Add(parameter);
+                    index = MainViewModel.SpeakerParameter.Count - 1;
+                }
+
                 VoicevoxParameterSlider parameterSlider = new VoicevoxParameterSlider();
-                parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(ViewModel.SpeakerParameter) + $"[{style.ID}]");
+                parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(Setting.ViewModel.SpeakerParameter) + $"[{index}]");
 
                 TabItem styleTabItem = new TabItem();
                 styleTabItem.Header = style.StyleName;
@@ -166,7 +179,7 @@ namespace Setting
         private void AddTabDefault()
         {
             VoicevoxParameterSlider parameterSlider = new VoicevoxParameterSlider();
-            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(ViewModel.SpeakerParameter) + "[0]");
+            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(Setting.ViewModel.SpeakerParameter) + "[0]");
 
             Binding binding = new Binding("IsChecked");
             binding.ElementName = nameof(parCharacterRadioButton);
@@ -179,7 +192,7 @@ namespace Setting
             mainTab.Items.Add(tabItem);
 
             parameterSlider = new VoicevoxParameterSlider();
-            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(ViewModel.SpeakerParameter) + "[1]");
+            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(Setting.ViewModel.SpeakerParameter) + "[1]");
 
             tabItem = new TabItem();
             tabItem.Header = "ずんだもん";

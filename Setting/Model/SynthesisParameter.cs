@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Setting
@@ -11,7 +12,7 @@ namespace Setting
         #region INotifyPropertyChangedの実装
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
           => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         #endregion
@@ -114,6 +115,40 @@ namespace Setting
                 RaisePropertyChanged();
             }
         }
-    }
 
+        private int _Port = 50021;
+        /// <summary>
+        /// ポートを取得、設定します。
+        /// </summary>
+        public int Port
+        {
+            get => _Port;
+            set
+            {
+                if (_Port == value) return;
+                _Port = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _ID = 0;
+        /// <summary>
+        /// 話者IDを取得、設定します。
+        /// </summary>
+        public int ID
+        {
+            get => _ID;
+            set
+            {
+                if (_ID == value) return;
+                _ID = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 設定ファイルのバージョンを所得、設定します。
+        /// </summary>
+        public string Version { get; set; } = new Version(1, 0, 0).ToString();
+    }
 }

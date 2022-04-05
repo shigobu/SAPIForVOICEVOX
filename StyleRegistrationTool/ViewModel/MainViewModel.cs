@@ -2,6 +2,7 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json.Linq;
 using SFVvCommon;
+using StyleRegistrationTool.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +24,7 @@ namespace StyleRegistrationTool.ViewModel
             MainWindow = mainWindow;
             OkCommand = new DelegateCommand(OkCommandExecute);
             CancelCommand = new DelegateCommand(() => MainWindow.Close());
+            ChangePortCommand = new DelegateCommand(ChangePortCommandExecute);
             AddCommand = new DelegateCommand(AddCommandExecute);
             RemoveCommand = new DelegateCommand(RemoveCommandExecute);
             AllAddCommand = new DelegateCommand(AllAddCommandExecute);
@@ -59,6 +61,11 @@ namespace StyleRegistrationTool.ViewModel
         public ICommand CancelCommand { get; set; }
 
         /// <summary>
+        /// ポート変更ボタンのコマンド
+        /// </summary>
+        public ICommand ChangePortCommand { get; set; }
+
+        /// <summary>
         /// 追加コマンド
         /// </summary>
         public ICommand AddCommand { get; set; }
@@ -87,6 +94,11 @@ namespace StyleRegistrationTool.ViewModel
         /// SAPI側リストの選択されているアイテム一覧
         /// </summary>
         internal IEnumerable<SapiStyle> SapiStyle_SelectedItems { get; set; } = Enumerable.Empty<SapiStyle>();
+
+        /// <summary>
+        /// ポート番号
+        /// </summary>
+        internal int Port { get; set; } = 50021;
 
         #region NotifyProperty
 
@@ -264,6 +276,29 @@ namespace StyleRegistrationTool.ViewModel
         }
 
         /// <summary>
+        /// ポート変更ボタン
+        /// </summary>
+        private async void ChangePortCommandExecute()
+        {
+            int prevPort = Port;
+            if (!ShowChangePortWindow())
+            {
+                return;
+            }
+
+            IsMainWindowEnabled = false;
+            WaitCircleVisibility = Visibility.Visible;
+
+            bool isSuccess = await UpdateVoicevoxStyles(false);
+            if (!isSuccess)
+            {
+                Port = prevPort;
+            }
+            IsMainWindowEnabled = true;
+            WaitCircleVisibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
         /// 追加ボタンの処理
         /// </summary>
         private void AddCommandExecute()
@@ -296,11 +331,13 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void AllAddCommandExecute()
         {
-            SapiStyles.Clear();
             foreach (var item in VoicevoxStyles)
             {
                 SapiStyle sapiStyle = new SapiStyle(item, Common.CLSID);
-                SapiStyles.Add(sapiStyle);
+                if (!SapiStyles.Contains(sapiStyle))
+                {
+                    SapiStyles.Add(sapiStyle);
+                }
             }
         }
 
@@ -331,12 +368,12 @@ namespace StyleRegistrationTool.ViewModel
             var dialog = new TaskDialog
             {
                 OwnerWindowHandle = window.Handle,
-                Caption = "話者とスタイルの登録",
+                Caption = $"話者とスタイルの登録",
                 InstructionText = "話者とスタイルの登録を行います。",
                 Text = "後で登録することもできます。\n後で登録する場合、スタートの全てのプログラムから起動できます。"
             };
 
-            var link1 = new TaskDialogCommandLink("link1", "登録する話者とスタイルを選択", "VOICEVOXの起動が必要");
+            var link1 = new TaskDialogCommandLink("link1", "登録する話者とスタイルを選択", "VOICEVOX(または派生アプリ)の起動が必要");
             link1.Click += (sender1, e1) =>
             {
                 dialog.Close();
@@ -345,7 +382,7 @@ namespace StyleRegistrationTool.ViewModel
             link1.Default = true;
             dialog.Controls.Add(link1);
 
-            var link2 = new TaskDialogCommandLink("link2", "全ての話者とスタイルを登録", "VOICEVOXの起動が必要");
+            var link2 = new TaskDialogCommandLink("link2", "全ての話者とスタイルを登録", "VOICEVOX(または派生アプリ)の起動が必要");
             link2.Click += (sender1, e1) =>
             {
                 dialog.Close();
@@ -353,13 +390,20 @@ namespace StyleRegistrationTool.ViewModel
             };
             dialog.Controls.Add(link2);
 
-            var link3 = new TaskDialogCommandLink("link3", "後で行う", "デフォルトの話者とスタイルが登録されます。");
+            var link3 = new TaskDialogCommandLink("link3", "ポート変更", "COEIROINK等のVOICEVOX派生アプリを登録します");
             link3.Click += (sender1, e1) =>
+            {
+                ShowChangePortWindow();
+            };
+            dialog.Controls.Add(link3);
+
+            var link4 = new TaskDialogCommandLink("link4", "後で行う", "デフォルトの話者とスタイルが登録されます。");
+            link4.Click += (sender1, e1) =>
             {
                 dialog.Close();
                 dialogResult = InstallerDialogResult.DefaultStyle;
             };
-            dialog.Controls.Add(link3);
+            dialog.Controls.Add(link4);
 
             dialog.Show();
             return dialogResult;
@@ -383,24 +427,53 @@ namespace StyleRegistrationTool.ViewModel
             //dialog.Icon = TaskDialogStandardIcon.Information;
             dialog.Caption = "VOICEVOX起動の確認";
             dialog.InstructionText = "VOICEVOXを起動しましたか？";
-            dialog.Text = "話者とスタイル登録には、VOICEVOXの起動が必要です。";
+            dialog.Text = "話者とスタイル登録には、VOICEVOX(または派生アプリ)の起動が必要です。";
 
             var link1 = new TaskDialogCommandLink("link1", "VOICEVOXを起動した");
             link1.Click += (sender1, e1) => dialog.Close();
             link1.Default = true;
             dialog.Controls.Add(link1);
 
-            var link2 = new TaskDialogCommandLink("link2", "中止");
+            var link2 = new TaskDialogCommandLink("link2", "ポート変更");
             link2.Click += (sender1, e1) =>
+            {
+                dialog.Close();
+                ShowChangePortWindow();
+            };
+            dialog.Controls.Add(link2);
+
+            var link3 = new TaskDialogCommandLink("link3", "中止");
+            link3.Click += (sender1, e1) =>
             {
                 dialog.Close();
                 shouldContinue = false;
             };
-            dialog.Controls.Add(link2);
+            dialog.Controls.Add(link3);
 
             dialog.Show();
 
             return shouldContinue;
+        }
+
+        /// <summary>
+        /// ポート変更ダイアログを表示し、ユーザーの選択に応じて、Portプロパティを更新します。
+        /// </summary>
+        private bool ShowChangePortWindow()
+        {
+            ChangePortWindow portWindow = new ChangePortWindow(Port)
+            {
+                Owner = MainWindow
+            };
+            bool? portWindowResult = portWindow.ShowDialog();
+            if (portWindowResult ?? false)
+            {
+                Port = portWindow.Port;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -410,7 +483,7 @@ namespace StyleRegistrationTool.ViewModel
         async Task<VoicevoxStyle[]> GetVoicevoxStyles()
         {
             List<VoicevoxStyle> voicevoxStyles = new List<VoicevoxStyle>();
-            using (var resultSpeakers = await httpClient.GetAsync(@"http://127.0.0.1:50021/speakers"))
+            using (var resultSpeakers = await httpClient.GetAsync($"http://127.0.0.1:{Port}/speakers"))
             {
                 //戻り値を文字列にする
                 string resBodyStr = await resultSpeakers.Content.ReadAsStringAsync();
@@ -422,7 +495,7 @@ namespace StyleRegistrationTool.ViewModel
                     {
                         string styleName = style["name"].ToString();
                         int id = style.Value<int>("id");
-                        voicevoxStyles.Add(new VoicevoxStyle(name, styleName, id));
+                        voicevoxStyles.Add(new VoicevoxStyle(name, styleName, id, Port));
                     }
                 }
             }
@@ -446,13 +519,6 @@ namespace StyleRegistrationTool.ViewModel
 
         #region レジストリ関連
 
-        const string tokensRegKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
-        const string regAttributes = "Attributes";
-        const string regSpeakerNumber = "SpeakerNumber";
-        const string regClsid = "CLSID";
-        const string regName = "Name";
-        const string regStyleName = "StyleName";
-
         /// <summary>
         /// Windowsのレジストリにスタイルを登録します。
         /// </summary>
@@ -460,7 +526,7 @@ namespace StyleRegistrationTool.ViewModel
         {
             Common.ClearStyleFromWindowsRegistry();
 
-            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
+            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(Common.tokensRegKey, true))
             {
                 for (int i = 0; i < SapiStyles.Count(); i++)
                 {
@@ -468,12 +534,13 @@ namespace StyleRegistrationTool.ViewModel
                     {
                         voiceVoxRegkey.SetValue("", SapiStyles[i].SpaiName);
                         voiceVoxRegkey.SetValue("411", SapiStyles[i].SpaiName);
-                        voiceVoxRegkey.SetValue(regClsid, SapiStyles[i].CLSID.ToString(Common.RegClsidFormatString));
-                        voiceVoxRegkey.SetValue(regSpeakerNumber, SapiStyles[i].ID);
-                        voiceVoxRegkey.SetValue(regName, SapiStyles[i].Name);
-                        voiceVoxRegkey.SetValue(regStyleName, SapiStyles[i].StyleName);
+                        voiceVoxRegkey.SetValue(Common.regClsid, SapiStyles[i].CLSID.ToString(Common.RegClsidFormatString));
+                        voiceVoxRegkey.SetValue(Common.regSpeakerNumber, SapiStyles[i].ID);
+                        voiceVoxRegkey.SetValue(Common.regName, SapiStyles[i].Name);
+                        voiceVoxRegkey.SetValue(Common.regStyleName, SapiStyles[i].StyleName);
+                        voiceVoxRegkey.SetValue(Common.regPort, SapiStyles[i].Port);
 
-                        using (RegistryKey AttributesRegkey = voiceVoxRegkey.CreateSubKey(regAttributes))
+                        using (RegistryKey AttributesRegkey = voiceVoxRegkey.CreateSubKey(Common.regAttributes))
                         {
                             AttributesRegkey.SetValue("Age", "Teen");
                             AttributesRegkey.SetValue("Vendor", "Hiroshiba Kazuyuki");
@@ -494,21 +561,22 @@ namespace StyleRegistrationTool.ViewModel
         {
             List<SapiStyle> sapiStyles = new List<SapiStyle>();
 
-            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
+            using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(Common.tokensRegKey, true))
             {
                 string[] tokenNames = regTokensKey.GetSubKeyNames();
                 foreach (string tokenName in tokenNames)
                 {
                     using (RegistryKey tokenKey = regTokensKey.OpenSubKey(tokenName))
                     {
-                        string clsid = (string)tokenKey.GetValue(regClsid);
-                        string name = (string)tokenKey.GetValue(regName);
+                        string clsid = (string)tokenKey.GetValue(Common.regClsid);
+                        string name = (string)tokenKey.GetValue(Common.regName);
                         if (clsid == Common.CLSID.ToString(Common.RegClsidFormatString) &&
                             name != null)
                         {
-                            string styleName = (string)tokenKey.GetValue(regStyleName);
-                            int id = (int)tokenKey.GetValue(regSpeakerNumber);
-                            SapiStyle sapiStyle = new SapiStyle(name, styleName, id, new Guid(clsid));
+                            string styleName = (string)tokenKey.GetValue(Common.regStyleName);
+                            int id = (int)tokenKey.GetValue(Common.regSpeakerNumber, 0);
+                            int port = (int)tokenKey.GetValue(Common.regPort, 50021);
+                            SapiStyle sapiStyle = new SapiStyle(name, styleName, id, port, new Guid(clsid));
                             sapiStyles.Add(sapiStyle);
                         }
                     }

@@ -7,7 +7,7 @@
         xmlns:viewModel="clr-namespace:StyleRegistrationTool.ViewModel"
         d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel}"
         mc:Ignorable="d"
-        Title="スタイル登録ツール " Height="450" Width="500" MinWidth="350" MinHeight="350" WindowStartupLocation="CenterScreen" Icon="/StyleRegistrationTool;component/icon/users-alt.ico">
+        Title="スタイル登録ツール " Height="450" Width="580" MinWidth="350" MinHeight="350" WindowStartupLocation="CenterScreen" Icon="/StyleRegistrationTool;component/icon/users-alt.ico">
     <Grid Margin="5">
         <!--メイン画面-->
         <Grid IsEnabled="{Binding IsMainWindowEnabled}">
@@ -23,10 +23,12 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Margin="3,3,3,0" Text="VOICEVOX"/>
             <TextBlock Grid.Row="0" Grid.Column="2" Margin="3,3,3,0" Text="SAPI"/>
-            <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,0">
-                <Button Margin="3" Width="70" IsDefault="True" Command="{Binding OkCommand}">OK</Button>
-                <Button Margin="3" Width="70" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
-            </StackPanel>
+            <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,5,0,0">
+                <Button DockPanel.Dock="Left" Margin="3" Width="70" IsCancel="True" Command="{Binding ChangePortCommand}">ポート変更</Button>
+                <Button DockPanel.Dock="Right" Margin="3" Width="70" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
+                <Button DockPanel.Dock="Right" Margin="3" Width="70" IsDefault="True" Command="{Binding OkCommand}">OK</Button>
+                <Rectangle/>
+            </DockPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" Margin="3" Width="100" VerticalAlignment="Center">
                 <Button Margin="3, 3, 3, 30" Command="{Binding AllAddCommand}">すべて追加＞＞</Button>
                 <Button Margin="3" Command="{Binding AddCommand}">追加 ＞＞</Button>
@@ -39,6 +41,7 @@
                         <GridViewColumn Header="キャラ" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="スタイル" DisplayMemberBinding="{Binding StyleName}"/>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
+                        <GridViewColumn Header="ポート" DisplayMemberBinding="{Binding Port}"/>
                     </GridView>
                 </ListView.View>
 
@@ -49,6 +52,7 @@
                         <GridViewColumn Header="キャラ" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="スタイル" DisplayMemberBinding="{Binding StyleName}"/>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
+                        <GridViewColumn Header="ポート" DisplayMemberBinding="{Binding Port}"/>
                     </GridView>
                 </ListView.View>
 

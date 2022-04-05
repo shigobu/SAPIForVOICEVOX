@@ -124,6 +124,11 @@ namespace SAPIForVOICEVOX
         int SpeakerNumber { get; set; } = 0;
 
         /// <summary>
+        /// ポート番号
+        /// </summary>
+        int Port { get; set; } = 50021;
+
+        /// <summary>
         /// トークン
         /// </summary>
         ISpObjectToken Token { get; set; }
@@ -443,8 +448,11 @@ namespace SAPIForVOICEVOX
             Token = pToken;
             //初期化
             //話者番号を取得し、プロパティに設定。
-            Token.GetDWORD(regSpeakerNumber, out uint value);
+            Token.GetDWORD(Common.regSpeakerNumber, out uint value);
             SpeakerNumber = (int)value;
+
+            Token.GetDWORD(Common.regPort, out value);
+            Port = (int)value;
         }
 
         /// <summary>
@@ -460,11 +468,8 @@ namespace SAPIForVOICEVOX
 
         #region レジストリ関連
 
-        const string regKey = @"SOFTWARE\Microsoft\Speech\Voices\Tokens\";
         const string regName1 = "VOICEVOX1";
         const string regName2 = "VOICEVOX2";
-        const string regAttributes = "Attributes";
-        const string regSpeakerNumber = "SpeakerNumber";
 
         /// <summary>
         /// レジストリ登録されるときに呼ばれます。
@@ -474,14 +479,14 @@ namespace SAPIForVOICEVOX
         public static void RegisterClass(string key)
         {
             //四国めたん
-            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName1))
+            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(Common.tokensRegKey + regName1))
             {
                 registryKey.SetValue("", "VOICEVOX 四国めたん");
                 registryKey.SetValue("411", "VOICEVOX 四国めたん");
                 registryKey.SetValue("CLSID", Common.CLSID.ToString(Common.RegClsidFormatString));
-                registryKey.SetValue(regSpeakerNumber, 0);
+                registryKey.SetValue(Common.regSpeakerNumber, 0);
             }
-            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName1 + @"\" + regAttributes))
+            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(Common.tokensRegKey + regName1 + @"\" + Common.regAttributes))
             {
                 registryKey.SetValue("Age", "Teen");
                 registryKey.SetValue("Vendor", "Hiroshiba Kazuyuki");
@@ -491,14 +496,14 @@ namespace SAPIForVOICEVOX
             }
 
             //ずんだもん
-            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName2))
+            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(Common.tokensRegKey + regName2))
             {
                 registryKey.SetValue("", "VOICEVOX ずんだもん");
                 registryKey.SetValue("411", "VOICEVOX ずんだもん");
                 registryKey.SetValue("CLSID", Common.CLSID.ToString(Common.RegClsidFormatString));
-                registryKey.SetValue(regSpeakerNumber, 1);
+                registryKey.SetValue(Common.regSpeakerNumber, 1);
             }
-            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(regKey + regName2 + @"\" + regAttributes))
+            using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(Common.tokensRegKey + regName2 + @"\" + Common.regAttributes))
             {
                 registryKey.SetValue("Age", "Child");
                 registryKey.SetValue("Vendor", "Hiroshiba Kazuyuki");
@@ -555,7 +560,8 @@ namespace SAPIForVOICEVOX
             try
             {
                 //audio_queryを送る
-                using (var resultAudioQuery = await httpClient.PostAsync(@"http://127.0.0.1:50021/audio_query?" + encodedParamaters, null))
+                string url = $"http://127.0.0.1:{Port}/";
+                using (var resultAudioQuery = await httpClient.PostAsync($"{url}audio_query?{encodedParamaters}", null))
                 {
                     //戻り値を文字列にする
                     string resBodyStr = await resultAudioQuery.Content.ReadAsStringAsync();
@@ -572,7 +578,7 @@ namespace SAPIForVOICEVOX
                     //jsonコンテンツに変換
                     var content = new StringContent(jsonString, Encoding.UTF8, @"application/json");
                     //synthesis送信
-                    using (var resultSynthesis = await httpClient.PostAsync(@"http://127.0.0.1:50021/synthesis?" + $"speaker={speakerString}&enable_interrogative_upspeak={enableInterrogativeUpspeak}", content))
+                    using (var resultSynthesis = await httpClient.PostAsync($"{url}synthesis?speaker={speakerString}&enable_interrogative_upspeak={enableInterrogativeUpspeak}", content))
                     {
                         HttpContent httpContent = resultSynthesis.Content;
                         //音声データで無い場合
@@ -681,7 +687,8 @@ namespace SAPIForVOICEVOX
                     synthesisParameter = ViewModel.LoadBatchSynthesisParameter();
                     break;
                 case SynthesisSettingMode.EachCharacter:
-                    synthesisParameter = ViewModel.LoadSpeakerSynthesisParameter()[speakerNum];
+                    List<SynthesisParameter> parameters = ViewModel.LoadSpeakerSynthesisParameter();
+                    synthesisParameter = parameters.FirstOrDefault(x => x.ID == speakerNum && x.Port == Port) ?? new SynthesisParameter();
                     break;
                 default:
                     synthesisParameter = new SynthesisParameter();

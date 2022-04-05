@@ -15,7 +15,7 @@ namespace SFVvCommon
         /// <param name="styleName">スタイル名</param>
         /// <param name="iD">ID</param>
         /// <param name="clsid">SAPIエンジンのクラスID</param>
-        public SapiStyle(string name, string styleName, int iD, Guid clsid) : base(name, styleName, iD)
+        public SapiStyle(string name, string styleName, int iD, int port, Guid clsid) : base(name, styleName, iD, port)
         {
             CLSID = clsid;
         }
@@ -25,7 +25,7 @@ namespace SFVvCommon
         /// </summary>
         /// <param name="voicevoxStyle">VOICEVOXスタイル</param>
         /// <param name="clsid">SAPIエンジンのクラスID</param>
-        public SapiStyle(VoicevoxStyle voicevoxStyle, Guid clsid) : this(voicevoxStyle.Name, voicevoxStyle.StyleName, voicevoxStyle.ID, clsid)
+        public SapiStyle(VoicevoxStyle voicevoxStyle, Guid clsid) : this(voicevoxStyle.Name, voicevoxStyle.StyleName, voicevoxStyle.ID, voicevoxStyle.Port, clsid)
         {
         }
 

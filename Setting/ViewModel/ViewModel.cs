@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
+using SFVvCommon;
+using System.Reflection;
 
 namespace Setting
 {
@@ -16,7 +20,7 @@ namespace Setting
         #region INotifyPropertyChangedの実装
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
           => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
@@ -98,11 +102,11 @@ namespace Setting
         }
 
 
-        private SynthesisParameter[] _SpeakerParameter = new SynthesisParameter[CharacterCount];
+        private List<SynthesisParameter> _SpeakerParameter = new List<SynthesisParameter>();
         /// <summary>
         /// 各キャラクター調声設定
         /// </summary>
-        public SynthesisParameter[] SpeakerParameter
+        public List<SynthesisParameter> SpeakerParameter
         {
             get => _SpeakerParameter;
             set
@@ -198,8 +202,7 @@ namespace Setting
             RaisePropertyChanged(null);
 
             BatchParameter = new SynthesisParameter();
-            SpeakerParameter = new SynthesisParameter[CharacterCount];
-            for (int i = 0; i < SpeakerParameter.Length; i++)
+            for (int i = 0; i < SpeakerParameter.Count; i++)
             {
                 SpeakerParameter[i] = new SynthesisParameter();
             }
@@ -226,7 +229,7 @@ namespace Setting
         /// <summary>
         /// プロパティ変更の通知受取り
         /// </summary>
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        public void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             //適応ボタンの有効化
             owner.ApplyButton.IsEnabled = true;
@@ -251,6 +254,14 @@ namespace Setting
         #endregion
 
         #region メソッド
+        /// <summary>
+        /// 現在実行中のコードを含むアセンブリを返します。
+        /// </summary>
+        /// <returns></returns>
+        static public Assembly GetThisAssembly()
+        {
+            return Assembly.GetExecutingAssembly();
+        }
 
         /// <summary>
         /// 実行中のコードを格納しているアセンブリのある場所を返します。
@@ -258,7 +269,7 @@ namespace Setting
         /// <returns></returns>
         static public string GetThisAppDirectory()
         {
-            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string appPath = GetThisAssembly().Location;
             return Path.GetDirectoryName(appPath);
         }
 
@@ -283,7 +294,7 @@ namespace Setting
         }
 
         /// <summary>
-        /// キャラ調声設定ファイルを取得します。
+        /// キャラ調声設定ファイル名を取得します。
         /// </summary>
         /// <returns></returns>
         static public string GetSpeakerParameterSettingFileName()
@@ -304,13 +315,18 @@ namespace Setting
                 serializerGeneralSeting.Serialize(streamWriter, generalSetting);
             }
 
+            BatchParameter.Version = Common.GetCurrentVersion().ToString();
             var serializerBatchParameter = new XmlSerializer(typeof(SynthesisParameter));
             using (var streamWriter = new StreamWriter(GetBatchParameterSettingFileName(), false, Encoding.UTF8))
             {
                 serializerBatchParameter.Serialize(streamWriter, BatchParameter);
             }
 
-            var serializerSpeakerParameter = new XmlSerializer(typeof(SynthesisParameter[]));
+            foreach (var param in SpeakerParameter)
+            {
+                param.Version = Common.GetCurrentVersion().ToString();
+            }
+            var serializerSpeakerParameter = new XmlSerializer(typeof(List<SynthesisParameter>));
             using (var streamWriter = new StreamWriter(GetSpeakerParameterSettingFileName(), false, Encoding.UTF8))
             {
                 serializerSpeakerParameter.Serialize(streamWriter, SpeakerParameter);
@@ -432,16 +448,12 @@ namespace Setting
         /// キャラ調声設定を読み込みます。
         /// </summary>
         /// <returns>キャラ調声設定配列</returns>
-        static public SynthesisParameter[] LoadSpeakerSynthesisParameter()
+        static public List<SynthesisParameter> LoadSpeakerSynthesisParameter()
         {
             string settingFileName = GetSpeakerParameterSettingFileName();
 
             //戻り値を作成、初期化
-            SynthesisParameter[] result = new SynthesisParameter[CharacterCount];
-            for (int i = 0; i < result.Length; i++)
-            {
-                result[i] = new SynthesisParameter();
-            }
+            List<SynthesisParameter> result = new List<SynthesisParameter>();
 
             //ファイル存在確認
             if (!File.Exists(settingFileName))
@@ -456,7 +468,7 @@ namespace Setting
                 //同じファイルを同時に操作しないために、ミューテックスを使用
                 mutex.WaitOne();
 
-                var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter[]));
+                var serializerSynthesisParameter = new XmlSerializer(typeof(List<SynthesisParameter>));
                 var xmlSettings = new XmlReaderSettings()
                 {
                     CheckCharacters = false,
@@ -465,18 +477,12 @@ namespace Setting
                 using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
                 {
                     //結果上書き
-                    result = (SynthesisParameter[])serializerSynthesisParameter.Deserialize(xmlReader);
-                    if (result.Length < CharacterCount)
-                    {
-                        Array.Resize(ref result, CharacterCount);
-                        for (int i = 0; i < result.Length; i++)
-                        {
-                            if (result[i] == null)
-                            {
-                                result[i] = new SynthesisParameter();
-                            }
-                        }
-                    }
+                    result = (List<SynthesisParameter>)serializerSynthesisParameter.Deserialize(xmlReader);
+                }
+                //データがバージョン１の場合
+                if (result.Count != 0 && new Version(result.First().Version).Major  == 1)
+                {
+                    result = new List<SynthesisParameter>();
                 }
                 return result;
             }
