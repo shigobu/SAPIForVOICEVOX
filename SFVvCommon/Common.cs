@@ -71,18 +71,6 @@ namespace SFVvCommon
         }
 
         /// <summary>
-        /// 配列に値を追加します。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array">配列</param>
-        /// <param name="value">追加する値</param>
-        public static void ArrayAdd<T>(ref T[] array, T value)
-        {
-            Array.Resize(ref array, array.Length + 1);
-            array[array.Length - 1] = value;
-        }
-
-        /// <summary>
         /// 現在のバージョンを取得します。
         /// </summary>
         /// <returns></returns>
