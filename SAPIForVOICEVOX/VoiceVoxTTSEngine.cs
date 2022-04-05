@@ -219,12 +219,18 @@ namespace SAPIForVOICEVOX
                 SPVTEXTFRAG currentTextList = pTextFragList;
                 while (true)
                 {
+                    //不明なXMLタグが含まれていた場合、スキップ
+                    if (currentTextList.State.eAction == SPVACTIONS.SPVA_ParseUnknownTag)
+                    {
+                        goto SetNextData;
+                    }
+
                     //XMLタグの抽出
                     Regex regex = new Regex(@"<.+?>", RegexOptions.IgnoreCase);
                     string sentenceExcludedXMLTag = regex.Replace(currentTextList.pTextStart, "");
                     if (string.IsNullOrWhiteSpace(sentenceExcludedXMLTag))
                     {
-                        return;
+                        goto SetNextData;
                     }
 
                     //分割
@@ -284,14 +290,15 @@ namespace SAPIForVOICEVOX
                         writtenWavLength += OutputSiteWriteSafe(pOutputSite, waveData);
                     }
 
-                    //次のデータを設定
-                    if (pTextFragList.pNext == IntPtr.Zero)
+                //次のデータを設定
+                SetNextData:
+                    if (currentTextList.pNext == IntPtr.Zero)
                     {
                         break;
                     }
                     else
                     {
-                        currentTextList = Marshal.PtrToStructure<SPVTEXTFRAG>(pTextFragList.pNext);
+                        currentTextList = Marshal.PtrToStructure<SPVTEXTFRAG>(currentTextList.pNext);
                     }
                 }
             }
