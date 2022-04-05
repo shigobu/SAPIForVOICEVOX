@@ -11,6 +11,7 @@
             <ComboBox x:Name="portComboBox" IsEditable="True" Width="150" Margin="3">
                 <ComboBoxItem Content="50021(VOICEVOX)"/>
                 <ComboBoxItem Content="50031(COEIROINK)"/>
+                <ComboBoxItem Content="50073(LMROID)"/>
             </ComboBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="OK" Width="60" Margin="3" IsDefault="True" Click="OkButton_Click"/>
