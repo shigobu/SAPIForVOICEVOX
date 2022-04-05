@@ -24,6 +24,7 @@ namespace StyleRegistrationTool.ViewModel
             MainWindow = mainWindow;
             OkCommand = new DelegateCommand(OkCommandExecute);
             CancelCommand = new DelegateCommand(() => MainWindow.Close());
+            ChangePortCommand = new DelegateCommand(ChangePortCommandExecute);
             AddCommand = new DelegateCommand(AddCommandExecute);
             RemoveCommand = new DelegateCommand(RemoveCommandExecute);
             AllAddCommand = new DelegateCommand(AllAddCommandExecute);
@@ -58,6 +59,11 @@ namespace StyleRegistrationTool.ViewModel
         /// キャンセルボタンのコマンド
         /// </summary>
         public ICommand CancelCommand { get; set; }
+
+        /// <summary>
+        /// ポート変更ボタンのコマンド
+        /// </summary>
+        public ICommand ChangePortCommand { get; set; }
 
         /// <summary>
         /// 追加コマンド
@@ -270,6 +276,29 @@ namespace StyleRegistrationTool.ViewModel
         }
 
         /// <summary>
+        /// ポート変更ボタン
+        /// </summary>
+        private async void ChangePortCommandExecute()
+        {
+            int prevPort = Port;
+            if (!ShowChangePortWindow())
+            {
+                return;
+            }
+
+            IsMainWindowEnabled = false;
+            WaitCircleVisibility = Visibility.Visible;
+
+            bool isSuccess = await UpdateVoicevoxStyles(false);
+            if (!isSuccess)
+            {
+                Port = prevPort;
+            }
+            IsMainWindowEnabled = true;
+            WaitCircleVisibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
         /// 追加ボタンの処理
         /// </summary>
         private void AddCommandExecute()
@@ -344,7 +373,7 @@ namespace StyleRegistrationTool.ViewModel
                 Text = "後で登録することもできます。\n後で登録する場合、スタートの全てのプログラムから起動できます。"
             };
 
-            var link1 = new TaskDialogCommandLink("link1", "登録する話者とスタイルを選択", "VOICEVOXの起動が必要");
+            var link1 = new TaskDialogCommandLink("link1", "登録する話者とスタイルを選択", "VOICEVOX(または派生アプリ)の起動が必要");
             link1.Click += (sender1, e1) =>
             {
                 dialog.Close();
@@ -353,7 +382,7 @@ namespace StyleRegistrationTool.ViewModel
             link1.Default = true;
             dialog.Controls.Add(link1);
 
-            var link2 = new TaskDialogCommandLink("link2", "全ての話者とスタイルを登録", "VOICEVOXの起動が必要");
+            var link2 = new TaskDialogCommandLink("link2", "全ての話者とスタイルを登録", "VOICEVOX(または派生アプリ)の起動が必要");
             link2.Click += (sender1, e1) =>
             {
                 dialog.Close();
@@ -361,7 +390,7 @@ namespace StyleRegistrationTool.ViewModel
             };
             dialog.Controls.Add(link2);
 
-            var link3 = new TaskDialogCommandLink("link3", "ポート変更", "COEIROINK等のVOICEVOX互換のエンジンを登録します");
+            var link3 = new TaskDialogCommandLink("link3", "ポート変更", "COEIROINK等のVOICEVOX派生アプリを登録します");
             link3.Click += (sender1, e1) =>
             {
                 ShowChangePortWindow();
@@ -398,7 +427,7 @@ namespace StyleRegistrationTool.ViewModel
             //dialog.Icon = TaskDialogStandardIcon.Information;
             dialog.Caption = "VOICEVOX起動の確認";
             dialog.InstructionText = "VOICEVOXを起動しましたか？";
-            dialog.Text = "話者とスタイル登録には、VOICEVOXの起動が必要です。";
+            dialog.Text = "話者とスタイル登録には、VOICEVOX(または派生アプリ)の起動が必要です。";
 
             var link1 = new TaskDialogCommandLink("link1", "VOICEVOXを起動した");
             link1.Click += (sender1, e1) => dialog.Close();
@@ -429,7 +458,7 @@ namespace StyleRegistrationTool.ViewModel
         /// <summary>
         /// ポート変更ダイアログを表示し、ユーザーの選択に応じて、Portプロパティを更新します。
         /// </summary>
-        private void ShowChangePortWindow()
+        private bool ShowChangePortWindow()
         {
             ChangePortWindow portWindow = new ChangePortWindow(Port)
             {
@@ -439,6 +468,11 @@ namespace StyleRegistrationTool.ViewModel
             if (portWindowResult ?? false)
             {
                 Port = portWindow.Port;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

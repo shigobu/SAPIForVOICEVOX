@@ -67,7 +67,7 @@ namespace SFVvCommon
         /// <returns>並び替えされた配列</returns>
         public static IEnumerable<StyleBase> SortStyle(IEnumerable<StyleBase> styles)
         {
-            return styles.OrderBy(x => x.Name, new StyleComparer()).ThenBy(x => x.ID);
+            return styles.OrderBy(x => x.Port).ThenBy(x => x.Name, new StyleComparer()).ThenBy(x => x.ID);
         }
 
         /// <summary>

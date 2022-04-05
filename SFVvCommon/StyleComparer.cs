@@ -10,7 +10,7 @@ namespace SFVvCommon
     /// </summary>
     class StyleComparer : IComparer<string>
     {
-        private readonly string[] nameOrder = { "四国めたん", "ずんだもん" };
+        private readonly string[] nameOrder = { "四国めたん", "ずんだもん", "春日部つむぎ", "波音リツ", "雨晴はう", "玄野武宏", "白上虎太郎", "青山龍星", "冥鳴ひまり", "九州そら" };
         /// <summary>
         /// 大小関係を調べて、対応した値を返します。
         /// </summary>
