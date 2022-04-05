@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1E56FC297BD270E428E1548CFEF13EB7"
+        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -129,14 +135,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E5E865DBEAEF465DAB07E05CC5722D04"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_C7B8A4856A315D5B10247A4A8CF3CA85"
+        "OwnerKey" = "8:_C32AF89E34B244079C1EE119323D0CCD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E89D9B8D15C7E4F524FFB04DF1E916D2"
-        "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
+        "MsmKey" = "8:_E5E865DBEAEF465DAB07E05CC5722D04"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -370,12 +376,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2FD8E099C1CC4644AB69F775E6DF62DA"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1E56FC297BD270E428E1548CFEF13EB7"
             {
-            "SourcePath" = "8:..\\StyleRegistrationTool\\Licence\\WindowsAPICodePackLicence.txt"
-            "TargetName" = "8:WindowsAPICodePackLicence.txt"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:RomajiToHiraganaLibrary, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_1E56FC297BD270E428E1548CFEF13EB7"
+                    {
+                    "Name" = "8:RomajiToHiraganaLibrary.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:RomajiToHiraganaLibrary.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_43BBF41332F244F2AFA1A745571AA04B"
+            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -387,13 +404,13 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_51AAEAD46D164F428603679CCBF52389"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2FD8E099C1CC4644AB69F775E6DF62DA"
             {
-            "SourcePath" = "8:..\\Setting\\icon\\License.txt"
-            "TargetName" = "8:IconLicense.txt"
+            "SourcePath" = "8:..\\StyleRegistrationTool\\Licence\\WindowsAPICodePackLicence.txt"
+            "TargetName" = "8:WindowsAPICodePackLicence.txt"
             "Tag" = "8:"
             "Folder" = "8:_43BBF41332F244F2AFA1A745571AA04B"
             "Condition" = "8:"
@@ -443,21 +460,10 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_51AAEAD46D164F428603679CCBF52389"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SFVvCommon, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_55855112320BBC8D3F3C83A141E4D3F7"
-                    {
-                    "Name" = "8:SFVvCommon.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:SFVvCommon.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\Setting\\icon\\License.txt"
+            "TargetName" = "8:IconLicense.txt"
             "Tag" = "8:"
-            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
+            "Folder" = "8:_43BBF41332F244F2AFA1A745571AA04B"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -469,7 +475,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5DE85352AE86E20435C3B1D5CFD59598"
@@ -587,6 +593,37 @@
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C7B8A4856A315D5B10247A4A8CF3CA85"
             {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C7B8A4856A315D5B10247A4A8CF3CA85"
+                    {
+                    "Name" = "8:Microsoft.WindowsAPICodePack.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.WindowsAPICodePack.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E5E865DBEAEF465DAB07E05CC5722D04"
+            {
             "SourcePath" = "8:..\\LICENCE.rtf"
             "TargetName" = "8:LICENCE.rtf"
             "Tag" = "8:"
@@ -603,37 +640,6 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E89D9B8D15C7E4F524FFB04DF1E916D2"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Setting, Version=1.2.3.0, Culture=neutral, processorArchitecture=AMD64"
-                "ScatterAssemblies"
-                {
-                    "_E89D9B8D15C7E4F524FFB04DF1E916D2"
-                    {
-                    "Name" = "8:Setting.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Setting.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
