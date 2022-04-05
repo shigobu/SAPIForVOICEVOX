@@ -479,8 +479,8 @@ namespace Setting
                     //結果上書き
                     result = (List<SynthesisParameter>)serializerSynthesisParameter.Deserialize(xmlReader);
                 }
-                //データが古い場合
-                if (result.Count != 0 && new Version(result.First().Version).Major < Common.GetCurrentVersion().Major)
+                //データがバージョン１の場合
+                if (result.Count != 0 && new Version(result.First().Version).Major  == 1)
                 {
                     result = new List<SynthesisParameter>();
                 }
