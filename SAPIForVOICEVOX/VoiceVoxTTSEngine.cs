@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NAudio.Wave;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Setting;
@@ -284,10 +285,17 @@ namespace SAPIForVOICEVOX
                                 waveData = new byte[0];
                             }
                         }
-                        waveData = DeleteHeaderFromWaveData(waveData);
 
-                        //書き込み
-                        writtenWavLength += OutputSiteWriteSafe(pOutputSite, waveData);
+                        //リサンプリング
+                        using (MemoryStream stream = new MemoryStream(waveData))
+                        using (WaveFileReader reader = new WaveFileReader(stream))
+                        {
+                            using (var resampler = new MediaFoundationResampler(reader, (int)samplesPerSec))
+                            {
+                                //書き込み
+                                writtenWavLength += OutputSiteWriteSafe(pOutputSite, resampler);
+                            }
+                        }
                     }
 
                 //次のデータを設定
@@ -307,15 +315,40 @@ namespace SAPIForVOICEVOX
             {
                 VoiceNotificationException voiceNotification = ex.InnerException as VoiceNotificationException;
                 byte[] waveData = voiceNotification.ErrorVoice;
-                waveData = DeleteHeaderFromWaveData(waveData);
-
-                //書き込み
-                OutputSiteWriteSafe(pOutputSite, waveData);
+                using (MemoryStream stream = new MemoryStream(waveData))
+                using (WaveFileReader reader = new WaveFileReader(stream))
+                {
+                    //書き込み
+                    OutputSiteWriteSafe(pOutputSite, reader);
+                }
             }
             catch (Exception ex)
             {
                 throw;
             }
+        }
+
+        /// <summary>
+        /// SAPI音声出力へ、安全な書き込みを行います。
+        /// </summary>
+        /// <param name="pOutputSite">TTSEngineSiteオブジェクト</param>
+        /// <param name="waveFile">音声データ</param>
+        /// <returns>書き込んだバイト数</returns>
+        private uint OutputSiteWriteSafe(ISpTTSEngineSite pOutputSite, IWaveProvider waveProvider)
+        {
+            uint writtenByte = 0;
+            byte[] buffer = new byte[waveProvider.WaveFormat.AverageBytesPerSecond * 4];
+            while (true)
+            {
+                int bytesRead = waveProvider.Read(buffer, 0, buffer.Length);
+                if (bytesRead == 0)
+                {
+                    // end of source provider
+                    break;
+                }
+                writtenByte += OutputSiteWriteSafe(pOutputSite, buffer);
+            }
+            return writtenByte;
         }
 
         /// <summary>
@@ -632,42 +665,6 @@ namespace SAPIForVOICEVOX
             {
                 jobject[propertyName] = value;
             }
-        }
-
-        /// <summary>
-        /// Wavデータからヘッダーを削除します。
-        /// </summary>
-        /// <param name="waveData">Wavデータ</param>
-        /// <returns>
-        /// ヘッダーの無いWavデータ。
-        /// ただのPCMデータ。
-        /// </returns>
-        public static byte[] DeleteHeaderFromWaveData(byte[] waveData)
-        {
-            if (waveData is null)
-            {
-                throw new ArgumentNullException(nameof(waveData));
-            }
-
-            //先頭にWaveのヘッダーがあるかどうかの確認
-            byte[] RIFF = { 0x52, 0x49, 0x46, 0x46 };
-            if (waveData.Length < RIFF.Length)
-            {
-                return waveData;
-            }
-            for (int i = 0; i < RIFF.Length; i++)
-            {
-                if (waveData[i] != RIFF[i])
-                {
-                    //異なる場合、そのまま返す。
-                    return waveData;
-                }
-            }
-            int wavHeaderSize = 44;
-            byte[] voiceData = new byte[waveData.Length - wavHeaderSize];
-            //waveデータからヘッダー部分を削除
-            Array.Copy(waveData, wavHeaderSize, voiceData, 0, voiceData.Length);
-            return voiceData;
         }
 
         #region 設定データ取得関連
