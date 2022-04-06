@@ -346,6 +346,10 @@ namespace SAPIForVOICEVOX
                     // end of source provider
                     break;
                 }
+                if (bytesRead < buffer.Length)
+                {
+                    Array.Resize(ref buffer, bytesRead);
+                }
                 writtenByte += OutputSiteWriteSafe(pOutputSite, buffer);
             }
             return writtenByte;
