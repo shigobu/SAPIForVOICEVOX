@@ -290,7 +290,8 @@ namespace SAPIForVOICEVOX
                         using (MemoryStream stream = new MemoryStream(waveData))
                         using (WaveFileReader reader = new WaveFileReader(stream))
                         {
-                            using (var resampler = new MediaFoundationResampler(reader, (int)samplesPerSec))
+                            WaveFormat waveFormat = new WaveFormat((int)pWaveFormatEx.nSamplesPerSec, pWaveFormatEx.wBitsPerSample, pWaveFormatEx.nChannels);
+                            using (var resampler = new MediaFoundationResampler(reader, waveFormat))
                             {
                                 //書き込み
                                 writtenWavLength += OutputSiteWriteSafe(pOutputSite, resampler);
@@ -318,8 +319,12 @@ namespace SAPIForVOICEVOX
                 using (MemoryStream stream = new MemoryStream(waveData))
                 using (WaveFileReader reader = new WaveFileReader(stream))
                 {
-                    //書き込み
-                    OutputSiteWriteSafe(pOutputSite, reader);
+                    WaveFormat waveFormat = new WaveFormat((int)pWaveFormatEx.nSamplesPerSec, pWaveFormatEx.wBitsPerSample, pWaveFormatEx.nChannels);
+                    using (var resampler = new MediaFoundationResampler(reader, waveFormat))
+                    {
+                        //書き込み
+                        OutputSiteWriteSafe(pOutputSite, resampler);
+                    }
                 }
             }
             catch (Exception ex)
@@ -453,19 +458,33 @@ namespace SAPIForVOICEVOX
         /// <param name="ppCoMemOutputWaveFormatEx"></param>
         public void GetOutputFormat(ref Guid pTargetFmtId, ref WAVEFORMATEX pTargetWaveFormatEx, out Guid pOutputFormatId, IntPtr ppCoMemOutputWaveFormatEx)
         {
-            pOutputFormatId = GetSPDFIDWaveFormatEx();
-
             //comインターフェースのラップクラス自動生成がうまく行かなかったので、unsafeでポインタを直接使用する
             unsafe
             {
+                pOutputFormatId = GetSPDFIDWaveFormatEx();
+
                 WAVEFORMATEX wAVEFORMATEX = new WAVEFORMATEX();
                 wAVEFORMATEX.wFormatTag = WAVE_FORMAT_PCM;
                 wAVEFORMATEX.nChannels = channels;
-                wAVEFORMATEX.nSamplesPerSec = samplesPerSec;
-                wAVEFORMATEX.wBitsPerSample = bitsPerSample;
+                wAVEFORMATEX.cbSize = 0;
+                try
+                {
+                    if (pTargetWaveFormatEx.nSamplesPerSec != 0)
+                    {
+                        wAVEFORMATEX.nSamplesPerSec = pTargetWaveFormatEx.nSamplesPerSec;
+                    }
+                    if (pTargetWaveFormatEx.wBitsPerSample != 0)
+                    {
+                        wAVEFORMATEX.wBitsPerSample = pTargetWaveFormatEx.wBitsPerSample;
+                    }
+                }
+                catch (Exception)
+                {
+                    wAVEFORMATEX.nSamplesPerSec = samplesPerSec;
+                    wAVEFORMATEX.wBitsPerSample = bitsPerSample;
+                }
                 wAVEFORMATEX.nBlockAlign = (ushort)(wAVEFORMATEX.nChannels * wAVEFORMATEX.wBitsPerSample / 8);
                 wAVEFORMATEX.nAvgBytesPerSec = wAVEFORMATEX.nSamplesPerSec * wAVEFORMATEX.nBlockAlign;
-                wAVEFORMATEX.cbSize = 0;
                 IntPtr intPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(wAVEFORMATEX));
                 Marshal.StructureToPtr(wAVEFORMATEX, intPtr, false);
 
