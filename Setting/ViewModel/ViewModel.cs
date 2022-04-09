@@ -239,10 +239,6 @@ namespace Setting
 
         #region 定数
 
-        const string GeneralSettingXMLFileName = "GeneralSetting.xml";
-        const string BatchParameterSettingXMLFileName = "BatchParameter.xml";
-        const string SpeakerParameterSettingXMLFileName = "SpeakerParameter.xml";
-
         const int CharacterCount = 100;
 
 #if x64
@@ -254,54 +250,6 @@ namespace Setting
         #endregion
 
         #region メソッド
-        /// <summary>
-        /// 現在実行中のコードを含むアセンブリを返します。
-        /// </summary>
-        /// <returns></returns>
-        static public Assembly GetThisAssembly()
-        {
-            return Assembly.GetExecutingAssembly();
-        }
-
-        /// <summary>
-        /// 実行中のコードを格納しているアセンブリのある場所を返します。
-        /// </summary>
-        /// <returns></returns>
-        static public string GetThisAppDirectory()
-        {
-            string appPath = GetThisAssembly().Location;
-            return Path.GetDirectoryName(appPath);
-        }
-
-        /// <summary>
-        /// 全般設定ファイルの名前を取得します。
-        /// </summary>
-        /// <returns>全般設定ファイル名</returns>
-        static public string GetGeneralSettingFileName()
-        {
-            string directoryName = GetThisAppDirectory();
-            return Path.Combine(directoryName, GeneralSettingXMLFileName);
-        }
-
-        /// <summary>
-        /// 調声設定ファイル名を取得します。
-        /// </summary>
-        /// <returns>調声設定ファイル名</returns>
-        static public string GetBatchParameterSettingFileName()
-        {
-            string directoryName = GetThisAppDirectory();
-            return Path.Combine(directoryName, BatchParameterSettingXMLFileName);
-        }
-
-        /// <summary>
-        /// キャラ調声設定ファイル名を取得します。
-        /// </summary>
-        /// <returns></returns>
-        static public string GetSpeakerParameterSettingFileName()
-        {
-            string directoryName = GetThisAppDirectory();
-            return Path.Combine(directoryName, SpeakerParameterSettingXMLFileName);
-        }
 
         /// <summary>
         /// 保存します。
@@ -310,14 +258,14 @@ namespace Setting
         {
             // シリアライズする
             var serializerGeneralSeting = new XmlSerializer(typeof(GeneralSetting));
-            using (var streamWriter = new StreamWriter(GetGeneralSettingFileName(), false, Encoding.UTF8))
+            using (var streamWriter = new StreamWriter(Common.GetGeneralSettingFileName(), false, Encoding.UTF8))
             {
                 serializerGeneralSeting.Serialize(streamWriter, generalSetting);
             }
 
             BatchParameter.Version = Common.GetCurrentVersion().ToString();
             var serializerBatchParameter = new XmlSerializer(typeof(SynthesisParameter));
-            using (var streamWriter = new StreamWriter(GetBatchParameterSettingFileName(), false, Encoding.UTF8))
+            using (var streamWriter = new StreamWriter(Common.GetBatchParameterSettingFileName(), false, Encoding.UTF8))
             {
                 serializerBatchParameter.Serialize(streamWriter, BatchParameter);
             }
@@ -327,7 +275,7 @@ namespace Setting
                 param.Version = Common.GetCurrentVersion().ToString();
             }
             var serializerSpeakerParameter = new XmlSerializer(typeof(List<SynthesisParameter>));
-            using (var streamWriter = new StreamWriter(GetSpeakerParameterSettingFileName(), false, Encoding.UTF8))
+            using (var streamWriter = new StreamWriter(Common.GetSpeakerParameterSettingFileName(), false, Encoding.UTF8))
             {
                 serializerSpeakerParameter.Serialize(streamWriter, SpeakerParameter);
             }
@@ -357,7 +305,7 @@ namespace Setting
         static public GeneralSetting LoadGeneralSetting()
         {
             GeneralSetting result = new GeneralSetting();
-            string settingFileName = GetGeneralSettingFileName();
+            string settingFileName = Common.GetGeneralSettingFileName();
 
             //ファイル存在確認
             if (!File.Exists(settingFileName))
@@ -404,7 +352,7 @@ namespace Setting
         static public SynthesisParameter LoadBatchSynthesisParameter()
         {
             SynthesisParameter result = new SynthesisParameter();
-            string settingFileName = GetBatchParameterSettingFileName();
+            string settingFileName = Common.GetBatchParameterSettingFileName();
 
             //ファイル存在確認
             if (!File.Exists(settingFileName))
@@ -450,7 +398,7 @@ namespace Setting
         /// <returns>キャラ調声設定配列</returns>
         static public List<SynthesisParameter> LoadSpeakerSynthesisParameter()
         {
-            string settingFileName = GetSpeakerParameterSettingFileName();
+            string settingFileName = Common.GetSpeakerParameterSettingFileName();
 
             //戻り値を作成、初期化
             List<SynthesisParameter> result = new List<SynthesisParameter>();

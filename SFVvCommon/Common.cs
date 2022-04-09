@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -60,6 +61,11 @@ namespace SFVvCommon
 
         #endregion
 
+        const string GeneralSettingXMLFileName = "GeneralSetting.xml";
+        const string BatchParameterSettingXMLFileName = "BatchParameter.xml";
+        const string SpeakerParameterSettingXMLFileName = "SpeakerParameter.xml";
+        const string StyleRegistrationSettingXMLFileName = "StyleRegistration.xml";
+
         /// <summary>
         /// スタイルの並び替えを行います。
         /// </summary>
@@ -76,9 +82,68 @@ namespace SFVvCommon
         /// <returns></returns>
         public static Version GetCurrentVersion()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = GetThisAssembly();
             AssemblyName asmName = assembly.GetName();
             return asmName.Version;
+        }
+
+        /// <summary>
+        /// 現在実行中のコードを含むアセンブリを返します。
+        /// </summary>
+        /// <returns></returns>
+        static public Assembly GetThisAssembly()
+        {
+            return Assembly.GetExecutingAssembly();
+        }
+
+        /// <summary>
+        /// 実行中のコードを格納しているアセンブリのある場所を返します。
+        /// </summary>
+        /// <returns></returns>
+        static public string GetThisAppDirectory()
+        {
+            string appPath = GetThisAssembly().Location;
+            return Path.GetDirectoryName(appPath);
+        }
+
+        /// <summary>
+        /// 全般設定ファイルの名前を取得します。
+        /// </summary>
+        /// <returns>全般設定ファイル名</returns>
+        static public string GetGeneralSettingFileName()
+        {
+            string directoryName = GetThisAppDirectory();
+            return Path.Combine(directoryName, GeneralSettingXMLFileName);
+        }
+
+        /// <summary>
+        /// 調声設定ファイル名を取得します。
+        /// </summary>
+        /// <returns>調声設定ファイル名</returns>
+        static public string GetBatchParameterSettingFileName()
+        {
+            string directoryName = GetThisAppDirectory();
+            return Path.Combine(directoryName, BatchParameterSettingXMLFileName);
+        }
+
+        /// <summary>
+        /// キャラ調声設定ファイル名を取得します。
+        /// </summary>
+        /// <returns></returns>
+        static public string GetSpeakerParameterSettingFileName()
+        {
+            string directoryName = GetThisAppDirectory();
+            return Path.Combine(directoryName, SpeakerParameterSettingXMLFileName);
+        }
+
+        /// <summary>
+        /// スタイル登録設定ファイル名を取得します。
+        /// </summary>
+        /// <returns></returns>
+        static public string GetStyleRegistrationSettingFileName()
+        {
+            string directoryName = GetThisAppDirectory();
+            return Path.Combine(directoryName, StyleRegistrationSettingXMLFileName);
         }
     }
 }

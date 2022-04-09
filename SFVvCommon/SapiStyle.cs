@@ -8,6 +8,11 @@ namespace SFVvCommon
     /// </summary>
     public class SapiStyle : StyleBase
     {
+        public SapiStyle() : base()
+        {
+            CLSID = Common.CLSID;
+        }
+
         /// <summary>
         /// SAPIスタイルを初期化します。
         /// </summary>

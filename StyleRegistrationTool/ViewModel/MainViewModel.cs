@@ -7,12 +7,16 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace StyleRegistrationTool.ViewModel
 {
@@ -182,19 +186,29 @@ namespace StyleRegistrationTool.ViewModel
             bool shouldContinue;
             if (commandline.Contains("/install"))
             {
-                InstallerDialogResult dialogResult = ShowStartedInstallerDialog(mainWindow);
-                switch (dialogResult)
+                if (File.Exists(Common.GetStyleRegistrationSettingFileName()))
                 {
-                    case InstallerDialogResult.SelectStyle:
-                        //何もしない
-                        break;
-                    case InstallerDialogResult.AllStyle:
-                        await AllStyleRegistration();
-                        return;
-                    case InstallerDialogResult.DefaultStyle:
-                    default:
-                        mainWindow.Close();
-                        return;
+                    SapiStyles = new ObservableCollection<SapiStyle>(LoadStylesToLocalFile());
+                    MessageBox.Show("スタイル情報を復元しました。", "SAPI For VOICEVOX", MessageBoxButton.OK, MessageBoxImage.Information);
+                    OkCommandExecute();
+                    return;
+                }
+                else
+                {
+                    InstallerDialogResult dialogResult = ShowStartedInstallerDialog(mainWindow);
+                    switch (dialogResult)
+                    {
+                        case InstallerDialogResult.SelectStyle:
+                            //何もしない
+                            break;
+                        case InstallerDialogResult.AllStyle:
+                            await AllStyleRegistration();
+                            return;
+                        case InstallerDialogResult.DefaultStyle:
+                        default:
+                            mainWindow.Close();
+                            return;
+                    }
                 }
             }
             else
@@ -272,6 +286,7 @@ namespace StyleRegistrationTool.ViewModel
         private void OkCommandExecute()
         {
             RegistrationToWindowsRegistry();
+            SaveStylesToLocalFile();
             MainWindow.Close();
         }
 
@@ -515,6 +530,46 @@ namespace StyleRegistrationTool.ViewModel
             }
             AllAddCommandExecute();
             OkCommandExecute();
+        }
+
+        /// <summary>
+        /// スタイル情報をローカルXMLファイルとして保存します。
+        /// </summary>
+        private void SaveStylesToLocalFile()
+        {
+            // シリアライズする
+            var serializerStyleRegistrationSetting = new XmlSerializer(typeof(SapiStyle[]));
+            using (var streamWriter = new StreamWriter(Common.GetStyleRegistrationSettingFileName(), false, Encoding.UTF8))
+            {
+                serializerStyleRegistrationSetting.Serialize(streamWriter, SapiStyles.ToArray());
+            }
+        }
+
+        /// <summary>
+        /// スタイル情報をローカルXMLファイルから読み込みます。
+        /// </summary>
+        private SapiStyle[] LoadStylesToLocalFile()
+        {
+            string settingFileName = Common.GetStyleRegistrationSettingFileName();
+
+            //ファイル存在確認
+            if (!File.Exists(settingFileName))
+            {
+                //無い場合はそのまま返す。
+                return new SapiStyle[0];
+            }
+
+            var serializerGeneralSetting = new XmlSerializer(typeof(SapiStyle[]));
+            var xmlSettings = new XmlReaderSettings()
+            {
+                CheckCharacters = false,
+            };
+            using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
+            using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+            {
+                //結果上書き
+                return (SapiStyle[])serializerGeneralSetting.Deserialize(xmlReader);
+            }
         }
 
         #region レジストリ関連
