@@ -7,6 +7,14 @@ namespace SFVvCommon
     /// </summary>
     public class StyleBase
     {
+        public StyleBase()
+        {
+            Name = "";
+            StyleName = "";
+            ID = 0;
+            Port = 0;
+        }
+
         public StyleBase(string name, string styleName, int iD, int port)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
