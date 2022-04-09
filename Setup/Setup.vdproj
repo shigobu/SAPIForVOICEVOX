@@ -57,6 +57,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_638D80485A59475E8BA73C0D12DCAE1E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6B7F40FCE3DF8F240B02542A8D137A12"
         "OwnerKey" = "8:_2E14CA9B05304758A67F17A7A0B2900B"
         "MsmSig" = "8:_UNDEFINED"
@@ -474,6 +480,26 @@
             {
             "SourcePath" = "8:..\\Setting\\icon\\License.txt"
             "TargetName" = "8:IconLicense.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_43BBF41332F244F2AFA1A745571AA04B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_638D80485A59475E8BA73C0D12DCAE1E"
+            {
+            "SourcePath" = "8:..\\LICENCE\\NAudioLicense.txt"
+            "TargetName" = "8:NAudioLicense.txt"
             "Tag" = "8:"
             "Folder" = "8:_43BBF41332F244F2AFA1A745571AA04B"
             "Condition" = "8:"
