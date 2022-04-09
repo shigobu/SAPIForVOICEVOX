@@ -178,8 +178,17 @@ namespace Setting
 
         private void AddTabDefault()
         {
+            int index = MainViewModel.SpeakerParameter.FindIndex(x => x.ID == 0 && x.Port == 50021);
+            if (index < 0)
+            {
+                SynthesisParameter parameter = new SynthesisParameter() { ID = 0 };
+                parameter.PropertyChanged += MainViewModel.ViewModel_PropertyChanged;
+                MainViewModel.SpeakerParameter.Add(parameter);
+                index = MainViewModel.SpeakerParameter.Count - 1;
+            }
+
             VoicevoxParameterSlider parameterSlider = new VoicevoxParameterSlider();
-            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(Setting.ViewModel.SpeakerParameter) + "[0]");
+            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(Setting.ViewModel.SpeakerParameter) + $"[{index}]");
 
             Binding binding = new Binding("IsChecked");
             binding.ElementName = nameof(parCharacterRadioButton);
@@ -191,8 +200,17 @@ namespace Setting
 
             mainTab.Items.Add(tabItem);
 
+            index = MainViewModel.SpeakerParameter.FindIndex(x => x.ID == 1 && x.Port == 50021);
+            if (index < 0)
+            {
+                SynthesisParameter parameter = new SynthesisParameter() { ID = 0 };
+                parameter.PropertyChanged += MainViewModel.ViewModel_PropertyChanged;
+                MainViewModel.SpeakerParameter.Add(parameter);
+                index = MainViewModel.SpeakerParameter.Count - 1;
+            }
+
             parameterSlider = new VoicevoxParameterSlider();
-            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(Setting.ViewModel.SpeakerParameter) + "[1]");
+            parameterSlider.SetBinding(VoicevoxParameterSlider.DataContextProperty, nameof(Setting.ViewModel.SpeakerParameter) + $"[{index}]");
 
             tabItem = new TabItem();
             tabItem.Header = "ずんだもん";
