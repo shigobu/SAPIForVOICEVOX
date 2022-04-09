@@ -178,10 +178,12 @@ namespace Setting
 
         private void AddTabDefault()
         {
-            int index = MainViewModel.SpeakerParameter.FindIndex(x => x.ID == 0 && x.Port == 50021);
+            int defaultPort = 50021;
+            int id = 0;
+            int index = MainViewModel.SpeakerParameter.FindIndex(x => x.ID == id && x.Port == defaultPort);
             if (index < 0)
             {
-                SynthesisParameter parameter = new SynthesisParameter() { ID = 0 };
+                SynthesisParameter parameter = new SynthesisParameter() { ID = id };
                 parameter.PropertyChanged += MainViewModel.ViewModel_PropertyChanged;
                 MainViewModel.SpeakerParameter.Add(parameter);
                 index = MainViewModel.SpeakerParameter.Count - 1;
@@ -200,10 +202,11 @@ namespace Setting
 
             mainTab.Items.Add(tabItem);
 
-            index = MainViewModel.SpeakerParameter.FindIndex(x => x.ID == 1 && x.Port == 50021);
+            id = 1;
+            index = MainViewModel.SpeakerParameter.FindIndex(x => x.ID == id && x.Port == defaultPort);
             if (index < 0)
             {
-                SynthesisParameter parameter = new SynthesisParameter() { ID = 0 };
+                SynthesisParameter parameter = new SynthesisParameter() { ID = id };
                 parameter.PropertyChanged += MainViewModel.ViewModel_PropertyChanged;
                 MainViewModel.SpeakerParameter.Add(parameter);
                 index = MainViewModel.SpeakerParameter.Count - 1;
