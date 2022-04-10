@@ -1,5 +1,3 @@
-つくよみちゃん対応版→[SAPI For COEIROINK](https://github.com/shigobu/SAPIForCOEIROINK)
-
 # SAPI For VOICEVOX
 Windows標準の音声合成機能の音声としてVOICEVOXが追加ができます。  
 ![コンパネ音声合成](https://user-images.githubusercontent.com/32050537/131860902-7aedbd45-453a-4425-a33c-7cb4a2f2dcf1.png)  
@@ -45,7 +43,7 @@ Windows Defender にウイルスとして検知されてしまうと報告をう
 - COEIROINKonVOICEVOX
 - LMROID
 
-スタイル登録ツールの「ポート変更機能」を使用して、VOICEVOX派生アプリのキャラクターを登録できます。「COEIROINKonVOICEVOX」と「LMROID」で動作していることを確認しています。これらのアプリはポート番号を登録しているので、リストから選択するだけでキャラクターの読み込みができます。
+スタイル登録ツールの「ポート変更機能」を使用して、VOICEVOX派生アプリのキャラクターを登録できます。「COEIROINKonVOICEVOX」と「LMROID」で動作していることを確認しています。これらのアプリはポート番号を登録しているので、リストから選択するだけでキャラクターの読み込みができます。登録される名前は「VOICEVOX "キャラ名"」になります。
 
 ### スタイル登録ツールのポートの変更方法
 スタイル登録ツールのポート変更ボタンを押します。ポート変更ボタンの場所は、以下の通りです。
