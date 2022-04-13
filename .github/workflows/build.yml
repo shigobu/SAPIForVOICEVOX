@@ -47,6 +47,7 @@ jobs:
       run: devenv.com ${{env.SOLUTION_FILE_PATH}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
 
     - name: Run DisableOutOfProcBuild
+      shell: cmd
       run: |
         CD "${{env.DevEnvDir}}CommonExtensions\\Microsoft\\VSI\\DisableOutOfProcBuild"
         DisableOutOfProcBuild.exe
