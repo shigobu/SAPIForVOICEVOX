@@ -51,12 +51,6 @@ jobs:
       working-directory: ${{env.DevEnvDir}}CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild
       run: DisableOutOfProcBuild.exe
 
-    - name: regsvr
-      shell: cmd
-      run : |
-        regsvr32 "C:\Program Files (x86)\Common Files\microsoft shared\MSI Tools\mergemod.dll"
-        regsvr32 ole32.dll
-
     - name: Create Installer
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.InstallerProjectPath}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
