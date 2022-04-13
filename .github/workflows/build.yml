@@ -35,19 +35,17 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+    - name: Add devenv to PATH
+      uses: seanmiddleditch/gha-setup-vsdevenv@master
+      run: DisableOutOfProcBuild.exe
 
     - name: Restore NuGet packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: nuget restore ${{env.SOLUTION_FILE_PATH}}
 
-    - name: Add devenv to PATH
-      uses: seanmiddleditch/gha-setup-vsdevenv@master
-
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: devenv.com ${{env.SOLUTION_FILE_PATH}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
+    # - name: Build
+    #   working-directory: ${{env.GITHUB_WORKSPACE}}
+    #   run: devenv.com ${{env.SOLUTION_FILE_PATH}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
 
     - name: Create Installer
       run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.InstallerProjectPath}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
