@@ -47,7 +47,7 @@ jobs:
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: devenv.com ${{env.SOLUTION_FILE_PATH}} /build ${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}
+      run: devenv.com ${{env.SOLUTION_FILE_PATH}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
 
     - name: Create Installer
-      run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.InstallerProjectPath}} /build ${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}
+      run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.InstallerProjectPath}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
