@@ -48,9 +48,7 @@ jobs:
 
     - name: Change Directory to DisableOutOfProcBuild
       shell: cmd
-      run: CD "${{env.DevEnvDir}}CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild"
-      
-    - name: Run DisableOutOfProcBuild
+      working-directory: ${{env.DevEnvDir}}CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild
       run: DisableOutOfProcBuild.exe
 
     - name: Create Installer
