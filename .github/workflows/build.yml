@@ -23,9 +23,15 @@ jobs:
   build:
     runs-on: windows-2019
     strategy:
+      fail-fast: false
       matrix:
-        platform : [x86, x64]
-        InstallerProjectPath : [Setup\Setup.vdproj, Setup64\Setup64.vdproj]
+        include:
+          - platform: x86
+            InstallerProjectPath: Setup\Setup.vdproj
+
+          - platform: x64
+            InstallerProjectPath: Setup64\Setup64.vdproj
+
     steps:
     - uses: actions/checkout@v3
 
