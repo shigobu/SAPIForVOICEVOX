@@ -25,6 +25,7 @@ jobs:
     strategy:
       matrix:
         platform : [x86, x64]
+        InstallerProjectPath : [Setup\Setup.vdproj, Setup64\Setup64.vdproj]
     steps:
     - uses: actions/checkout@v3
 
@@ -41,3 +42,9 @@ jobs:
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}};Platform=${{matrix.platform}} ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Add devenv to PATH
+      uses: seanmiddleditch/gha-setup-vsdevenv@master
+
+    - name: Create Installer
+      run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.InstallerProjectPath}} /build ${{env.BUILD_CONFIGURATION}}
