@@ -42,46 +42,75 @@ jobs:
             releaseAssetName: SAPIForVOICEVOXsetup64.zip
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Add devenv to PATH
-      uses: seanmiddleditch/gha-setup-vsdevenv@master
+      - name: Add devenv to PATH
+        uses: seanmiddleditch/gha-setup-vsdevenv@master
 
-    - name: Restore NuGet packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+      - name: Restore NuGet packages
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: nuget restore ${{env.SOLUTION_FILE_PATH}}
 
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: devenv.com ${{env.SOLUTION_FILE_PATH}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
+      - name: Build
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: devenv.com ${{env.SOLUTION_FILE_PATH}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
 
-      # エラー抑止のため必要
-    - name: Run DisableOutOfProcBuild
-      shell: cmd
-      working-directory: ${{env.DevEnvDir}}CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild
-      run: DisableOutOfProcBuild.exe
+        # エラー抑止のため必要
+      - name: Run DisableOutOfProcBuild
+        shell: cmd
+        working-directory: ${{env.DevEnvDir}}CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild
+        run: DisableOutOfProcBuild.exe
 
-    - name: Create Installer
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.installerProjectPath}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
+      - name: Create Installer
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.installerProjectPath}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{matrix.artifactName}}
-        path: ${{matrix.installerOutDir}}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{matrix.artifactName}}
+          path: ${{matrix.installerOutDir}}
 
-      # upload to github Release
-    - name: Compress Installer
-      if: github.event.release.tag_name != ''
-      shell: pwsh
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: Compress-Archive -Path ${{matrix.installerOutDir}} -DestinationPath ${{matrix.releaseAssetName}}
+        # upload to github Release
+      # - name: Compress Installer
+      #   if: github.event.release.tag_name != ''
+      #   shell: pwsh
+      #   working-directory: ${{env.GITHUB_WORKSPACE}}
+      #   run: Compress-Archive -Path ${{matrix.installerOutDir}} -DestinationPath ${{matrix.releaseAssetName}}
 
-    - name: Upload to Release
-      if: github.event.release.tag_name != ''
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ github.ref }} # ==> github.event.release.tag_name
-        file: ${{matrix.releaseAssetName}}
+      # - name: Upload to Release
+      #   if: github.event.release.tag_name != ''
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     tag: ${{ github.ref }} # ==> github.event.release.tag_name
+      #     file: ${{matrix.releaseAssetName}}
+
+  upload-to-release:
+    need: build
+    if: github.event.release.tag_name != ''
+    runs-on: windows-latest
+    steps:
+      - name: Download and extract artifact
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts/
+
+      - name: Rearchive artifacts
+        run: |
+          mkdir release
+
+      - name: Compress Installer
+        shell: pwsh
+        run: |
+          Compress-Archive -Path artifacts/setup32 -DestinationPath release/SAPIForVOICEVOXsetup32.zip
+          Compress-Archive -Path artifacts/setup64 -DestinationPath release/SAPIForVOICEVOXsetup64.zip
+
+      - name: Upload to Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }} # ==> github.event.release.tag_name
+          file: release/*.zip
+          file_glob: true
+
