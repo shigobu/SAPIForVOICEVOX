@@ -37,6 +37,8 @@ jobs:
 
     - name: Add devenv to PATH
       uses: seanmiddleditch/gha-setup-vsdevenv@master
+
+    - name: Run DisableOutOfProcBuild
       run: DisableOutOfProcBuild.exe
 
     - name: Restore NuGet packages
