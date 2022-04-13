@@ -3,6 +3,9 @@ name: Build and Create Installer
 on:
   push:
     branches: [ master ]
+  release:
+    types:
+      - published
   pull_request:
     branches: [ master ]
   workflow_dispatch:
@@ -30,11 +33,13 @@ jobs:
             installerProjectPath: Setup\Setup.vdproj
             installerOutDir: Setup\Release
             artifactName: setup32
+            releaseAssetName: SAPIForVOICEVOXsetup32.zip
 
           - platform: x64
             installerProjectPath: Setup64\Setup64.vdproj
             installerOutDir: Setup64\Release
             artifactName: setup64
+            releaseAssetName: SAPIForVOICEVOXsetup64.zip
 
     steps:
     - uses: actions/checkout@v3
@@ -65,3 +70,18 @@ jobs:
       with:
         name: ${{matrix.artifactName}}
         path: ${{matrix.installerOutDir}}
+
+      # upload to github Release
+    - name: Compress Archive
+      if: github.event.release.tag_name != ''
+      shell: pwsh
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: Compress-Archive -Path ${{matrix.installerOutDir}} -DestinationPath ${{matrix.releaseAssetName}}
+
+    - name: Upload to Release
+      if: github.event.release.tag_name != ''
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ github.ref }} # ==> github.event.release.tag_name
+        file: ${{matrix.releaseAssetName}}
