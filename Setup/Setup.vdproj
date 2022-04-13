@@ -99,19 +99,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
-        "OwnerKey" = "8:_818D420BE74B48DFB4D09D6559C5324B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
-        "OwnerKey" = "8:_FC9CB28094EE4C19A53248AAAB209E28"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
+        "MsmKey" = "8:_98CE002B07B0D6F9B836E242F4DCC32A"
         "OwnerKey" = "8:_6667051EC59E4EFB8B09CC4192CE8DC0"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -123,7 +111,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_98CE002B07B0D6F9B836E242F4DCC32A"
+        "MsmKey" = "8:_AA22141C69F538BF2387849CC348CC98"
         "OwnerKey" = "8:_6667051EC59E4EFB8B09CC4192CE8DC0"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -136,7 +124,7 @@
         "Entry"
         {
         "MsmKey" = "8:_AA22141C69F538BF2387849CC348CC98"
-        "OwnerKey" = "8:_6667051EC59E4EFB8B09CC4192CE8DC0"
+        "OwnerKey" = "8:_7CD3F0FB23DE443FB6065040FD7E55DE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -154,43 +142,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_92F4CAADF72DC37EB251214AAC5817DF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_7CD3F0FB23DE443FB6065040FD7E55DE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_98CE002B07B0D6F9B836E242F4DCC32A"
+        "OwnerKey" = "8:_FC9CB28094EE4C19A53248AAAB209E28"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_15586EB6D8900E29B1A5A2F25B3A0366"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6CCDEDF4BA821193FE3A49BBE5727DB5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_716ED3A480D4BCD443D9C1A71D7B005C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AA22141C69F538BF2387849CC348CC98"
+        "OwnerKey" = "8:_FC9CB28094EE4C19A53248AAAB209E28"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -202,7 +166,49 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FC9CB28094EE4C19A53248AAAB209E28"
+        "OwnerKey" = "8:_716ED3A480D4BCD443D9C1A71D7B005C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6CCDEDF4BA821193FE3A49BBE5727DB5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_15586EB6D8900E29B1A5A2F25B3A0366"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_818D420BE74B48DFB4D09D6559C5324B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7CD3F0FB23DE443FB6065040FD7E55DE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6667051EC59E4EFB8B09CC4192CE8DC0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_AA22141C69F538BF2387849CC348CC98"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_98CE002B07B0D6F9B836E242F4DCC32A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -289,59 +295,59 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_02108359A6BD441289DCAD971F6D532A"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_24486BD41B154B35827F66DDE726A68A"
             {
-            "Name" = "8:プライマリ出力 from SetupCustomActions (Release Any CPU)"
+            "Name" = "8:プライマリ出力 from SetupCustomActions (Active)"
             "Condition" = "8:"
-            "Object" = "8:"
-            "FileType" = "3:1"
-            "InstallAction" = "3:4"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_DC4E1901_FB25_491F_9272_0DA3ACBECB28"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:/dir=\"[TARGETDIR]\\\""
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_349A5FEB11084F1585D63FF8905DA7D6"
-            {
-            "Name" = "8:プライマリ出力 from SetupCustomActions (Release Any CPU)"
-            "Condition" = "8:"
-            "Object" = "8:"
+            "Object" = "8:_FC9CB28094EE4C19A53248AAAB209E28"
             "FileType" = "3:1"
             "InstallAction" = "3:1"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_2ADA1962_72EA_43FB_B414_1580D20E8EEF"
+            "Identifier" = "8:_D8489824_5E2E_434D_AF9F_8AF6B89381F1"
             "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:/dir=\"[TARGETDIR]\\\""
+            "CustomActionData" = "8:"
             }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_8ADD2739024144E1AC0B14F4DE817907"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_633E2853DD7A474AA86995847978C4D2"
             {
-            "Name" = "8:プライマリ出力 from SetupCustomActions (Release Any CPU)"
+            "Name" = "8:プライマリ出力 from SetupCustomActions (Active)"
             "Condition" = "8:"
-            "Object" = "8:"
+            "Object" = "8:_FC9CB28094EE4C19A53248AAAB209E28"
             "FileType" = "3:1"
             "InstallAction" = "3:3"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_63AF6F9D_8760_43BC_A86E_29B6F006BD5E"
+            "Identifier" = "8:_0D0C8C1C_08F3_4791_85F9_5CE54DE18991"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B2F8EB6CCAE745B4A299705EB271B7FF"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_74500B1B0E1940619FC3BA157C2B893E"
             {
-            "Name" = "8:プライマリ出力 from SetupCustomActions (Release Any CPU)"
+            "Name" = "8:プライマリ出力 from SetupCustomActions (Active)"
             "Condition" = "8:"
-            "Object" = "8:"
+            "Object" = "8:_FC9CB28094EE4C19A53248AAAB209E28"
+            "FileType" = "3:1"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_BF4404B1_CF0B_432C_8BC8_A26D8EBE7DE3"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_AFAD7DCBF3914A1EAB0FDA71A5CDF72A"
+            {
+            "Name" = "8:プライマリ出力 from SetupCustomActions (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_FC9CB28094EE4C19A53248AAAB209E28"
             "FileType" = "3:1"
             "InstallAction" = "3:2"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_79C98127_5DE9_4E54_861D_083B00751F4A"
+            "Identifier" = "8:_7E37E6B3_08DF_4902_93BF_4669000D361C"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -395,6 +401,11 @@
             "AssemblyAsmDisplayName" = "8:RomajiToHiraganaLibrary, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_15586EB6D8900E29B1A5A2F25B3A0366"
+                    {
+                    "Name" = "8:RomajiToHiraganaLibrary.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:RomajiToHiraganaLibrary.dll"
             "TargetName" = "8:"
@@ -421,6 +432,11 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_2DE035B4F9ECAFF3853F19ECF65CD967"
+                    {
+                    "Name" = "8:Microsoft.WindowsAPICodePack.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Microsoft.WindowsAPICodePack.dll"
             "TargetName" = "8:"
@@ -507,6 +523,11 @@
             "AssemblyAsmDisplayName" = "8:SFVvCommon, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_6CCDEDF4BA821193FE3A49BBE5727DB5"
+                    {
+                    "Name" = "8:SFVvCommon.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:SFVvCommon.dll"
             "TargetName" = "8:"
@@ -533,6 +554,11 @@
             "AssemblyAsmDisplayName" = "8:Setting, Version=1.2.3.0, Culture=neutral, processorArchitecture=AMD64"
                 "ScatterAssemblies"
                 {
+                    "_716ED3A480D4BCD443D9C1A71D7B005C"
+                    {
+                    "Name" = "8:Setting.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Setting.exe"
             "TargetName" = "8:"
@@ -572,32 +598,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_92F4CAADF72DC37EB251214AAC5817DF"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                }
-            "SourcePath" = "8:System.Net.Http.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_98CE002B07B0D6F9B836E242F4DCC32A"
             {
             "AssemblyRegister" = "3:1"
@@ -605,6 +605,11 @@
             "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_98CE002B07B0D6F9B836E242F4DCC32A"
+                    {
+                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Newtonsoft.Json.dll"
             "TargetName" = "8:"
@@ -631,6 +636,11 @@
             "AssemblyAsmDisplayName" = "8:SFVvCommon, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_AA22141C69F538BF2387849CC348CC98"
+                    {
+                    "Name" = "8:SFVvCommon.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:SFVvCommon.dll"
             "TargetName" = "8:"
