@@ -39,7 +39,7 @@ jobs:
       uses: seanmiddleditch/gha-setup-vsdevenv@master
 
     - name: Run DisableOutOfProcBuild
-      run: "${{env.DevEnvDir}}CommonExtensions\\Microsoft\\VSI\\DisableOutOfProcBuild\\DisableOutOfProcBuild.exe"
+      run: "\"${{env.DevEnvDir}}CommonExtensions\\Microsoft\\VSI\\DisableOutOfProcBuild\\DisableOutOfProcBuild.exe\""
 
     - name: Restore NuGet packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
