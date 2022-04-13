@@ -46,11 +46,12 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: devenv.com ${{env.SOLUTION_FILE_PATH}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
 
-    - name: Run DisableOutOfProcBuild
+    - name: Change Directory to DisableOutOfProcBuild
       shell: cmd
-      run: |
-        CD "${{env.DevEnvDir}}CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild"
-        DisableOutOfProcBuild.exe
+      run: CD "${{env.DevEnvDir}}CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild"
+      
+    - name: Run DisableOutOfProcBuild
+      run: DisableOutOfProcBuild.exe
 
     - name: Create Installer
       working-directory: ${{env.GITHUB_WORKSPACE}}
