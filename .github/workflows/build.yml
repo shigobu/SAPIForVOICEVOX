@@ -87,7 +87,7 @@ jobs:
       #     file: ${{matrix.releaseAssetName}}
 
   upload-to-release:
-    need: build
+    needs: [build]
     if: github.event.release.tag_name != ''
     runs-on: windows-latest
     steps:
