@@ -27,10 +27,14 @@ jobs:
       matrix:
         include:
           - platform: x86
-            InstallerProjectPath: Setup\Setup.vdproj
+            installerProjectPath: Setup\Setup.vdproj
+            installerOutDir: Setup\Release
+            artifactName: setup32
 
           - platform: x64
-            InstallerProjectPath: Setup64\Setup64.vdproj
+            installerProjectPath: Setup64\Setup64.vdproj
+            installerOutDir: Setup64\Release
+            artifactName: setup64
 
     steps:
     - uses: actions/checkout@v3
@@ -46,6 +50,7 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: devenv.com ${{env.SOLUTION_FILE_PATH}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
 
+      # エラー抑止のため必要
     - name: Run DisableOutOfProcBuild
       shell: cmd
       working-directory: ${{env.DevEnvDir}}CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild
@@ -53,4 +58,10 @@ jobs:
 
     - name: Create Installer
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.InstallerProjectPath}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
+      run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.installerProjectPath}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{matrix.artifactName}}
+        path: ${{matrix.installerOutDir}}
