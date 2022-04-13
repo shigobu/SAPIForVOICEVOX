@@ -72,7 +72,7 @@ jobs:
         path: ${{matrix.installerOutDir}}
 
       # upload to github Release
-    - name: Compress Archive
+    - name: Compress Installer
       if: github.event.release.tag_name != ''
       shell: pwsh
       working-directory: ${{env.GITHUB_WORKSPACE}}
