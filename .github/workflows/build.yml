@@ -42,15 +42,12 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: nuget restore ${{env.SOLUTION_FILE_PATH}}
 
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      shell: cmd
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}};Platform=${{matrix.platform}} ${{env.SOLUTION_FILE_PATH}}
-
     - name: Add devenv to PATH
       uses: seanmiddleditch/gha-setup-vsdevenv@master
 
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: devenv.com ${{env.SOLUTION_FILE_PATH}} /build ${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}
+
     - name: Create Installer
-      run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.InstallerProjectPath}} /build ${{env.BUILD_CONFIGURATION}}
+      run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.InstallerProjectPath}} /build ${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}
