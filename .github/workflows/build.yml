@@ -93,5 +93,12 @@ jobs:
       - name: Upload to Release
         uses: softprops/action-gh-release@v1
         with:
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          draft: true
+          body: |
+            下の、Assetsからダウンロードできます。
+            32bit版と64bit版があります。使用するアプリケーションに合わせて選択してください。
+            両方インストールすることができます。
+            末尾32が32bit版。末尾64が64bit版です。
           files: release/*.zip
 
