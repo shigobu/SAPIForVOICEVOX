@@ -31,14 +31,12 @@ jobs:
           - platform: x86
             installerProjectPath: Setup\Setup.vdproj
             installerOutDir: Setup\Release
-            artifactName: setup32
-            releaseAssetName: SAPIForVOICEVOXsetup32.zip
+            artifactName: SAPIForVOICEVOXsetup32
 
           - platform: x64
             installerProjectPath: Setup64\Setup64.vdproj
             installerOutDir: Setup64\Release
-            artifactName: setup64
-            releaseAssetName: SAPIForVOICEVOXsetup64.zip
+            artifactName: SAPIForVOICEVOXsetup64
 
     steps:
       - uses: actions/checkout@v3
@@ -87,8 +85,8 @@ jobs:
       - name: Compress Installer
         shell: pwsh
         run: |
-          Compress-Archive -Path artifacts/setup32 -DestinationPath release/SAPIForVOICEVOXsetup32.zip
-          Compress-Archive -Path artifacts/setup64 -DestinationPath release/SAPIForVOICEVOXsetup64.zip
+          Compress-Archive -Path artifacts/SAPIForVOICEVOXsetup32 -DestinationPath release/SAPIForVOICEVOXsetup32.zip
+          Compress-Archive -Path artifacts/SAPIForVOICEVOXsetup64 -DestinationPath release/SAPIForVOICEVOXsetup64.zip
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v1
