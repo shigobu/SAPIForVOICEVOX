@@ -18,8 +18,7 @@ env:
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Release
 
-  artifactName32: SAPIForVOICEVOXsetup32
-  artifactName64: SAPIForVOICEVOXsetup64
+  artifactName: SAPIForVOICEVOXsetup
 
 permissions:
   contents: read
@@ -34,12 +33,12 @@ jobs:
           - platform: x86
             installerProjectPath: Setup\Setup.vdproj
             installerOutDir: Setup\Release
-            artifactName: ${{env.artifactName32}}
+            bitLength: 32
 
           - platform: x64
             installerProjectPath: Setup64\Setup64.vdproj
             installerOutDir: Setup64\Release
-            artifactName: ${{env.artifactName64}}
+            bitLength: 64
 
     steps:
       - uses: actions/checkout@v3
@@ -68,7 +67,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{matrix.artifactName}}
+          name: ${{env.artifactName}}${{matrix.bitLength}}
           path: ${{matrix.installerOutDir}}
 
   upload-to-release:
@@ -88,8 +87,8 @@ jobs:
       - name: Compress Installer
         shell: pwsh
         run: |
-          Compress-Archive -Path artifacts/${{env.artifactName32}} -DestinationPath release/${{env.artifactName32}}.zip
-          Compress-Archive -Path artifacts/${{env.artifactName64}} -DestinationPath release/${{env.artifactName64}}.zip
+          Compress-Archive -Path artifacts/${{env.artifactName}}32 -DestinationPath release/${{env.artifactName}}32.zip
+          Compress-Archive -Path artifacts/${{env.artifactName}}64 -DestinationPath release/${{env.artifactName}}64.zip
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v1
