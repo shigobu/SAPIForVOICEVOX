@@ -6,15 +6,25 @@
         xmlns:local="clr-namespace:StyleRegistrationTool.View"
         mc:Ignorable="d"
         Title="ポートの変更" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <local:BoolNegativeConverter x:Key="BoolConverter"/>
+    </Window.Resources>
     <Grid Margin="3">
         <StackPanel>
-            <ComboBox x:Name="portComboBox" IsEditable="True" Width="150" Margin="3">
-                <ComboBoxItem Content="50021(VOICEVOX)"/>
-                <ComboBoxItem Content="50031(COEIROINK)"/>
-                <ComboBoxItem Content="50073(LMROID)"/>
-            </ComboBox>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" Text="プリセット" Margin="3" Width="45" VerticalAlignment="Center"/>
+                <ComboBox x:Name="portComboBox" SelectedItem="{Binding SelectedPreset}" DisplayMemberPath="Name" Width="150" Margin="3" IsTextSearchEnabled="False"/>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" Text="アプリ名" Margin="3" Width="45"/>
+                <TextBox Text="{Binding AppName}" Margin="3"/>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" Text="ポート" Margin="3" Width="45"/>
+                <TextBox x:Name="PortTextBox" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+            </DockPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="OK" Width="60" Margin="3" IsDefault="True" Click="OkButton_Click"/>
+                <Button Content="OK" Width="60" Margin="3" IsDefault="True" Click="OkButton_Click" IsEnabled="{Binding ElementName=PortTextBox, Path=(Validation.HasError), Converter={StaticResource BoolConverter}}"/>
                 <Button Content="キャンセル" Width="60" Margin="3" IsCancel="True"/>
             </StackPanel>
         </StackPanel>

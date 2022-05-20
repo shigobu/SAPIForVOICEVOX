@@ -90,6 +90,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\NameAndPort.cs" />
     <Compile Include="View\ChangePortWindow.xaml.cs">
       <DependentUpon>ChangePortWindow.xaml</DependentUpon>
     </Compile>
@@ -158,9 +159,7 @@
   <ItemGroup>
     <Resource Include="icon\users-alt.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Licence\WindowsAPICodePackLicence.txt" />
   </ItemGroup>
