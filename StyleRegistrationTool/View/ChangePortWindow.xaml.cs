@@ -15,7 +15,7 @@ namespace StyleRegistrationTool.View
     /// </summary>
     public partial class ChangePortWindow : Window , INotifyPropertyChanged
     {
-        public ChangePortWindow(int port)
+        public ChangePortWindow(string appName, int port)
         {
             InitializeComponent();
 
@@ -26,7 +26,7 @@ namespace StyleRegistrationTool.View
             portComboBox.Items.Add(new Model.NameAndPort("COEIROINK", 50031));
             portComboBox.Items.Add(new Model.NameAndPort("LMROID", 50073));
 
-            SelectedPreset = new Model.NameAndPort("VOICEVOX", 50022);
+            SelectedPreset = new Model.NameAndPort(appName, port);
         }
         
         #region INotifyPropertyChangedの実装

@@ -20,7 +20,7 @@ namespace SFVvCommon
         /// <param name="styleName">スタイル名</param>
         /// <param name="iD">ID</param>
         /// <param name="clsid">SAPIエンジンのクラスID</param>
-        public SapiStyle(string name, string styleName, int iD, int port, Guid clsid) : base(name, styleName, iD, port)
+        public SapiStyle(string appName, string name, string styleName, int iD, int port, Guid clsid) : base(appName, name, styleName, iD, port)
         {
             CLSID = clsid;
         }
@@ -30,7 +30,7 @@ namespace SFVvCommon
         /// </summary>
         /// <param name="voicevoxStyle">VOICEVOXスタイル</param>
         /// <param name="clsid">SAPIエンジンのクラスID</param>
-        public SapiStyle(VoicevoxStyle voicevoxStyle, Guid clsid) : this(voicevoxStyle.Name, voicevoxStyle.StyleName, voicevoxStyle.ID, voicevoxStyle.Port, clsid)
+        public SapiStyle(VoicevoxStyle voicevoxStyle, Guid clsid) : this(voicevoxStyle.AppName, voicevoxStyle.Name, voicevoxStyle.StyleName, voicevoxStyle.ID, voicevoxStyle.Port, clsid)
         {
         }
 
@@ -41,7 +41,7 @@ namespace SFVvCommon
         {
             get
             {
-                return "VOICEVOX " + Name + " " + StyleName;
+                return AppName + " " + Name + " " + StyleName;
             }
         }
 

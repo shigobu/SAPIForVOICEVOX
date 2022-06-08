@@ -106,6 +106,21 @@ namespace StyleRegistrationTool.ViewModel
 
         #region NotifyProperty
 
+        private string _appName = "VOICEVOX";
+        /// <summary>
+        /// スタイルを取得するアプリ名
+        /// </summary>
+        public string AppName
+        {
+            get => _appName;
+            set
+            {
+                if (_appName == value) return;
+                _appName = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private ObservableCollection<VoicevoxStyle> _voicevoxStyles = null;
         /// <summary>
         /// VOICEVOX側のスタイル一覧
@@ -475,13 +490,14 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private bool ShowChangePortWindow()
         {
-            ChangePortWindow portWindow = new ChangePortWindow(Port)
+            ChangePortWindow portWindow = new ChangePortWindow(AppName, Port)
             {
                 Owner = MainWindow
             };
             bool? portWindowResult = portWindow.ShowDialog();
             if (portWindowResult ?? false)
             {
+                AppName = portWindow.AppName;
                 Port = portWindow.Port;
                 return true;
             }
@@ -510,7 +526,7 @@ namespace StyleRegistrationTool.ViewModel
                     {
                         string styleName = style["name"].ToString();
                         int id = style.Value<int>("id");
-                        voicevoxStyles.Add(new VoicevoxStyle(name, styleName, id, Port));
+                        voicevoxStyles.Add(new VoicevoxStyle(AppName, name, styleName, id, Port));
                     }
                 }
             }
@@ -631,7 +647,7 @@ namespace StyleRegistrationTool.ViewModel
                             string styleName = (string)tokenKey.GetValue(Common.regStyleName);
                             int id = (int)tokenKey.GetValue(Common.regSpeakerNumber, 0);
                             int port = (int)tokenKey.GetValue(Common.regPort, 50021);
-                            SapiStyle sapiStyle = new SapiStyle(name, styleName, id, port, new Guid(clsid));
+                            SapiStyle sapiStyle = new SapiStyle("VOICEVOX", name, styleName, id, port, new Guid(clsid));
                             sapiStyles.Add(sapiStyle);
                         }
                     }
