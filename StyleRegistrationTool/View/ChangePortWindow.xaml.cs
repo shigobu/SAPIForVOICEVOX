@@ -32,8 +32,19 @@ namespace StyleRegistrationTool.View
         #region INotifyPropertyChangedの実装
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private List<PropertyChangedEventArgs> propertyChangedEventArgsList = new List<PropertyChangedEventArgs>(3);
+
         private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-          => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        {
+            //eventArgsを使いまわしするための仕組み。newで逐一作成するよりも早い？？
+            PropertyChangedEventArgs eventArgs = propertyChangedEventArgsList.FirstOrDefault(x => x.PropertyName == propertyName);
+            if (eventArgs == null)
+            {
+                eventArgs = new PropertyChangedEventArgs(propertyName);
+                propertyChangedEventArgsList.Add(eventArgs);
+            }
+            PropertyChanged?.Invoke(this, eventArgs);
+        }
         #endregion
 
         private Model.NameAndPort _nameAndPort = new Model.NameAndPort();
@@ -47,9 +58,17 @@ namespace StyleRegistrationTool.View
             {
                 if (_nameAndPort == value) return;
                 _nameAndPort = value;
-                Port = _nameAndPort.Port;
-                AppName = _nameAndPort.Name;
                 RaisePropertyChanged();
+
+                //SelectedIndexを-1にした場合、valueにnullが入るので確認
+                if (value == null) return;
+                Port = value.Port;
+                AppName = value.Name;
+                //入力の値がプリセットに含まれていない場合、未選択にする。
+                if (!portComboBox.Items.Contains(SelectedPreset))
+                {
+                    portComboBox.SelectedIndex = -1;
+                }
             }
         }
 
@@ -64,7 +83,7 @@ namespace StyleRegistrationTool.View
             {
                 if (_port == value) return;
                 _port = value;
-                SelectedPreset = new Model.NameAndPort(AppName, _port);
+                SelectedPreset = new Model.NameAndPort(AppName, value);
                 RaisePropertyChanged();
             }
         }
@@ -80,7 +99,7 @@ namespace StyleRegistrationTool.View
             {
                 if (_appName == value) return;
                 _appName = value;
-                SelectedPreset = new Model.NameAndPort(_appName, Port);
+                SelectedPreset = new Model.NameAndPort(value, Port);
                 RaisePropertyChanged();
             }
         }

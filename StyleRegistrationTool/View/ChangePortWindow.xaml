@@ -17,7 +17,7 @@
             </DockPanel>
             <DockPanel>
                 <TextBlock DockPanel.Dock="Left" Text="アプリ名" Margin="3" Width="45"/>
-                <TextBox Text="{Binding AppName}" Margin="3"/>
+                <TextBox Text="{Binding AppName, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
             </DockPanel>
             <DockPanel>
                 <TextBlock DockPanel.Dock="Left" Text="ポート" Margin="3" Width="45"/>
