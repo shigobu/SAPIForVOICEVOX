@@ -49,6 +49,7 @@
             <ListView x:Name="SapiStyleList" Grid.Row="1" Grid.Column="2" Margin="3" ItemsSource="{Binding SapiStyles}" SelectionChanged="SapiStyleList_SelectionChanged">
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Header="アプリ名" DisplayMemberBinding="{Binding AppName}"/>
                         <GridViewColumn Header="キャラ" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="スタイル" DisplayMemberBinding="{Binding StyleName}"/>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
