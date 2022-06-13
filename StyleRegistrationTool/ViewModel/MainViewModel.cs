@@ -610,6 +610,7 @@ namespace StyleRegistrationTool.ViewModel
                         voiceVoxRegkey.SetValue(Common.regName, SapiStyles[i].Name);
                         voiceVoxRegkey.SetValue(Common.regStyleName, SapiStyles[i].StyleName);
                         voiceVoxRegkey.SetValue(Common.regPort, SapiStyles[i].Port);
+                        voiceVoxRegkey.SetValue(Common.regAppName, SapiStyles[i].AppName);
 
                         using (RegistryKey AttributesRegkey = voiceVoxRegkey.CreateSubKey(Common.regAttributes))
                         {
@@ -647,7 +648,8 @@ namespace StyleRegistrationTool.ViewModel
                             string styleName = (string)tokenKey.GetValue(Common.regStyleName);
                             int id = (int)tokenKey.GetValue(Common.regSpeakerNumber, 0);
                             int port = (int)tokenKey.GetValue(Common.regPort, 50021);
-                            SapiStyle sapiStyle = new SapiStyle("VOICEVOX", name, styleName, id, port, new Guid(clsid));
+                            string appName = (string)tokenKey.GetValue(Common.regAppName, "VOICEVOX");
+                            SapiStyle sapiStyle = new SapiStyle(appName, name, styleName, id, port, new Guid(clsid));
                             sapiStyles.Add(sapiStyle);
                         }
                     }

@@ -34,6 +34,7 @@ namespace SFVvCommon
         public const string regStyleName = "StyleName";
         public const string regPort = "Port";
         public const string regAttributes = "Attributes";
+        public const string regAppName = "AppName";
 
 
         /// <summary>
