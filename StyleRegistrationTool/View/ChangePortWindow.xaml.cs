@@ -1,53 +1,107 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Data;
 
 namespace StyleRegistrationTool.View
 {
     /// <summary>
     /// ChangePortWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class ChangePortWindow : Window
+    public partial class ChangePortWindow : Window , INotifyPropertyChanged
     {
+        public ChangePortWindow(string appName, int port)
+        {
+            InitializeComponent();
+
+            DataContext = this;
+            
+            //プリセット作成
+            portComboBox.Items.Add(new Model.NameAndPort("VOICEVOX", 50021));
+            portComboBox.Items.Add(new Model.NameAndPort("COEIROINK", 50031));
+            portComboBox.Items.Add(new Model.NameAndPort("LMROID", 50073));
+
+            SelectedPreset = new Model.NameAndPort(appName, port);
+        }
+        
+        #region INotifyPropertyChangedの実装
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private List<PropertyChangedEventArgs> propertyChangedEventArgsList = new List<PropertyChangedEventArgs>(3);
+
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            //eventArgsを使いまわしするための仕組み。newで逐一作成するよりも早い？？
+            PropertyChangedEventArgs eventArgs = propertyChangedEventArgsList.FirstOrDefault(x => x.PropertyName == propertyName);
+            if (eventArgs == null)
+            {
+                eventArgs = new PropertyChangedEventArgs(propertyName);
+                propertyChangedEventArgsList.Add(eventArgs);
+            }
+            PropertyChanged?.Invoke(this, eventArgs);
+        }
+        #endregion
+
+        private Model.NameAndPort _nameAndPort = new Model.NameAndPort();
+        /// <summary>
+        /// アプリ名とポート名
+        /// </summary>
+        public Model.NameAndPort SelectedPreset
+        {
+            get => _nameAndPort;
+            set
+            {
+                if (_nameAndPort == value) return;
+                _nameAndPort = value;
+                RaisePropertyChanged();
+
+                //SelectedIndexを-1にした場合、valueにnullが入るので確認
+                if (value == null) return;
+                Port = value.Port;
+                AppName = value.Name;
+                //入力の値がプリセットに含まれていない場合、未選択にする。
+                if (!portComboBox.Items.Contains(SelectedPreset))
+                {
+                    portComboBox.SelectedIndex = -1;
+                }
+            }
+        }
+
+        private int _port = 50021;
         /// <summary>
         /// ポート番号
         /// </summary>
         public int Port
         {
-            get
-            {
-                string temp = portComboBox.Text;
-                return int.Parse(ExtractNumber(temp));
-            }
+            get => _port;
             set
             {
-                portComboBox.Text = value.ToString();
+                if (_port == value) return;
+                _port = value;
+                SelectedPreset = new Model.NameAndPort(AppName, value);
+                RaisePropertyChanged();
             }
         }
 
-        public ChangePortWindow(int port)
-        {
-            InitializeComponent();
-
-            Port = port;
-        }
-
+        private string _appName = "VOICEVOX";
         /// <summary>
-        /// 与えられた文字列から、数字列を抽出し最初の数字列を返します。
+        /// アプリ名
         /// </summary>
-        /// <param name="str">対象の文字列</param>
-        /// <returns>抽出した数字列</returns>
-        private string ExtractNumber(string str)
+        public string AppName
         {
-            Regex regex = new Regex(@"[0-9]+", RegexOptions.IgnoreCase);
-            IEnumerable<Match> matchCollection = regex.Matches(str).Cast<Match>();
-            IEnumerable<string> numberWords = matchCollection.Select(match => match.Value);
-            if (numberWords.Count() == 0)
+            get => _appName;
+            set
             {
-                return "";
+                if (_appName == value) return;
+                _appName = value;
+                SelectedPreset = new Model.NameAndPort(value, Port);
+                RaisePropertyChanged();
             }
-            return numberWords.First();
         }
 
         /// <summary>
@@ -57,16 +111,24 @@ namespace StyleRegistrationTool.View
         /// <param name="e"></param>
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            string temp = portComboBox.Text;
-            if (int.TryParse(ExtractNumber(temp), out int value))
-            {
-                DialogResult = true;
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("数値変換できません。", "スタイル登録ツール", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            DialogResult = true;
+            this.Close();
+        }
+    }
+
+    /// <summary>
+    /// boolを反転するコンバーター
+    /// </summary>
+    public class BoolNegativeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !(value is bool && (bool)value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !(value is bool && (bool)value);
         }
     }
 }

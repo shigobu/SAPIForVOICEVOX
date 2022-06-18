@@ -9,19 +9,26 @@ namespace SFVvCommon
     {
         public StyleBase()
         {
+            AppName = "VOICEVOX";
             Name = "";
             StyleName = "";
             ID = 0;
             Port = 0;
         }
 
-        public StyleBase(string name, string styleName, int iD, int port)
+        public StyleBase(string appName, string name, string styleName, int iD, int port)
         {
+            AppName = appName ?? throw new ArgumentNullException(nameof(appName));
             Name = name ?? throw new ArgumentNullException(nameof(name));
             StyleName = styleName ?? throw new ArgumentNullException(nameof(styleName));
             ID = iD;
             Port = port;
         }
+
+        /// <summary>
+        /// アプリ名
+        /// </summary>
+        public string AppName { get; set; }
 
         /// <summary>
         /// 話者名
