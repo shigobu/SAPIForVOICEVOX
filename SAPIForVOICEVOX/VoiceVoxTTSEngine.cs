@@ -469,14 +469,15 @@ namespace SAPIForVOICEVOX
                 wAVEFORMATEX.cbSize = 0;
                 try
                 {
-                    if (pTargetWaveFormatEx.nSamplesPerSec != 0)
-                    {
-                        wAVEFORMATEX.nSamplesPerSec = pTargetWaveFormatEx.nSamplesPerSec;
-                    }
-                    if (pTargetWaveFormatEx.wBitsPerSample != 0)
-                    {
-                        wAVEFORMATEX.wBitsPerSample = pTargetWaveFormatEx.wBitsPerSample;
-                    }
+                    //所望のサンプリング周波数が指定の範囲に有るときは、そのまま使う。それ以外は24k固定。
+                    wAVEFORMATEX.nSamplesPerSec = pTargetWaveFormatEx.nSamplesPerSec >= 24000 && pTargetWaveFormatEx.nSamplesPerSec <= 192000
+                        ? pTargetWaveFormatEx.nSamplesPerSec
+                        : samplesPerSec;
+
+                    //所望のビット数が16か24の場合は、そのまま。それ以外は16固定。
+                    wAVEFORMATEX.wBitsPerSample = pTargetWaveFormatEx.wBitsPerSample == 16 || pTargetWaveFormatEx.wBitsPerSample == 24
+                        ? pTargetWaveFormatEx.wBitsPerSample
+                        : bitsPerSample;
                 }
                 catch (Exception)
                 {
