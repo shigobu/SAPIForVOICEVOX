@@ -601,7 +601,7 @@ namespace StyleRegistrationTool.ViewModel
             {
                 for (int i = 0; i < SapiStyles.Count(); i++)
                 {
-                    using (RegistryKey voiceVoxRegkey = regTokensKey.CreateSubKey("VOICEVOX" + i.ToString()))
+                    using (RegistryKey voiceVoxRegkey = regTokensKey.CreateSubKey("VOICEVOX" + i.ToString("000")))
                     {
                         voiceVoxRegkey.SetValue("", SapiStyles[i].SpaiName);
                         voiceVoxRegkey.SetValue("411", SapiStyles[i].SpaiName);
