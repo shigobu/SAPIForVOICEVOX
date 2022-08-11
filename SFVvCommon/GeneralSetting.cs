@@ -1,4 +1,4 @@
-﻿namespace Setting
+﻿namespace SFVvCommon
 {
     /// <summary>
     /// 全般設定を定義します。

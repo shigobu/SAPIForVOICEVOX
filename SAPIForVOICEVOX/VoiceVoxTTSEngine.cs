@@ -2,7 +2,6 @@
 using NAudio.Wave;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Setting;
 using SFVvCommon;
 using System;
 using System.Collections.Generic;
@@ -701,14 +700,14 @@ namespace SAPIForVOICEVOX
         /// <param name="synthesisParameter">調声設定</param>
         private void GetSettingData(int speakerNum, out GeneralSetting generalSetting, out SynthesisParameter synthesisParameter)
         {
-            generalSetting = ViewModel.LoadGeneralSetting();
+            generalSetting = Common.LoadGeneralSetting();
             switch (generalSetting.synthesisSettingMode)
             {
                 case SynthesisSettingMode.Batch:
-                    synthesisParameter = ViewModel.LoadBatchSynthesisParameter();
+                    synthesisParameter = Common.LoadBatchSynthesisParameter();
                     break;
                 case SynthesisSettingMode.EachCharacter:
-                    List<SynthesisParameter> parameters = ViewModel.LoadSpeakerSynthesisParameter();
+                    List<SynthesisParameter> parameters = Common.LoadSpeakerSynthesisParameter();
                     synthesisParameter = parameters.FirstOrDefault(x => x.ID == speakerNum && x.Port == Port) ?? new SynthesisParameter();
                     break;
                 default:

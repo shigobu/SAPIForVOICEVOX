@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Setting
+namespace SFVvCommon
 {
     /// <summary>
     /// VOICEVOXに必要なパラメータを定義します。

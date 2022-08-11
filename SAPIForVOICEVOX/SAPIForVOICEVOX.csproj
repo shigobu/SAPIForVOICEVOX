@@ -124,22 +124,17 @@
     <None Include="ボイスボックスが見つかりません.wav" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Setting\Setting.csproj">
-      <Project>{91b73544-cf6a-4453-9aa8-9949d474e2b4}</Project>
-      <Name>Setting</Name>
-    </ProjectReference>
+    <None Include="エンジンエラーです.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EnglishToKana\eng2kanaDict.txt" />
+    <Content Include="EnglishToKana\Licence.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\SFVvCommon\SFVvCommon.csproj">
       <Project>{43723cd5-50fe-4be9-b8b7-7b08e3f2156c}</Project>
       <Name>SFVvCommon</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="エンジンエラーです.wav" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="EnglishToKana\eng2kanaDict.txt" />
-    <Content Include="EnglishToKana\Licence.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
