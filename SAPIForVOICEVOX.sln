@@ -19,6 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleRegistrationTool", "St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFVvCommon", "SFVvCommon\SFVvCommon.csproj", "{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93603BD2-1DDF-429F-8134-AC371F5C318A}"
+	ProjectSection(SolutionItems) = preProject
+		NLog.config = NLog.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
