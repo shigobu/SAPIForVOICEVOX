@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Xml;
@@ -13,6 +14,8 @@ namespace SFVvCommon
 {
     public class Common
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         #region guid
 
         public const string guidString = "7A1BB9C4-DF39-4E01-A8DC-20DC1A0C03C6";
@@ -46,6 +49,8 @@ namespace SFVvCommon
         /// </summary>
         public static void ClearStyleFromWindowsRegistry()
         {
+            LogTraceStart();
+
             //SAPIForVOICEVOXのトークンを表すキーの列挙
             using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
             {
@@ -62,6 +67,8 @@ namespace SFVvCommon
                     }
                 }
             }
+
+            LogTraceEnd();
         }
 
         #endregion
@@ -308,5 +315,21 @@ namespace SFVvCommon
         }
 
         #endregion
+
+        /// <summary>
+        /// ログに、関数が開始したことを出力します。
+        /// </summary>
+        private static void LogTraceStart([CallerMemberName] string MethodName = "")
+        {
+            Logger.Trace("{0} 開始", MethodName);
+        }
+
+        /// <summary>
+        /// ログに、関数が終了したことを出力します。
+        /// </summary>
+        private static void LogTraceEnd([CallerMemberName] string MethodName = "")
+        {
+            Logger.Trace("{0} 終了", MethodName);
+        }
     }
 }
