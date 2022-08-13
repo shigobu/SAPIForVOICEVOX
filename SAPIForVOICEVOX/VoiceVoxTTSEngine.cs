@@ -2,7 +2,6 @@
 using NAudio.Wave;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Setting;
 using SFVvCommon;
 using System;
 using System.Collections.Generic;
@@ -24,6 +23,8 @@ namespace SAPIForVOICEVOX
     [ClassInterface(ClassInterfaceType.None)]
     public class VoiceVoxTTSEngine : ISpTTSEngine, ISpObjectWithToken
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         #region ネイティブ
 
         const ushort WAVE_FORMAT_PCM = 1;
@@ -164,9 +165,12 @@ namespace SAPIForVOICEVOX
         /// <param name="pOutputSite"></param>
         public void Speak(uint dwSpeakFlags, ref Guid rguidFormatId, ref WAVEFORMATEX pWaveFormatEx, ref SPVTEXTFRAG pTextFragList, ISpTTSEngineSite pOutputSite)
         {
+            LogTraceStart();
+
             //SPDFIDTextは非対応
             if (rguidFormatId == GetSPDFIDText())
             {
+                Logger.Info("rguidFormatId == GetSPDFIDText()");
                 return;
             }
 
@@ -315,6 +319,7 @@ namespace SAPIForVOICEVOX
             catch (AggregateException ex) when (ex.InnerException is VoiceNotificationException)
             {
                 VoiceNotificationException voiceNotification = ex.InnerException as VoiceNotificationException;
+                Logger.Error(voiceNotification, voiceNotification.GetHashCode().ToString());
                 byte[] waveData = voiceNotification.ErrorVoice;
                 using (MemoryStream stream = new MemoryStream(waveData))
                 using (WaveFileReader reader = new WaveFileReader(stream))
@@ -329,7 +334,12 @@ namespace SAPIForVOICEVOX
             }
             catch (Exception ex)
             {
+                Logger.Error(ex, ex.GetHashCode().ToString());
                 throw;
+            }
+            finally
+            {
+                LogTraceEnd();
             }
         }
 
@@ -341,6 +351,8 @@ namespace SAPIForVOICEVOX
         /// <returns>書き込んだバイト数</returns>
         private uint OutputSiteWriteSafe(ISpTTSEngineSite pOutputSite, IWaveProvider waveProvider)
         {
+            LogTraceStart();
+
             uint writtenByte = 0;
             byte[] buffer = new byte[waveProvider.WaveFormat.AverageBytesPerSecond * 4];
             while (true)
@@ -357,6 +369,7 @@ namespace SAPIForVOICEVOX
                 }
                 writtenByte += OutputSiteWriteSafe(pOutputSite, buffer);
             }
+            LogTraceEnd();
             return writtenByte;
         }
 
@@ -367,6 +380,8 @@ namespace SAPIForVOICEVOX
         /// <param name="data">音声データ</param>
         private uint OutputSiteWriteSafe(ISpTTSEngineSite pOutputSite, byte[] data)
         {
+            LogTraceStart();
+
             if (data is null)
             {
                 data = new byte[0];
@@ -393,6 +408,7 @@ namespace SAPIForVOICEVOX
                 {
                     Marshal.FreeCoTaskMem(pWavData);
                 }
+                LogTraceEnd();
             }
         }
 
@@ -405,6 +421,8 @@ namespace SAPIForVOICEVOX
         /// <param name="writtenWavLength"></param>
         private void AddEventToSAPI(ISpTTSEngineSite outputSite, string allText, string speakTargetText, ulong writtenWavLength)
         {
+            LogTraceStart();
+
             outputSite.GetEventInterest(out ulong ulongValue);
             List<SPEVENT> sPEVENTList = new List<SPEVENT>();
             //プラットフォームのビット数に応じて、wParamとlParamの型が異なるので、分岐
@@ -442,6 +460,7 @@ namespace SAPIForVOICEVOX
                 SPEVENT[] sPEVENTArr = sPEVENTList.ToArray();
                 outputSite.AddEvents(ref sPEVENTArr[0], (uint)sPEVENTArr.Length);
             }
+            LogTraceEnd();
         }
 
         const ushort channels = 1;
@@ -458,6 +477,9 @@ namespace SAPIForVOICEVOX
         /// <param name="ppCoMemOutputWaveFormatEx"></param>
         public void GetOutputFormat(ref Guid pTargetFmtId, ref WAVEFORMATEX pTargetWaveFormatEx, out Guid pOutputFormatId, IntPtr ppCoMemOutputWaveFormatEx)
         {
+            LogTraceStart();
+            Logger.Info("SamplesPerSec = {0}; BitsPerSample = {1}", pTargetWaveFormatEx.nSamplesPerSec, pTargetWaveFormatEx.wBitsPerSample);
+
             //comインターフェースのラップクラス自動生成がうまく行かなかったので、unsafeでポインタを直接使用する
             unsafe
             {
@@ -492,6 +514,8 @@ namespace SAPIForVOICEVOX
                 WAVEFORMATEX** ppFormat = (WAVEFORMATEX**)ppCoMemOutputWaveFormatEx.ToPointer();
                 *ppFormat = (WAVEFORMATEX*)intPtr.ToPointer();
             }
+
+            LogTraceEnd();
         }
 
         #region トークン関連
@@ -502,6 +526,8 @@ namespace SAPIForVOICEVOX
         /// <param name="pToken"></param>
         public void SetObjectToken(ISpObjectToken pToken)
         {
+            LogTraceStart();
+
             Token = pToken;
             //初期化
             //話者番号を取得し、プロパティに設定。
@@ -510,6 +536,8 @@ namespace SAPIForVOICEVOX
 
             Token.GetDWORD(Common.regPort, out value);
             Port = (int)value;
+
+            LogTraceEnd();
         }
 
         /// <summary>
@@ -518,7 +546,11 @@ namespace SAPIForVOICEVOX
         /// <param name="ppToken"></param>
         public void GetObjectToken(out ISpObjectToken ppToken)
         {
+            LogTraceStart();
+
             ppToken = Token;
+
+            LogTraceEnd();
         }
 
         #endregion
@@ -535,6 +567,8 @@ namespace SAPIForVOICEVOX
         [ComRegisterFunction()]
         public static void RegisterClass(string key)
         {
+            LogTraceStart();
+
             //四国めたん
             using (RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(Common.tokensRegKey + regName1))
             {
@@ -568,6 +602,8 @@ namespace SAPIForVOICEVOX
                 registryKey.SetValue("Gender", "Female");
                 registryKey.SetValue("Name", "VOICEVOX Zundamon");
             }
+
+            LogTraceEnd();
         }
 
         /// <summary>
@@ -577,7 +613,11 @@ namespace SAPIForVOICEVOX
         [ComUnregisterFunction()]
         public static void UnregisterClass(string key)
         {
+            LogTraceStart();
+
             Common.ClearStyleFromWindowsRegistry();
+
+            LogTraceEnd();
         }
 
         #endregion
@@ -596,6 +636,8 @@ namespace SAPIForVOICEVOX
         /// <returns>waveデータ</returns>
         private async Task<byte[]> SendToVoiceVox(string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale, bool enableInterrogativeUpspeak)
         {
+            LogTraceStart();
+
             //エンジンが起動中か確認を行う
             Process[] ps = Process.GetProcessesByName("run");
             if (ps.Length == 0)
@@ -661,6 +703,10 @@ namespace SAPIForVOICEVOX
             {
                 throw new VoiceVoxConnectionException(ex);
             }
+            finally
+            {
+                LogTraceEnd();
+            }
         }
 
         /// <summary>
@@ -674,6 +720,8 @@ namespace SAPIForVOICEVOX
         /// <returns>変換結果</returns>
         private double Map(double x, double in_min, double in_max, double out_min, double out_max)
         {
+            LogTraceStart();
+
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
 
@@ -685,10 +733,14 @@ namespace SAPIForVOICEVOX
         /// <param name="value">値</param>
         private void SetValueJObjectSafe(JObject jobject, string propertyName, double value)
         {
+            LogTraceStart();
+
             if (jobject.ContainsKey(propertyName))
             {
                 jobject[propertyName] = value;
             }
+
+            LogTraceEnd();
         }
 
         #region 設定データ取得関連
@@ -701,22 +753,43 @@ namespace SAPIForVOICEVOX
         /// <param name="synthesisParameter">調声設定</param>
         private void GetSettingData(int speakerNum, out GeneralSetting generalSetting, out SynthesisParameter synthesisParameter)
         {
-            generalSetting = ViewModel.LoadGeneralSetting();
+            LogTraceStart();
+
+            generalSetting = Common.LoadGeneralSetting();
             switch (generalSetting.synthesisSettingMode)
             {
                 case SynthesisSettingMode.Batch:
-                    synthesisParameter = ViewModel.LoadBatchSynthesisParameter();
+                    synthesisParameter = Common.LoadBatchSynthesisParameter();
                     break;
                 case SynthesisSettingMode.EachCharacter:
-                    List<SynthesisParameter> parameters = ViewModel.LoadSpeakerSynthesisParameter();
+                    List<SynthesisParameter> parameters = Common.LoadSpeakerSynthesisParameter();
                     synthesisParameter = parameters.FirstOrDefault(x => x.ID == speakerNum && x.Port == Port) ?? new SynthesisParameter();
                     break;
                 default:
                     synthesisParameter = new SynthesisParameter();
                     break;
             }
+
+            LogTraceEnd();
         }
 
         #endregion
+
+        /// <summary>
+        /// ログに、関数が開始したことを出力します。
+        /// </summary>
+        private static void LogTraceStart([CallerMemberName] string MethodName = "")
+        {
+            Logger.Trace("{0} 開始", MethodName);
+        }
+
+        /// <summary>
+        /// ログに、関数が終了したことを出力します。
+        /// </summary>
+        private static void LogTraceEnd([CallerMemberName] string MethodName = "")
+        {
+            Logger.Trace("{0} 終了", MethodName);
+        }
+
     }
 }

@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAPIForVOICEVOX", "SAPIForVOICEVOX\SAPIForVOICEVOX.csproj", "{0FF58D47-C1C9-4873-8B1A-86D5123EF3FD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{571D7116-6705-4B1E-A20C-F51CFDFEA956} = {571D7116-6705-4B1E-A20C-F51CFDFEA956}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SAPIGetStaticValueLib", "SAPIGetStaticValueLib\SAPIGetStaticValueLib.vcxproj", "{571D7116-6705-4B1E-A20C-F51CFDFEA956}"
 EndProject
@@ -18,6 +21,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleRegistrationTool", "StyleRegistrationTool\StyleRegistrationTool.csproj", "{9FB0F305-CE4F-4D33-B968-6F861ECDBA8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFVvCommon", "SFVvCommon\SFVvCommon.csproj", "{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93603BD2-1DDF-429F-8134-AC371F5C318A}"
+	ProjectSection(SolutionItems) = preProject
+		NLog.config = NLog.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,14 +83,14 @@ Global
 		{9FB0F305-CE4F-4D33-B968-6F861ECDBA8F}.Release|x64.Build.0 = Release|x64
 		{9FB0F305-CE4F-4D33-B968-6F861ECDBA8F}.Release|x86.ActiveCfg = Release|x86
 		{9FB0F305-CE4F-4D33-B968-6F861ECDBA8F}.Release|x86.Build.0 = Release|x86
-		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Debug|x64.Build.0 = Debug|Any CPU
-		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Debug|x86.Build.0 = Debug|Any CPU
-		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Release|x64.ActiveCfg = Release|Any CPU
-		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Release|x64.Build.0 = Release|Any CPU
-		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Release|x86.ActiveCfg = Release|Any CPU
-		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Release|x86.Build.0 = Release|Any CPU
+		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Debug|x64.ActiveCfg = Debug|x64
+		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Debug|x64.Build.0 = Debug|x64
+		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Debug|x86.ActiveCfg = Debug|x86
+		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Debug|x86.Build.0 = Debug|x86
+		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Release|x64.ActiveCfg = Release|x64
+		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Release|x64.Build.0 = Release|x64
+		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Release|x86.ActiveCfg = Release|x86
+		{43723CD5-50FE-4BE9-B8B7-7B08E3F2156C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

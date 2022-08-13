@@ -62,10 +62,14 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.5.0.1\lib\net46\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="RomajiToHiraganaLibrary, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RomajiToHiraganaLibrary.1.0.2\lib\net47\RomajiToHiraganaLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
@@ -108,6 +112,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\NLog.config">
+      <Link>NLog.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="ボイスボックスと通信ができません.wav" />
   </ItemGroup>
@@ -115,22 +123,17 @@
     <None Include="ボイスボックスが見つかりません.wav" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Setting\Setting.csproj">
-      <Project>{91b73544-cf6a-4453-9aa8-9949d474e2b4}</Project>
-      <Name>Setting</Name>
-    </ProjectReference>
+    <None Include="エンジンエラーです.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EnglishToKana\eng2kanaDict.txt" />
+    <Content Include="EnglishToKana\Licence.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\SFVvCommon\SFVvCommon.csproj">
       <Project>{43723cd5-50fe-4be9-b8b7-7b08e3f2156c}</Project>
       <Name>SFVvCommon</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="エンジンエラーです.wav" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="EnglishToKana\eng2kanaDict.txt" />
-    <Content Include="EnglishToKana\Licence.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -241,12 +241,6 @@ namespace Setting
 
         const int CharacterCount = 100;
 
-#if x64
-        const string MutexName = "SAPIForVOICEVOX64bit";
-#else
-        const string MutexName = "SAPIForVOICEVOX32bit";
-#endif
-
         #endregion
 
         #region メソッド
@@ -286,162 +280,15 @@ namespace Setting
         /// </summary>
         private void LoadData()
         {
-            generalSetting = LoadGeneralSetting();
-            BatchParameter = LoadBatchSynthesisParameter();
-            SpeakerParameter = LoadSpeakerSynthesisParameter();
+            generalSetting = Common.LoadGeneralSetting();
+            BatchParameter = Common.LoadBatchSynthesisParameter();
+            SpeakerParameter = Common.LoadSpeakerSynthesisParameter();
 
             //適応ボタン有効化のための、プロパティ変更通知登録
             BatchParameter.PropertyChanged += ViewModel_PropertyChanged;
             foreach (var item in SpeakerParameter)
             {
                 item.PropertyChanged += ViewModel_PropertyChanged;
-            }
-        }
-
-        /// <summary>
-        /// 一般設定を読み込みます。
-        /// </summary>
-        /// <returns>一般設定</returns>
-        static public GeneralSetting LoadGeneralSetting()
-        {
-            GeneralSetting result = new GeneralSetting();
-            string settingFileName = Common.GetGeneralSettingFileName();
-
-            //ファイル存在確認
-            if (!File.Exists(settingFileName))
-            {
-                //無い場合はそのまま返す。
-                return result;
-            }
-
-            // デシリアライズする
-            Mutex mutex = new Mutex(false, MutexName);
-            try
-            {
-                //ミューテックス取得
-                mutex.WaitOne();
-
-                var serializerGeneralSetting = new XmlSerializer(typeof(GeneralSetting));
-                var xmlSettings = new XmlReaderSettings()
-                {
-                    CheckCharacters = false,
-                };
-                using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
-                using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
-                {
-                    //結果上書き
-                    result = (GeneralSetting)serializerGeneralSetting.Deserialize(xmlReader);
-                }
-                return result;
-            }
-            catch (Exception)
-            {
-                return result;
-            }
-            finally
-            {
-                //ミューテックス開放
-                mutex.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// 一括の調声設定を取得します。
-        /// </summary>
-        /// <returns>調声設定</returns>
-        static public SynthesisParameter LoadBatchSynthesisParameter()
-        {
-            SynthesisParameter result = new SynthesisParameter();
-            string settingFileName = Common.GetBatchParameterSettingFileName();
-
-            //ファイル存在確認
-            if (!File.Exists(settingFileName))
-            {
-                //無い場合はそのまま返す。
-                return result;
-            }
-
-            // デシリアライズする
-            Mutex mutex = new Mutex(false, MutexName);
-            try
-            {
-                //ミューテックス取得
-                mutex.WaitOne();
-
-                var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter));
-                var xmlSettings = new XmlReaderSettings()
-                {
-                    CheckCharacters = false,
-                };
-                using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
-                using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
-                {
-                    //結果上書き
-                    result = (SynthesisParameter)serializerSynthesisParameter.Deserialize(xmlReader);
-                }
-                return result;
-            }
-            catch (Exception)
-            {
-                return result;
-            }
-            finally
-            {
-                //ミューテックス開放
-                mutex.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// キャラ調声設定を読み込みます。
-        /// </summary>
-        /// <returns>キャラ調声設定配列</returns>
-        static public List<SynthesisParameter> LoadSpeakerSynthesisParameter()
-        {
-            string settingFileName = Common.GetSpeakerParameterSettingFileName();
-
-            //戻り値を作成、初期化
-            List<SynthesisParameter> result = new List<SynthesisParameter>();
-
-            //ファイル存在確認
-            if (!File.Exists(settingFileName))
-            {
-                return result;
-            }
-
-            // デシリアライズする
-            Mutex mutex = new Mutex(false, MutexName);
-            try
-            {
-                //同じファイルを同時に操作しないために、ミューテックスを使用
-                mutex.WaitOne();
-
-                var serializerSynthesisParameter = new XmlSerializer(typeof(List<SynthesisParameter>));
-                var xmlSettings = new XmlReaderSettings()
-                {
-                    CheckCharacters = false,
-                };
-                using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
-                using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
-                {
-                    //結果上書き
-                    result = (List<SynthesisParameter>)serializerSynthesisParameter.Deserialize(xmlReader);
-                }
-                //データがバージョン１の場合
-                if (result.Count != 0 && new Version(result.First().Version).Major  == 1)
-                {
-                    result = new List<SynthesisParameter>();
-                }
-                return result;
-            }
-            catch (Exception)
-            {
-                return result;
-            }
-            finally
-            {
-                //ミューテックス開放
-                mutex.Dispose();
             }
         }
 

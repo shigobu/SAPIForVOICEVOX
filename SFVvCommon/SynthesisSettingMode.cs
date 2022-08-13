@@ -1,4 +1,4 @@
-﻿namespace Setting
+﻿namespace SFVvCommon
 {
     /// <summary>
     /// 調声モード

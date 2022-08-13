@@ -4,11 +4,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace SFVvCommon
 {
     public class Common
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         #region guid
 
         public const string guidString = "7A1BB9C4-DF39-4E01-A8DC-20DC1A0C03C6";
@@ -42,6 +49,8 @@ namespace SFVvCommon
         /// </summary>
         public static void ClearStyleFromWindowsRegistry()
         {
+            LogTraceStart();
+
             //SAPIForVOICEVOXのトークンを表すキーの列挙
             using (RegistryKey regTokensKey = Registry.LocalMachine.OpenSubKey(tokensRegKey, true))
             {
@@ -58,6 +67,8 @@ namespace SFVvCommon
                     }
                 }
             }
+
+            LogTraceEnd();
         }
 
         #endregion
@@ -107,6 +118,15 @@ namespace SFVvCommon
             return Path.GetDirectoryName(appPath);
         }
 
+        #region 設定
+
+#if x64
+        const string MutexName = "SAPIForVOICEVOX64bit";
+#else
+        const string MutexName = "SAPIForVOICEVOX32bit";
+#endif
+
+
         /// <summary>
         /// 全般設定ファイルの名前を取得します。
         /// </summary>
@@ -145,6 +165,171 @@ namespace SFVvCommon
         {
             string directoryName = GetThisAppDirectory();
             return Path.Combine(directoryName, StyleRegistrationSettingXMLFileName);
+        }
+
+        /// <summary>
+        /// 一般設定を読み込みます。
+        /// </summary>
+        /// <returns>一般設定</returns>
+        static public GeneralSetting LoadGeneralSetting()
+        {
+            GeneralSetting result = new GeneralSetting();
+            string settingFileName = Common.GetGeneralSettingFileName();
+
+            //ファイル存在確認
+            if (!File.Exists(settingFileName))
+            {
+                //無い場合はそのまま返す。
+                return result;
+            }
+
+            // デシリアライズする
+            Mutex mutex = new Mutex(false, MutexName);
+            try
+            {
+                //ミューテックス取得
+                mutex.WaitOne();
+
+                var serializerGeneralSetting = new XmlSerializer(typeof(GeneralSetting));
+                var xmlSettings = new XmlReaderSettings()
+                {
+                    CheckCharacters = false,
+                };
+                using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
+                using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+                {
+                    //結果上書き
+                    result = (GeneralSetting)serializerGeneralSetting.Deserialize(xmlReader);
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+                return result;
+            }
+            finally
+            {
+                //ミューテックス開放
+                mutex.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// 一括の調声設定を取得します。
+        /// </summary>
+        /// <returns>調声設定</returns>
+        static public SynthesisParameter LoadBatchSynthesisParameter()
+        {
+            SynthesisParameter result = new SynthesisParameter();
+            string settingFileName = Common.GetBatchParameterSettingFileName();
+
+            //ファイル存在確認
+            if (!File.Exists(settingFileName))
+            {
+                //無い場合はそのまま返す。
+                return result;
+            }
+
+            // デシリアライズする
+            Mutex mutex = new Mutex(false, MutexName);
+            try
+            {
+                //ミューテックス取得
+                mutex.WaitOne();
+
+                var serializerSynthesisParameter = new XmlSerializer(typeof(SynthesisParameter));
+                var xmlSettings = new XmlReaderSettings()
+                {
+                    CheckCharacters = false,
+                };
+                using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
+                using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+                {
+                    //結果上書き
+                    result = (SynthesisParameter)serializerSynthesisParameter.Deserialize(xmlReader);
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+                return result;
+            }
+            finally
+            {
+                //ミューテックス開放
+                mutex.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// キャラ調声設定を読み込みます。
+        /// </summary>
+        /// <returns>キャラ調声設定配列</returns>
+        static public List<SynthesisParameter> LoadSpeakerSynthesisParameter()
+        {
+            string settingFileName = Common.GetSpeakerParameterSettingFileName();
+
+            //戻り値を作成、初期化
+            List<SynthesisParameter> result = new List<SynthesisParameter>();
+
+            //ファイル存在確認
+            if (!File.Exists(settingFileName))
+            {
+                return result;
+            }
+
+            // デシリアライズする
+            Mutex mutex = new Mutex(false, MutexName);
+            try
+            {
+                //同じファイルを同時に操作しないために、ミューテックスを使用
+                mutex.WaitOne();
+
+                var serializerSynthesisParameter = new XmlSerializer(typeof(List<SynthesisParameter>));
+                var xmlSettings = new XmlReaderSettings()
+                {
+                    CheckCharacters = false,
+                };
+                using (var streamReader = new StreamReader(settingFileName, Encoding.UTF8))
+                using (var xmlReader = XmlReader.Create(streamReader, xmlSettings))
+                {
+                    //結果上書き
+                    result = (List<SynthesisParameter>)serializerSynthesisParameter.Deserialize(xmlReader);
+                }
+                //データがバージョン１の場合
+                if (result.Count != 0 && new Version(result.First().Version).Major == 1)
+                {
+                    result = new List<SynthesisParameter>();
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+                return result;
+            }
+            finally
+            {
+                //ミューテックス開放
+                mutex.Dispose();
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// ログに、関数が開始したことを出力します。
+        /// </summary>
+        private static void LogTraceStart([CallerMemberName] string MethodName = "")
+        {
+            Logger.Trace("{0} 開始", MethodName);
+        }
+
+        /// <summary>
+        /// ログに、関数が終了したことを出力します。
+        /// </summary>
+        private static void LogTraceEnd([CallerMemberName] string MethodName = "")
+        {
+            Logger.Trace("{0} 終了", MethodName);
         }
     }
 }
