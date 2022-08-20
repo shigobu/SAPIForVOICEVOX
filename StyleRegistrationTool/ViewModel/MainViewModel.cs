@@ -33,6 +33,8 @@ namespace StyleRegistrationTool.ViewModel
             RemoveCommand = new DelegateCommand(RemoveCommandExecute);
             AllAddCommand = new DelegateCommand(AllAddCommandExecute);
             AllRemoveCommand = new DelegateCommand(AllRemoveCommandExecute);
+            UpButtonCommand = new DelegateCommand(UpButtonCommandExecute);
+            DownButtonCommand = new DelegateCommand(DownButtonCommandExecute);
         }
 
         #region INotifyPropertyChangedの実装
@@ -90,6 +92,16 @@ namespace StyleRegistrationTool.ViewModel
         public ICommand AllRemoveCommand { get; set; }
 
         /// <summary>
+        /// 並び替え上ボタンコマンド
+        /// </summary>
+        public ICommand UpButtonCommand { get; set; }
+
+        /// <summary>
+        /// 並び替え下ボタンコマンド
+        /// </summary>
+        public ICommand DownButtonCommand { get; set; }
+
+        /// <summary>
         /// VOICEVOX側リストの選択されてるアイテム一覧
         /// </summary>
         internal IEnumerable<VoicevoxStyle> VoicevoxStyle_SelectedItems { get; set; } = Enumerable.Empty<VoicevoxStyle>();
@@ -117,6 +129,30 @@ namespace StyleRegistrationTool.ViewModel
             {
                 if (_appName == value) return;
                 _appName = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(ConnectingMessage));
+            }
+        }
+
+        /// <summary>
+        /// 接続中を示す文字列
+        /// </summary>
+        public string ConnectingMessage
+        {
+            get => AppName + "へ接続中";
+        }
+
+        private bool _shouldSort = true;
+        /// <summary>
+        /// ソートするかどうか。
+        /// </summary>
+        public bool ShouldSort
+        {
+            get => _shouldSort;
+            set
+            {
+                if (_shouldSort == value) { return; }
+                _shouldSort = value;
                 RaisePropertyChanged();
             }
         }
@@ -377,6 +413,22 @@ namespace StyleRegistrationTool.ViewModel
         private void AllRemoveCommandExecute()
         {
             SapiStyles.Clear();
+        }
+
+        /// <summary>
+        /// 並び替え上ボタンの処理
+        /// </summary>
+        private void UpButtonCommandExecute()
+        {
+            ShouldSort = false;
+        }
+
+        /// <summary>
+        /// 並び替え下ボタンの処理
+        /// </summary>
+        private void DownButtonCommandExecute()
+        {
+            ShouldSort = false;
         }
 
         #endregion
