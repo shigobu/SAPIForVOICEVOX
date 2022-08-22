@@ -377,7 +377,7 @@ namespace StyleRegistrationTool.ViewModel
                     SapiStyles.Add(sapiStyle);
                 }
             }
-            SapiStyles = new ObservableCollection<SapiStyle>(Common.SortStyle(SapiStyles).OfType<SapiStyle>());
+            SortSapiStyles();
         }
 
         /// <summary>
@@ -405,6 +405,7 @@ namespace StyleRegistrationTool.ViewModel
                     SapiStyles.Add(sapiStyle);
                 }
             }
+            SortSapiStyles();
         }
 
         /// <summary>
@@ -421,6 +422,15 @@ namespace StyleRegistrationTool.ViewModel
         private void UpButtonCommandExecute()
         {
             ShouldSort = false;
+            foreach (var item in SapiStyle_SelectedItems)
+            {
+                int index = SapiStyles.IndexOf(item);
+                if (index == 0)
+                {
+                    continue;
+                }
+                SapiStyles.Move(index, index - 1);
+            }
         }
 
         /// <summary>
@@ -429,6 +439,15 @@ namespace StyleRegistrationTool.ViewModel
         private void DownButtonCommandExecute()
         {
             ShouldSort = false;
+            foreach (var item in SapiStyle_SelectedItems)
+            {
+                int index = SapiStyles.IndexOf(item);
+                if (index == SapiStyles.Count - 1)
+                {
+                    continue;
+                }
+                SapiStyles.Move(index, index + 1);
+            }
         }
 
         #endregion
@@ -640,6 +659,17 @@ namespace StyleRegistrationTool.ViewModel
             }
         }
 
+        /// <summary>
+        /// sapiのリストをソートします。
+        /// </summary>
+        private void SortSapiStyles()
+        {
+            if (ShouldSort)
+            {
+                SapiStyles = new ObservableCollection<SapiStyle>(Common.SortStyle(SapiStyles).OfType<SapiStyle>());
+            }
+        }
+
         #region レジストリ関連
 
         /// <summary>
@@ -707,8 +737,7 @@ namespace StyleRegistrationTool.ViewModel
                     }
                 }
             }
-
-            return Common.SortStyle(sapiStyles).Cast<SapiStyle>().ToArray();
+            return sapiStyles.ToArray();
         }
 
         #endregion レジストリ関連
