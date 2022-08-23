@@ -20,10 +20,14 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Margin="3,3,3,0" Text="{Binding AppName}"/>
-            <TextBlock Grid.Row="0" Grid.Column="2" Margin="3,3,3,0" Text="SAPI"/>
-            <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,5,0,0">
+            <DockPanel Grid.Row="0" Grid.Column="2" Margin="3,3,3,0">
+                <CheckBox DockPanel.Dock="Right" Content="ソート" IsChecked="{Binding ShouldSort}"/>
+                <TextBlock Text="SAPI"/>
+            </DockPanel>
+            <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Margin="0,5,0,0">
                 <Button DockPanel.Dock="Left" Margin="3" Width="70" IsCancel="True" Command="{Binding ChangePortCommand}">ポート変更</Button>
                 <Button DockPanel.Dock="Right" Margin="3" Width="70" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
                 <Button DockPanel.Dock="Right" Margin="3" Width="70" IsDefault="True" Command="{Binding OkCommand}">OK</Button>
@@ -58,11 +62,15 @@
                 </ListView.View>
 
             </ListView>
+            <StackPanel Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
+                <Button Margin="3" Width="25" Height="25" Command="{Binding UpButtonCommand}">▲</Button>
+                <Button Margin="3" Width="25" Height="25" Command="{Binding DownButtonCommand}">▼</Button>
+            </StackPanel>
         </Grid>
         <!--待機ぐるぐる画面-->
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding WaitCircleVisibility}" Background="White">
             <local:WaitingCircle Width="100" Height="100"/>
-            <TextBlock Text="VOICEVOXへ接続中" FontSize="15"/>
+            <TextBlock Text="{Binding ConnectingMessage}" FontSize="15"/>
         </StackPanel>
     </Grid>
 </Window>

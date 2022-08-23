@@ -33,6 +33,8 @@ namespace StyleRegistrationTool.ViewModel
             RemoveCommand = new DelegateCommand(RemoveCommandExecute);
             AllAddCommand = new DelegateCommand(AllAddCommandExecute);
             AllRemoveCommand = new DelegateCommand(AllRemoveCommandExecute);
+            UpButtonCommand = new DelegateCommand(UpButtonCommandExecute);
+            DownButtonCommand = new DelegateCommand(DownButtonCommandExecute);
         }
 
         #region INotifyPropertyChangedの実装
@@ -90,6 +92,16 @@ namespace StyleRegistrationTool.ViewModel
         public ICommand AllRemoveCommand { get; set; }
 
         /// <summary>
+        /// 並び替え上ボタンコマンド
+        /// </summary>
+        public ICommand UpButtonCommand { get; set; }
+
+        /// <summary>
+        /// 並び替え下ボタンコマンド
+        /// </summary>
+        public ICommand DownButtonCommand { get; set; }
+
+        /// <summary>
         /// VOICEVOX側リストの選択されてるアイテム一覧
         /// </summary>
         internal IEnumerable<VoicevoxStyle> VoicevoxStyle_SelectedItems { get; set; } = Enumerable.Empty<VoicevoxStyle>();
@@ -98,6 +110,22 @@ namespace StyleRegistrationTool.ViewModel
         /// SAPI側リストの選択されているアイテム一覧
         /// </summary>
         internal IEnumerable<SapiStyle> SapiStyle_SelectedItems { get; set; } = Enumerable.Empty<SapiStyle>();
+
+        /// <summary>
+        /// ソート済みSAPI側リストの選択されているアイテム一覧
+        /// </summary>
+        internal IEnumerable<SapiStyle> SapiStyle_SortedSelectedItems
+        {
+            get => SapiStyle_SelectedItems.OrderBy(x => SapiStyles.IndexOf(x)).ToArray();
+        }
+
+        /// <summary>
+        /// ソート済みSAPI側リストの選択されているアイテム一覧
+        /// </summary>
+        internal IEnumerable<SapiStyle> SapiStyle_SortedSelectedItemsReverse
+        {
+            get => SapiStyle_SelectedItems.OrderByDescending(x => SapiStyles.IndexOf(x)).ToArray();
+        }
 
         /// <summary>
         /// ポート番号
@@ -118,6 +146,34 @@ namespace StyleRegistrationTool.ViewModel
                 if (_appName == value) return;
                 _appName = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(ConnectingMessage));
+            }
+        }
+
+        /// <summary>
+        /// 接続中を示す文字列
+        /// </summary>
+        public string ConnectingMessage
+        {
+            get => AppName + "へ接続中";
+        }
+
+        private bool _shouldSort = false;
+        /// <summary>
+        /// ソートするかどうか。
+        /// </summary>
+        public bool ShouldSort
+        {
+            get => _shouldSort;
+            set
+            {
+                if (_shouldSort == value) { return; }
+                _shouldSort = value;
+                RaisePropertyChanged();
+                if (_shouldSort)
+                {
+                    SortSapiStyles();
+                }
             }
         }
 
@@ -341,7 +397,7 @@ namespace StyleRegistrationTool.ViewModel
                     SapiStyles.Add(sapiStyle);
                 }
             }
-            SapiStyles = new ObservableCollection<SapiStyle>(Common.SortStyle(SapiStyles).OfType<SapiStyle>());
+            SortSapiStyles();
         }
 
         /// <summary>
@@ -369,6 +425,7 @@ namespace StyleRegistrationTool.ViewModel
                     SapiStyles.Add(sapiStyle);
                 }
             }
+            SortSapiStyles();
         }
 
         /// <summary>
@@ -377,6 +434,40 @@ namespace StyleRegistrationTool.ViewModel
         private void AllRemoveCommandExecute()
         {
             SapiStyles.Clear();
+        }
+
+        /// <summary>
+        /// 並び替え上ボタンの処理
+        /// </summary>
+        private void UpButtonCommandExecute()
+        {
+            ShouldSort = false;
+            foreach (var item in SapiStyle_SortedSelectedItems)
+            {
+                int index = SapiStyles.IndexOf(item);
+                if (index == 0)
+                {
+                    return;
+                }
+                SapiStyles.Move(index, index - 1);
+            }
+        }
+
+        /// <summary>
+        /// 並び替え下ボタンの処理
+        /// </summary>
+        private void DownButtonCommandExecute()
+        {
+            ShouldSort = false;
+            foreach (var item in SapiStyle_SortedSelectedItemsReverse)
+            {
+                int index = SapiStyles.IndexOf(item);
+                if (index == SapiStyles.Count - 1)
+                {
+                    return;
+                }
+                SapiStyles.Move(index, index + 1);
+            }
         }
 
         #endregion
@@ -588,6 +679,17 @@ namespace StyleRegistrationTool.ViewModel
             }
         }
 
+        /// <summary>
+        /// sapiのリストをソートします。
+        /// </summary>
+        private void SortSapiStyles()
+        {
+            if (ShouldSort)
+            {
+                SapiStyles = new ObservableCollection<SapiStyle>(Common.SortStyle(SapiStyles).OfType<SapiStyle>());
+            }
+        }
+
         #region レジストリ関連
 
         /// <summary>
@@ -655,8 +757,7 @@ namespace StyleRegistrationTool.ViewModel
                     }
                 }
             }
-
-            return Common.SortStyle(sapiStyles).Cast<SapiStyle>().ToArray();
+            return sapiStyles.ToArray();
         }
 
         #endregion レジストリ関連
