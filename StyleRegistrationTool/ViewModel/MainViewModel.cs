@@ -112,6 +112,22 @@ namespace StyleRegistrationTool.ViewModel
         internal IEnumerable<SapiStyle> SapiStyle_SelectedItems { get; set; } = Enumerable.Empty<SapiStyle>();
 
         /// <summary>
+        /// ソート済みSAPI側リストの選択されているアイテム一覧
+        /// </summary>
+        internal IEnumerable<SapiStyle> SapiStyle_SortedSelectedItems
+        {
+            get => SapiStyle_SelectedItems.OrderBy(x => SapiStyles.IndexOf(x)).ToArray();
+        }
+
+        /// <summary>
+        /// ソート済みSAPI側リストの選択されているアイテム一覧
+        /// </summary>
+        internal IEnumerable<SapiStyle> SapiStyle_SortedSelectedItemsReverse
+        {
+            get => SapiStyle_SelectedItems.OrderByDescending(x => SapiStyles.IndexOf(x)).ToArray();
+        }
+
+        /// <summary>
         /// ポート番号
         /// </summary>
         internal int Port { get; set; } = 50021;
@@ -142,7 +158,7 @@ namespace StyleRegistrationTool.ViewModel
             get => AppName + "へ接続中";
         }
 
-        private bool _shouldSort = true;
+        private bool _shouldSort = false;
         /// <summary>
         /// ソートするかどうか。
         /// </summary>
@@ -154,6 +170,10 @@ namespace StyleRegistrationTool.ViewModel
                 if (_shouldSort == value) { return; }
                 _shouldSort = value;
                 RaisePropertyChanged();
+                if (_shouldSort)
+                {
+                    SortSapiStyles();
+                }
             }
         }
 
@@ -422,12 +442,12 @@ namespace StyleRegistrationTool.ViewModel
         private void UpButtonCommandExecute()
         {
             ShouldSort = false;
-            foreach (var item in SapiStyle_SelectedItems)
+            foreach (var item in SapiStyle_SortedSelectedItems)
             {
                 int index = SapiStyles.IndexOf(item);
                 if (index == 0)
                 {
-                    continue;
+                    return;
                 }
                 SapiStyles.Move(index, index - 1);
             }
@@ -439,12 +459,12 @@ namespace StyleRegistrationTool.ViewModel
         private void DownButtonCommandExecute()
         {
             ShouldSort = false;
-            foreach (var item in SapiStyle_SelectedItems)
+            foreach (var item in SapiStyle_SortedSelectedItemsReverse)
             {
                 int index = SapiStyles.IndexOf(item);
                 if (index == SapiStyles.Count - 1)
                 {
-                    continue;
+                    return;
                 }
                 SapiStyles.Move(index, index + 1);
             }
