@@ -7,7 +7,7 @@
         xmlns:viewModel="clr-namespace:StyleRegistrationTool.ViewModel"
         d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel}"
         mc:Ignorable="d"
-        Title="スタイル登録ツール " Height="450" Width="580" MinWidth="350" MinHeight="350" WindowStartupLocation="CenterScreen" Icon="/StyleRegistrationTool;component/icon/users-alt.ico">
+        Title="スタイル登録ツール " Height="660" Width="740" MinWidth="350" MinHeight="350" WindowStartupLocation="CenterScreen" Icon="/StyleRegistrationTool;component/icon/users-alt.ico">
     <Grid Margin="5">
         <!--メイン画面-->
         <Grid IsEnabled="{Binding IsMainWindowEnabled}">
@@ -53,11 +53,21 @@
             <ListView x:Name="SapiStyleList" Grid.Row="1" Grid.Column="2" Margin="3" ItemsSource="{Binding SapiStyles}" SelectionChanged="SapiStyleList_SelectionChanged">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="アプリ名" DisplayMemberBinding="{Binding AppName}"/>
-                        <GridViewColumn Header="キャラ" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="スタイル" DisplayMemberBinding="{Binding StyleName}"/>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
-                        <GridViewColumn Header="ポート" DisplayMemberBinding="{Binding Port}"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding AppName}">
+                            <GridViewColumnHeader x:Name="AppNameHeader" Content="アプリ名" Tag="AppName" Click="GridViewColumnHeader_Click" />
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}">
+                            <GridViewColumnHeader x:Name="NameHeader" Content="キャラ" Tag="Name" Click="GridViewColumnHeader_Click" />
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding StyleName}">
+                            <GridViewColumnHeader x:Name="StyleNameHeader" Content="スタイル" Tag="StyleName" Click="GridViewColumnHeader_Click" />
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding ID}">
+                            <GridViewColumnHeader x:Name="IDHeader" Content="ID" Tag="ID" Click="GridViewColumnHeader_Click" />
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Port}">
+                            <GridViewColumnHeader x:Name="PortHeader" Content="ポート" Tag="Port" Click="GridViewColumnHeader_Click" />
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
 
