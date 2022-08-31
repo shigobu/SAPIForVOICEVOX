@@ -23,10 +23,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Margin="3,3,3,0" Text="{Binding AppName}"/>
-            <DockPanel Grid.Row="0" Grid.Column="2" Margin="3,3,3,0">
-                <CheckBox DockPanel.Dock="Right" Content="ソート" IsChecked="{Binding ShouldSort}"/>
-                <TextBlock Text="SAPI"/>
-            </DockPanel>
+            <TextBlock Grid.Row="0" Grid.Column="2" Margin="3,3,3,0" Text="SAPI"/>
             <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Margin="0,5,0,0">
                 <Button DockPanel.Dock="Left" Margin="3" Width="70" IsCancel="True" Command="{Binding ChangePortCommand}">ポート変更</Button>
                 <Button DockPanel.Dock="Right" Margin="3" Width="70" IsCancel="True" Command="{Binding CancelCommand}">キャンセル</Button>
