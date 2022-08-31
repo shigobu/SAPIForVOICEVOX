@@ -8,9 +8,9 @@ namespace SFVvCommon
     /// nameOrderの順に並び替える用にする。
     /// nameOrderに含まれていない場合は、nameOrderより後に標準の順番で並ぶ。
     /// </summary>
-    class StyleComparer : IComparer<string>
+    public class StyleComparer : IComparer<string>
     {
-        private readonly string[] nameOrder = { "四国めたん", "ずんだもん", "春日部つむぎ", "波音リツ", "雨晴はう", "玄野武宏", "白上虎太郎", "青山龍星", "冥鳴ひまり", "九州そら", "もち子さん", "剣崎雌雄" };
+        private readonly string[] nameOrder = { "四国めたん", "ずんだもん", "春日部つむぎ", "雨晴はう", "波音リツ", "玄野武宏", "白上虎太郎", "青山龍星", "冥鳴ひまり", "九州そら", "もち子さん", "剣崎雌雄" };
         /// <summary>
         /// 大小関係を調べて、対応した値を返します。
         /// </summary>

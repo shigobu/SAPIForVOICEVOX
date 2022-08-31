@@ -158,25 +158,6 @@ namespace StyleRegistrationTool.ViewModel
             get => AppName + "へ接続中";
         }
 
-        private bool _shouldSort = false;
-        /// <summary>
-        /// ソートするかどうか。
-        /// </summary>
-        public bool ShouldSort
-        {
-            get => _shouldSort;
-            set
-            {
-                if (_shouldSort == value) { return; }
-                _shouldSort = value;
-                RaisePropertyChanged();
-                if (_shouldSort)
-                {
-                    SortSapiStyles();
-                }
-            }
-        }
-
         private ObservableCollection<VoicevoxStyle> _voicevoxStyles = null;
         /// <summary>
         /// VOICEVOX側のスタイル一覧
@@ -397,7 +378,6 @@ namespace StyleRegistrationTool.ViewModel
                     SapiStyles.Add(sapiStyle);
                 }
             }
-            SortSapiStyles();
         }
 
         /// <summary>
@@ -425,7 +405,6 @@ namespace StyleRegistrationTool.ViewModel
                     SapiStyles.Add(sapiStyle);
                 }
             }
-            SortSapiStyles();
         }
 
         /// <summary>
@@ -441,7 +420,6 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void UpButtonCommandExecute()
         {
-            ShouldSort = false;
             foreach (var item in SapiStyle_SortedSelectedItems)
             {
                 int index = SapiStyles.IndexOf(item);
@@ -458,7 +436,6 @@ namespace StyleRegistrationTool.ViewModel
         /// </summary>
         private void DownButtonCommandExecute()
         {
-            ShouldSort = false;
             foreach (var item in SapiStyle_SortedSelectedItemsReverse)
             {
                 int index = SapiStyles.IndexOf(item);
@@ -676,17 +653,6 @@ namespace StyleRegistrationTool.ViewModel
             {
                 //結果上書き
                 return (SapiStyle[])serializerGeneralSetting.Deserialize(xmlReader);
-            }
-        }
-
-        /// <summary>
-        /// sapiのリストをソートします。
-        /// </summary>
-        private void SortSapiStyles()
-        {
-            if (ShouldSort)
-            {
-                SapiStyles = new ObservableCollection<SapiStyle>(Common.SortStyle(SapiStyles).OfType<SapiStyle>());
             }
         }
 
