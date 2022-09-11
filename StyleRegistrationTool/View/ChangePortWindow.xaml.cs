@@ -25,6 +25,7 @@ namespace StyleRegistrationTool.View
             portComboBox.Items.Add(new Model.NameAndPort("VOICEVOX", 50021));
             portComboBox.Items.Add(new Model.NameAndPort("COEIROINK", 50031));
             portComboBox.Items.Add(new Model.NameAndPort("LMROID", 50073));
+            portComboBox.Items.Add(new Model.NameAndPort("SHAREVOX", 50025));
 
             SelectedPreset = new Model.NameAndPort(appName, port);
         }
