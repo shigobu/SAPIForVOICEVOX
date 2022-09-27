@@ -116,7 +116,7 @@ Windows Defender にウイルスとして検知されてしまうと報告をう
 辞書の大元は、  
 The CMU Pronouncing Dictionary(http://www.speech.cs.cmu.edu/cgi-bin/cmudict)  
 を使用しています。  
-これを、「モリカトロン開発ブログ」の「英語をカタカナ表記に変換してみる(https://tech.morikatron.ai/entry/2020/05/25/100000)」  
+これを、「モリカトロン開発ブログ」の「英語をカタカナ表記に変換してみる(https://tech.morikatron.ai/entry/2020/05/25/100000 )」  
 という記事に載っているコードを使用し、発音記号からカタカナへ変換しています。
 
 実際にどのように置換されるかは、[shigobu/EnglishKanaDictionary](https://github.com/shigobu/EnglishKanaDictionary)のテストアプリで確認するのが簡単かと思います。
