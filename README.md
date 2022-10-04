@@ -157,6 +157,10 @@ Visual Studioの「ツール」→「拡張機能」からインストールし�
 依存ライブラリは、NuGetで取得します。  
 参照できない場合は、「NuGetパッケージの復元」を実行してください。  
 
+### 自動ビルド
+このプロジェクトは、Actionsを使用してビルドの自動化を行っています。  
+フォークしたリポジトリでビルドを行う場合は、Actionsを有効にして「Actions」の「Build and Create Installer」を実行してください。「devenv.com」を使用している関係で、ビルドに10分程度かかります。ビルドで生成されたものは、「Artifacts」からダウンロードできます。
+
 ## フォルダ構成
 SAPIForVOICEVOX：本体  
 SAPIGetStaticValueLib：必要な定数を取得するc++のライブラリ  
