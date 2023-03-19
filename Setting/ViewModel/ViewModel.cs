@@ -72,6 +72,20 @@ namespace Setting
         }
 
         /// <summary>
+        /// 読点で分割するかどうかを取得、設定します。
+        /// </summary>
+        public bool? IsSplitNewLine
+        {
+            get => generalSetting.isSplitNewLine;
+            set
+            {
+                if (generalSetting.isSplitNewLine == value) return;
+                generalSetting.isSplitNewLine = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// 調声設定モードを取得、設定します。
         /// </summary>
         public SynthesisSettingMode SynthesisSettingMode

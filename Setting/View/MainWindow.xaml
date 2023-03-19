@@ -25,6 +25,7 @@
                                 <StackPanel>
                                     <CheckBox Content="句点(。)で分割する" Margin="3" IsChecked="{Binding IsSplitKuten}"/>
                                     <CheckBox Content="読点(、)で分割する" Margin="3" IsChecked="{Binding IsSplitTouten}"/>
+                                    <CheckBox Content="改行で分割する" Margin="3" IsChecked="{Binding IsSplitNewLine}"/>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox DockPanel.Dock="Top" Header="調声">
