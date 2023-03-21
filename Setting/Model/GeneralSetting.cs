@@ -16,6 +16,11 @@
         public bool? isSplitTouten = false;
 
         /// <summary>
+        /// 改行で分割するかどうか。
+        /// </summary>
+        public bool? isSplitNewLine = false;
+
+        /// <summary>
         /// 調声設定モード
         /// </summary>
         public SynthesisSettingMode synthesisSettingMode = SynthesisSettingMode.Batch;

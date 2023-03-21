@@ -204,14 +204,18 @@ namespace SAPIForVOICEVOX
             bool enableInterrogativeUpspeak = generalSetting.useInterrogativeAutoAdjustment ?? false;
 
             //区切り文字設定
-            List<char> charSeparators = new List<char>();
+            List<string> charSeparators = new List<string>();
             if (generalSetting.isSplitKuten ?? false)
             {
-                charSeparators.Add('。');
+                charSeparators.Add("。");
             }
             if (generalSetting.isSplitTouten ?? false)
             {
-                charSeparators.Add('、');
+                charSeparators.Add("、");
+            }
+            if (generalSetting.isSplitNewLine ?? false)
+            {
+                charSeparators.Add(Environment.NewLine);
             }
 
             try
