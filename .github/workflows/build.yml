@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Add devenv to PATH
-        uses: seanmiddleditch/gha-setup-vsdevenv@master
+        uses: compnerd/gha-setup-vsdevenv@main
 
       - name: Restore NuGet packages
         working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -76,7 +76,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Download and extract artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           path: artifacts/
 
