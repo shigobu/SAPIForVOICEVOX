@@ -43,6 +43,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Install dotnet script
+        run: dotnet tool install -g dotnet-script
+
+      - name: Change Version
+        if: startsWith(github.ref, 'refs/tags/')
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: dotnet script .\tools\change_version.csx -- .\ ${{github.ref_name}}
+
       - name: Add devenv to PATH
         uses: compnerd/gha-setup-vsdevenv@main
 
