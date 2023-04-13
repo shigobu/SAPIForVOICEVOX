@@ -102,7 +102,7 @@ public string SetNewCode(string input, string codeName)
     //コード名をダブルコーテーションで囲う
     string code = "\"" + codeName + "\"";
     string matchPattern = code + " = \"8:{[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}}\"";
-    string replacePattern = code + " = \"8:" + Guid.NewGuid().ToString("B").ToUpper();    //B書式指定子は、ハイフン区切りの中かっこ囲み
+    string replacePattern = code + " = \"8:" + Guid.NewGuid().ToString("B").ToUpper() + "\"";    //B書式指定子は、ハイフン区切りの中かっこ囲み
     return Regex.Replace(input, matchPattern, replacePattern);
 }
 

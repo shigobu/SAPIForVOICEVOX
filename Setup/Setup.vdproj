@@ -752,8 +752,8 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX32"
-        "ProductCode" = "8:{F23ED9BA-C93A-4C3B-BD2D-FDA4391CEF0E}
-        "PackageCode" = "8:{970AAF35-798B-44C0-921D-AA60861C32A6}
+        "ProductCode" = "8:{F23ED9BA-C93A-4C3B-BD2D-FDA4391CEF0E}"
+        "PackageCode" = "8:{970AAF35-798B-44C0-921D-AA60861C32A6}"
         "UpgradeCode" = "8:{8EEDF03C-0AFA-4727-87B5-8DF30280E85C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
