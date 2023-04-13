@@ -54,7 +54,7 @@ jobs:
       - name: Change Version
         if: startsWith(github.ref, 'refs/tags/')
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: dotnet script .\tools\change_version.csx -- .\ ${{env.GITHUB_REF_NAME}}
+        run: dotnet script .\tools\change_version.csx -- .\ ${{github.ref_name}}
 
       - name: Add devenv to PATH
         uses: compnerd/gha-setup-vsdevenv@main
