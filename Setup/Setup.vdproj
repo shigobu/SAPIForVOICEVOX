@@ -33,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_44A4B5EE9E29A9D031027BA322C3C1E4"
+        "OwnerKey" = "8:_818D420BE74B48DFB4D09D6559C5324B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5020951408794F31A9E53D2AEADF94A9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -117,6 +123,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_CDBAE817F07DE9E41F1EEE21EC3CD15F"
+        "OwnerKey" = "8:_818D420BE74B48DFB4D09D6559C5324B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DC8DF86F1C378BA606054CB06EBA229E"
         "OwnerKey" = "8:_6667051EC59E4EFB8B09CC4192CE8DC0"
         "MsmSig" = "8:_UNDEFINED"
@@ -124,13 +136,13 @@
         "Entry"
         {
         "MsmKey" = "8:_DC8DF86F1C378BA606054CB06EBA229E"
-        "OwnerKey" = "8:_818D420BE74B48DFB4D09D6559C5324B"
+        "OwnerKey" = "8:_CDBAE817F07DE9E41F1EEE21EC3CD15F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_DC8DF86F1C378BA606054CB06EBA229E"
-        "OwnerKey" = "8:_F3E3A8A6A53A3AB8B437FAAA14E6B2D6"
+        "OwnerKey" = "8:_818D420BE74B48DFB4D09D6559C5324B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -143,12 +155,6 @@
         {
         "MsmKey" = "8:_E5E865DBEAEF465DAB07E05CC5722D04"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F3E3A8A6A53A3AB8B437FAAA14E6B2D6"
-        "OwnerKey" = "8:_818D420BE74B48DFB4D09D6559C5324B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -166,6 +172,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CDBAE817F07DE9E41F1EEE21EC3CD15F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_FC9CB28094EE4C19A53248AAAB209E28"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -178,7 +190,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F3E3A8A6A53A3AB8B437FAAA14E6B2D6"
+        "OwnerKey" = "8:_44A4B5EE9E29A9D031027BA322C3C1E4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -439,6 +451,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_44A4B5EE9E29A9D031027BA322C3C1E4"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:RomajiToHiraganaLibrary, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_44A4B5EE9E29A9D031027BA322C3C1E4"
+                    {
+                    "Name" = "8:RomajiToHiraganaLibrary.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:RomajiToHiraganaLibrary.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_51AAEAD46D164F428603679CCBF52389"
             {
             "SourcePath" = "8:..\\Setting\\icon\\License.txt"
@@ -592,11 +635,42 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CDBAE817F07DE9E41F1EEE21EC3CD15F"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Setting, Version=99.99.999.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_CDBAE817F07DE9E41F1EEE21EC3CD15F"
+                    {
+                    "Name" = "8:Setting.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Setting.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DC8DF86F1C378BA606054CB06EBA229E"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SFVvCommon, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:SFVvCommon, Version=99.99.999.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_DC8DF86F1C378BA606054CB06EBA229E"
@@ -641,37 +715,6 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F3E3A8A6A53A3AB8B437FAAA14E6B2D6"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Setting, Version=2.1.0.0, Culture=neutral, processorArchitecture=AMD64"
-                "ScatterAssemblies"
-                {
-                    "_F3E3A8A6A53A3AB8B437FAAA14E6B2D6"
-                    {
-                    "Name" = "8:Setting.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Setting.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -739,9 +782,24 @@
         }
         "LaunchCondition"
         {
+            "{836E08B8-0285-4809-BA42-01DB6754A45D}:_11D5149B97BD42478830E6375706228A"
+            {
+            "Name" = "8:VC++"
+            "Condition" = "8:VCRUNTIMEVERSION <> \"\""
+            "Message" = "8:このソフトウェアを実行するには、「Visual C++ 再頒布可能パッケージ」の「2019」が必要です。先にインストールしてください。「はい」を押すと、ダウンロードページが表示されます。"
+            "InstallUrl" = "8:https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170"
+            }
         }
         "Locator"
         {
+            "{CF66B7F7-B7DA-4B08-A67A-233430638C9C}:_F754C9DBA91C4746B23C0E7105FDE3C4"
+            {
+            "Name" = "8:SearchVC++"
+            "Root" = "2:1"
+            "RegKey" = "8:SOFTWARE\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\X86"
+            "Value" = "8:Version"
+            "Property" = "8:VCRUNTIMEVERSION"
+            }
         }
         "MsiBootstrapper"
         {
@@ -753,7 +811,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX32"
         "ProductCode" = "8:{F23ED9BA-C93A-4C3B-BD2D-FDA4391CEF0E}"
-        "PackageCode" = "8:{970AAF35-798B-44C0-921D-AA60861C32A6}"
+        "PackageCode" = "8:{732DC26C-17BA-42A5-8930-6EFD2E5CBD59}"
         "UpgradeCode" = "8:{8EEDF03C-0AFA-4727-87B5-8DF30280E85C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
