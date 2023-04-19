@@ -786,7 +786,7 @@
             {
             "Name" = "8:VC++"
             "Condition" = "8:VCRUNTIMEVERSION <> \"\""
-            "Message" = "8:このソフトウェアを実行するには、「Visual C++ 再頒布可能パッケージ」の「2019」が必要です。先にインストールしてください。「はい」を押すと、ダウンロードページが表示されます。"
+            "Message" = "8:このソフトウェアを実行するには、「Visual C++ 再頒布可能パッケージ(X86)」の「2019」が必要です。先にインストールしてください。「はい」を押すと、ダウンロードページが表示されます。「Visual C++ 再頒布可能パッケージ」をインストールした後、再びこのインストーラを実行してください。"
             "InstallUrl" = "8:https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170"
             }
         }
@@ -811,7 +811,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SAPIForVOICEVOX32"
         "ProductCode" = "8:{F23ED9BA-C93A-4C3B-BD2D-FDA4391CEF0E}"
-        "PackageCode" = "8:{732DC26C-17BA-42A5-8930-6EFD2E5CBD59}"
+        "PackageCode" = "8:{E0DE93EF-2ED0-47AA-89F4-EEB7B29BE0ED}"
         "UpgradeCode" = "8:{8EEDF03C-0AFA-4727-87B5-8DF30280E85C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -1398,7 +1398,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5020951408794F31A9E53D2AEADF94A9"
             {
-            "SourcePath" = "8:..\\SAPIForVOICEVOX\\bin\\x64\\Release\\SAPIGetStaticValueLib.dll"
+            "SourcePath" = "8:..\\SAPIForVOICEVOX\\bin\\x86\\Release\\SAPIGetStaticValueLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
@@ -1426,7 +1426,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6667051EC59E4EFB8B09CC4192CE8DC0"
             {
-            "SourcePath" = "8:..\\StyleRegistrationTool\\obj\\x64\\Release\\StyleRegistrationTool.exe"
+            "SourcePath" = "8:..\\StyleRegistrationTool\\obj\\x86\\Release\\StyleRegistrationTool.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
@@ -1454,7 +1454,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7CD3F0FB23DE443FB6065040FD7E55DE"
             {
-            "SourcePath" = "8:..\\Setting\\obj\\x64\\Release\\Setting.exe"
+            "SourcePath" = "8:..\\Setting\\obj\\x86\\Release\\Setting.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
@@ -1482,7 +1482,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_818D420BE74B48DFB4D09D6559C5324B"
             {
-            "SourcePath" = "8:..\\SAPIForVOICEVOX\\obj\\x64\\Release\\SAPIForVOICEVOX.dll"
+            "SourcePath" = "8:..\\SAPIForVOICEVOX\\obj\\x86\\Release\\SAPIForVOICEVOX.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A6CA9C92E14E4547A73C126C541C262F"
