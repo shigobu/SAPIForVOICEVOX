@@ -116,6 +116,36 @@ namespace Setting
             }
         }
 
+        private double _StartSilence = 0.1;
+        /// <summary>
+        /// 開始無音を取得、設定します。
+        /// </summary>
+        public double StartSilence
+        {
+            get => _StartSilence;
+            set
+            {
+                if (_StartSilence == value) return;
+                _StartSilence = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private double _EndSilence = 0.1;
+        /// <summary>
+        /// 終了無音を取得、設定します。
+        /// </summary>
+        public double EndSilence
+        {
+            get => _EndSilence;
+            set
+            {
+                if (_EndSilence == value) return;
+                _EndSilence = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private int _Port = 50021;
         /// <summary>
         /// ポートを取得、設定します。

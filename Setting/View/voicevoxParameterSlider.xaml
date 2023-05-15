@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Setting" d:DataContext="{d:DesignInstance Type=local:SynthesisParameter}"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="500">
+             d:DesignHeight="500" d:DesignWidth="500">
     <UserControl.Resources>
         <local:DoubleStringConverter x:Key="DoubleConverter"/>
         <local:ParameterValueModeToBool x:Key="ValueModeToBool"/>
@@ -40,6 +40,16 @@
                 <TextBlock Text="{Binding Value, ElementName=intonationSlider, Converter={StaticResource DoubleConverter}}" Margin="3"/>
             </StackPanel>
             <Slider x:Name="intonationSlider" Maximum="2.0" Minimum="0" SmallChange="0.01" LargeChange="0.1" TickFrequency="0.01" TickPlacement="None" IsSnapToTickEnabled="True" Value="{Binding Intonation}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="開始無音" Margin="3"/>
+                <TextBlock Text="{Binding Value, ElementName=startSilenceSlider, Converter={StaticResource DoubleConverter}}" Margin="3"/>
+            </StackPanel>
+            <Slider x:Name="startSilenceSlider" Maximum="1.5" Minimum="0" SmallChange="0.01" LargeChange="0.1" TickFrequency="0.01" TickPlacement="None" IsSnapToTickEnabled="True" Value="{Binding StartSilence}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="終了無音" Margin="3"/>
+                <TextBlock Text="{Binding Value, ElementName=endSilenceSlider, Converter={StaticResource DoubleConverter}}" Margin="3"/>
+            </StackPanel>
+            <Slider x:Name="endSilenceSlider" Maximum="1.5" Minimum="0" SmallChange="0.01" LargeChange="0.1" TickFrequency="0.01" TickPlacement="None" IsSnapToTickEnabled="True" Value="{Binding EndSilence}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
