@@ -116,32 +116,32 @@ namespace Setting
             }
         }
 
-        private double _StartSilence = 0.1;
+        private double _PrePhonemeLength = 0.1;
         /// <summary>
         /// 開始無音を取得、設定します。
         /// </summary>
-        public double StartSilence
+        public double PrePhonemeLength
         {
-            get => _StartSilence;
+            get => _PrePhonemeLength;
             set
             {
-                if (_StartSilence == value) return;
-                _StartSilence = value;
+                if (_PrePhonemeLength == value) return;
+                _PrePhonemeLength = value;
                 RaisePropertyChanged();
             }
         }
 
-        private double _EndSilence = 0.1;
+        private double _PostPhonemeLength = 0.1;
         /// <summary>
         /// 終了無音を取得、設定します。
         /// </summary>
-        public double EndSilence
+        public double PostPhonemeLength
         {
-            get => _EndSilence;
+            get => _PostPhonemeLength;
             set
             {
-                if (_EndSilence == value) return;
-                _EndSilence = value;
+                if (_PostPhonemeLength == value) return;
+                _PostPhonemeLength = value;
                 RaisePropertyChanged();
             }
         }

@@ -201,6 +201,8 @@ namespace SAPIForVOICEVOX
             }
             double pitch = synthesisParameter.Pitch;
             double intonation = synthesisParameter.Intonation;
+            double prePhonemeLength = synthesisParameter.PrePhonemeLength;
+            double postPhonemeLength = synthesisParameter.PostPhonemeLength;
             bool enableInterrogativeUpspeak = generalSetting.useInterrogativeAutoAdjustment ?? false;
 
             //区切り文字設定
@@ -269,7 +271,7 @@ namespace SAPIForVOICEVOX
 
                         //VOICEVOXへ送信
                         //asyncメソッドにはref引数を指定できないらしいので、awaitも使用できない。awaitを使用しない実装にした。
-                        Task<byte[]> waveDataTask = SendToVoiceVox(replaceString, SpeakerNumber, speed, pitch, intonation, volume, enableInterrogativeUpspeak);
+                        Task<byte[]> waveDataTask = SendToVoiceVox(replaceString, SpeakerNumber, speed, pitch, intonation, volume, prePhonemeLength, postPhonemeLength, enableInterrogativeUpspeak);
                         byte[] waveData;
                         try
                         {
@@ -597,8 +599,11 @@ namespace SAPIForVOICEVOX
         /// <param name="pitchScale">音高 -0.15~0.15 中央=0</param>
         /// <param name="intonation">抑揚 0~2 中央=1</param>
         /// <param name="volumeScale">音量 0.0~1.0</param>
+        /// <param name="prePhonemeLength">開始無音</param>
+        /// <param name="postPhonemeLength">終了無音</param>
+        /// <param name="enableInterrogativeUpspeak">疑問形にするかどうか</param>
         /// <returns>waveデータ</returns>
-        private async Task<byte[]> SendToVoiceVox(string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale, bool enableInterrogativeUpspeak)
+        private async Task<byte[]> SendToVoiceVox(string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale, double prePhonemeLength, double postPhonemeLength, bool enableInterrogativeUpspeak)
         {
             //エンジンが起動中か確認を行う
             Process[] ps = Process.GetProcessesByName("run");
@@ -633,6 +638,8 @@ namespace SAPIForVOICEVOX
                     SetValueJObjectSafe(jsonObj, "pitchScale", pitchScale);
                     SetValueJObjectSafe(jsonObj, "intonationScale", intonation);
                     SetValueJObjectSafe(jsonObj, "volumeScale", volumeScale);
+                    SetValueJObjectSafe(jsonObj, "prePhonemeLength", prePhonemeLength);
+                    SetValueJObjectSafe(jsonObj, "postPhonemeLength", postPhonemeLength);
 
                     string jsonString = JsonConvert.SerializeObject(jsonObj, Formatting.None);
 
