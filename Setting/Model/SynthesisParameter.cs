@@ -25,6 +25,8 @@ namespace Setting
                    Volume == parameter.Volume &&
                    Speed == parameter.Speed &&
                    Pitch == parameter.Pitch &&
+                   PrePhonemeLength == parameter.PrePhonemeLength &&
+                   PostPhonemeLength == parameter.PostPhonemeLength &&
                    Intonation == parameter.Intonation;
         }
 
@@ -35,6 +37,8 @@ namespace Setting
             hashCode = hashCode * -1521134295 + Volume.GetHashCode();
             hashCode = hashCode * -1521134295 + Speed.GetHashCode();
             hashCode = hashCode * -1521134295 + Pitch.GetHashCode();
+            hashCode = hashCode * -1521134295 + PrePhonemeLength.GetHashCode();
+            hashCode = hashCode * -1521134295 + PostPhonemeLength.GetHashCode();
             hashCode = hashCode * -1521134295 + Intonation.GetHashCode();
             return hashCode;
         }
