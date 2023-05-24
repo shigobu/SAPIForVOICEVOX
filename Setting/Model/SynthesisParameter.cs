@@ -25,6 +25,8 @@ namespace Setting
                    Volume == parameter.Volume &&
                    Speed == parameter.Speed &&
                    Pitch == parameter.Pitch &&
+                   PrePhonemeLength == parameter.PrePhonemeLength &&
+                   PostPhonemeLength == parameter.PostPhonemeLength &&
                    Intonation == parameter.Intonation;
         }
 
@@ -35,6 +37,8 @@ namespace Setting
             hashCode = hashCode * -1521134295 + Volume.GetHashCode();
             hashCode = hashCode * -1521134295 + Speed.GetHashCode();
             hashCode = hashCode * -1521134295 + Pitch.GetHashCode();
+            hashCode = hashCode * -1521134295 + PrePhonemeLength.GetHashCode();
+            hashCode = hashCode * -1521134295 + PostPhonemeLength.GetHashCode();
             hashCode = hashCode * -1521134295 + Intonation.GetHashCode();
             return hashCode;
         }
@@ -112,6 +116,36 @@ namespace Setting
             {
                 if (_Intonation == value) return;
                 _Intonation = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private double _PrePhonemeLength = 0.1;
+        /// <summary>
+        /// 開始無音を取得、設定します。
+        /// </summary>
+        public double PrePhonemeLength
+        {
+            get => _PrePhonemeLength;
+            set
+            {
+                if (_PrePhonemeLength == value) return;
+                _PrePhonemeLength = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private double _PostPhonemeLength = 0.1;
+        /// <summary>
+        /// 終了無音を取得、設定します。
+        /// </summary>
+        public double PostPhonemeLength
+        {
+            get => _PostPhonemeLength;
+            set
+            {
+                if (_PostPhonemeLength == value) return;
+                _PostPhonemeLength = value;
                 RaisePropertyChanged();
             }
         }
