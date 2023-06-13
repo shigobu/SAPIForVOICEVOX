@@ -79,6 +79,8 @@ namespace SetupCustomActions
             process.StartInfo.CreateNoWindow = true;
             // カレントディレクトリ指定
             process.StartInfo.WorkingDirectory = installDirectory;
+            // シェルを使わない
+            process.StartInfo.UseShellExecute = false;
 
             // 起動
             process.Start();
