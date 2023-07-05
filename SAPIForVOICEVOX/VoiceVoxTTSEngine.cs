@@ -232,9 +232,13 @@ namespace SAPIForVOICEVOX
                         goto SetNextData;
                     }
 
+                    //指定の範囲抽出
+                    string text = currentTextList.pTextStart;
+                    text = text.Substring(0, (int)currentTextList.ulTextLen);
+
                     //XMLタグの抽出
                     Regex regex = new Regex(@"<.+?>", RegexOptions.IgnoreCase);
-                    string sentenceExcludedXMLTag = regex.Replace(currentTextList.pTextStart, "");
+                    string sentenceExcludedXMLTag = regex.Replace(text, "");
                     if (string.IsNullOrWhiteSpace(sentenceExcludedXMLTag))
                     {
                         goto SetNextData;
