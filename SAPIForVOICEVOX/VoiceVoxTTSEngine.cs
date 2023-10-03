@@ -236,23 +236,15 @@ namespace SAPIForVOICEVOX
                     string text = currentTextList.pTextStart;
                     text = text.Substring(0, (int)currentTextList.ulTextLen);
 
-                    //XMLタグの抽出
-                    Regex regex = new Regex(@"<.+?>", RegexOptions.IgnoreCase);
-                    string sentenceExcludedXMLTag = regex.Replace(text, "");
-                    if (string.IsNullOrWhiteSpace(sentenceExcludedXMLTag))
-                    {
-                        goto SetNextData;
-                    }
-
                     //分割
                     string[] splitedString;
                     if (charSeparators.Count() == 0)
                     {
-                        splitedString = new string[] { sentenceExcludedXMLTag };
+                        splitedString = new string[] { text };
                     }
                     else
                     {
-                        splitedString = sentenceExcludedXMLTag.Split(charSeparators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+                        splitedString = text.Split(charSeparators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
                     }
 
                     foreach (string str in splitedString)
