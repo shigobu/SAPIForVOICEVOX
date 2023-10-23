@@ -12,8 +12,11 @@ SAPI5対応のアプリケーションから使用することができます。
 32bit版は、棒読みちゃんでテストしています。  
 64bit版は、やります！アンコちゃんでテストしています。  
 
-## 使用方法
-GitHubのReleaseからダウンロードができます。  
+## 最新版のダウンロード
+- [32bit版](https://github.com/shigobu/SAPIForVOICEVOX/releases/latest/download/SAPIForVOICEVOXsetup32.zip) （棒読みちゃん連携はこちら）
+- [64bit版](https://github.com/shigobu/SAPIForVOICEVOX/releases/latest/download/SAPIForVOICEVOXsetup64.zip)
+
+## 使用方法 
 setup.exeを起動し、インストールしてください。  
 32bit版と64bit版が存在します。使用したいアプリケーションに応じて選択してください。  
 両方インストールすることもできます。その場合、同じ場所にインストールしないでください。  
