@@ -45,6 +45,7 @@ Windows Defender にウイルスとして検知されてしまうと報告をう
 スタイル登録ツールの「ポート変更機能」を使用して、VOICEVOX派生アプリのキャラクターを登録できます。「COEIROINKonVOICEVOX」「LMROID」「SHAREVOX」で動作していることを確認しています。これらのアプリはポート番号を登録しているので、リストから選択するだけでキャラクターの読み込みができます。
 
 ### 動作確認の取れているアプリ。
+- VOICEVOX Nemo
 - COEIROINKonVOICEVOX
 - LMROID
 - SHAREVOX
