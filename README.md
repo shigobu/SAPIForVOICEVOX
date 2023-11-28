@@ -68,7 +68,7 @@ Windows Defender にウイルスとして検知されてしまうと報告をう
 ![ポート変更画面ドロップダウン](https://user-images.githubusercontent.com/32050537/162579721-56d06d78-f8cf-484d-9c29-81894cb1121c.png)
 
 ### COEIROINK V2 について
-COEIROINKは、V2になってからAPIが変更され、VOICEVOXと異なるものになりました。COEIROINK V2は非対応です。また、今後対応する予定もございません。  
+COEIROINKは、V2になってからAPIが変更され、VOICEVOXと異なるものになりました。COEIROINK V2は非対応です。  
 非公式に、VOICEVOXのマルチエンジン機能でCOEIROINKv2を呼び出すプラグインを「Nanashi.」さんが作成されています。  
 [COEIROINK v2 bridge](https://github.com/sevenc-nanashi/coeiroink-v2-bridge)  
 このプラグイン経由で使えるようになるかもしれません。ポートは、vvppファイルの拡張子をzipに変更し展開後、「engine_manifest.json」をメモ帳等のテキストエディタで開き、「port」の欄を確認してください。
