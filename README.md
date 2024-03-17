@@ -62,10 +62,10 @@ Windows Defender にウイルスとして検知されてしまうと報告をう
 メイン画面  
 ![スタイル登録ツールv2](https://user-images.githubusercontent.com/32050537/162579415-916ad399-e4bb-4e35-a44b-74621d8cd048.png)
 
-ポート変更ボタンを押すと、ポートの変更画面が出ます。ポート番号を入力し、OKボタン押してください。右の▽ボタンを押すと動作確認の取れているアプリの一覧が表示されます。ここから選択することもできます。
+ポート変更ボタンを押すと、ポートの変更画面が出ます。アプリ名とポート番号を入力し、OKボタン押してください。  
+プリセットから、動作確認の取れているアプリを選択することができます。
 
-![ポート変更画面](https://user-images.githubusercontent.com/32050537/162579719-0a060e0c-16e0-4584-a680-6f7c82d768d1.png)
-![ポート変更画面ドロップダウン](https://user-images.githubusercontent.com/32050537/162579721-56d06d78-f8cf-484d-9c29-81894cb1121c.png)
+![ポート変更画面](https://github.com/shigobu/SAPIForVOICEVOX/assets/32050537/9cad4d86-b9ae-4b2a-91a2-90bb2ea83267)
 
 ### COEIROINK V2 について
 COEIROINKは、V2になってからAPIが変更され、VOICEVOXと異なるものになりました。COEIROINK V2は非対応です。  
