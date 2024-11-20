@@ -49,6 +49,9 @@ Windows Defender にウイルスとして検知されてしまうと報告をう
 - COEIROINK (v.1.x.x系統)
 - LMROID
 - SHAREVOX
+- ITVOICE
+- COEIROINK v2（bridge使用）
+- AivisSpeech
 
 ### スタイル登録ツールのポートの変更方法
 スタイル登録ツールのポート変更ボタンを押します。ポート変更ボタンの場所は、以下の通りです。

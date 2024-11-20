@@ -29,6 +29,7 @@ namespace StyleRegistrationTool.View
             portComboBox.Items.Add(new Model.NameAndPort("SHAREVOX", 50025));
             portComboBox.Items.Add(new Model.NameAndPort("ITVOICE", 49540));
             portComboBox.Items.Add(new Model.NameAndPort("COEIROINK v2 bridge", 50132));
+            portComboBox.Items.Add(new Model.NameAndPort("AivisSpeech", 10101));
 
 
             SelectedPreset = new Model.NameAndPort(appName, port);

@@ -512,7 +512,10 @@ namespace SAPIForVOICEVOX
             //初期化
             //話者番号を取得し、プロパティに設定。
             Token.GetDWORD(Common.regSpeakerNumber, out uint value);
-            SpeakerNumber = (int)value;
+            unchecked //オーバーフローのチェックを行わず、そのまま代入。
+            {
+                SpeakerNumber = (int)value;
+            }
 
             Token.GetDWORD(Common.regPort, out value);
             Port = (int)value;
