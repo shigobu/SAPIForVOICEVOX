@@ -50,38 +50,29 @@ namespace SFVvCommon
         /// </summary>
         public Guid CLSID { get; set; }
 
-        #region Equalsの自動実装
-
         public override bool Equals(object obj)
         {
-            var style = obj as SapiStyle;
-            return style != null &&
-                   Name == style.Name &&
-                   StyleName == style.StyleName &&
-                   ID == style.ID &&
+            return obj is SapiStyle style &&
+                   base.Equals(obj) &&
                    CLSID.Equals(style.CLSID);
         }
 
         public override int GetHashCode()
         {
-            var hashCode = 2064203553;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(StyleName);
-            hashCode = hashCode * -1521134295 + ID.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<Guid>.Default.GetHashCode(CLSID);
+            int hashCode = 2093058940;
+            hashCode = hashCode * -1521134295 + base.GetHashCode();
+            hashCode = hashCode * -1521134295 + CLSID.GetHashCode();
             return hashCode;
         }
 
-        public static bool operator ==(SapiStyle style1, SapiStyle style2)
+        public static bool operator ==(SapiStyle left, SapiStyle right)
         {
-            return EqualityComparer<SapiStyle>.Default.Equals(style1, style2);
+            return EqualityComparer<SapiStyle>.Default.Equals(left, right);
         }
 
-        public static bool operator !=(SapiStyle style1, SapiStyle style2)
+        public static bool operator !=(SapiStyle left, SapiStyle right)
         {
-            return !(style1 == style2);
+            return !(left == right);
         }
-
-        #endregion
     }
 }

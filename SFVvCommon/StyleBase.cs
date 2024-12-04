@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SFVvCommon
 {
@@ -49,5 +50,36 @@ namespace SFVvCommon
         /// ポート番号
         /// </summary>
         public int Port { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is StyleBase style &&
+                   AppName == style.AppName &&
+                   Name == style.Name &&
+                   StyleName == style.StyleName &&
+                   ID == style.ID &&
+                   Port == style.Port;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 830617096;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AppName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(StyleName);
+            hashCode = hashCode * -1521134295 + ID.GetHashCode();
+            hashCode = hashCode * -1521134295 + Port.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(StyleBase left, StyleBase right)
+        {
+            return EqualityComparer<StyleBase>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(StyleBase left, StyleBase right)
+        {
+            return !(left == right);
+        }
     }
 }
