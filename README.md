@@ -12,8 +12,11 @@ SAPI5対応のアプリケーションから使用することができます。
 32bit版は、棒読みちゃんでテストしています。  
 64bit版は、やります！アンコちゃんでテストしています。  
 
-## 使用方法
-GitHubのReleaseからダウンロードができます。  
+## 最新版のダウンロード
+
+右側にある Releases をクリックするか、[ここ](https://github.com/shigobu/SAPIForVOICEVOX/releases/latest)をクリックしてリリースページに行きダウンロードしてください。
+
+## 使用方法 
 setup.exeを起動し、インストールしてください。  
 32bit版と64bit版が存在します。使用したいアプリケーションに応じて選択してください。  
 両方インストールすることもできます。その場合、同じ場所にインストールしないでください。  
@@ -39,12 +42,16 @@ Windows Defender にウイルスとして検知されてしまうと報告をう
 不要な場合は、手動で削除をしてください。
 
 ## VOICEVOX派生アプリのキャラクター登録(バージョン 2.0.0以降)
-スタイル登録ツールの「ポート変更機能」を使用して、VOICEVOX派生アプリのキャラクターを登録できます。「COEIROINKonVOICEVOX」「LMROID」「SHAREVOX」で動作していることを確認しています。これらのアプリはポート番号を登録しているので、リストから選択するだけでキャラクターの読み込みができます。
+スタイル登録ツールの「ポート変更機能」を使用して、VOICEVOX派生アプリのキャラクターを登録できます。VOICEVOXエディタのマルチエンジン機能に追加できるものであれば、使えるはずです。動作確認を取れているアプリは、ポート番号を登録しているので、リストから選択するだけでキャラクターの読み込みができます。
 
 ### 動作確認の取れているアプリ。
-- COEIROINKonVOICEVOX
+- VOICEVOX Nemo
+- COEIROINK (v.1.x.x系統)
 - LMROID
 - SHAREVOX
+- ITVOICE
+- COEIROINK v2（bridge使用）
+- AivisSpeech
 
 ### スタイル登録ツールのポートの変更方法
 スタイル登録ツールのポート変更ボタンを押します。ポート変更ボタンの場所は、以下の通りです。
@@ -58,11 +65,16 @@ Windows Defender にウイルスとして検知されてしまうと報告をう
 メイン画面  
 ![スタイル登録ツールv2](https://user-images.githubusercontent.com/32050537/162579415-916ad399-e4bb-4e35-a44b-74621d8cd048.png)
 
-ポート変更ボタンを押すと、ポートの変更画面が出ます。ポート番号を入力し、OKボタン押してください。右の▽ボタンを押すと動作確認の取れているアプリの一覧が表示されます。ここから選択することもできます。
+ポート変更ボタンを押すと、ポートの変更画面が出ます。アプリ名とポート番号を入力し、OKボタン押してください。  
+プリセットから、動作確認の取れているアプリを選択することができます。
 
-![ポート変更画面](https://user-images.githubusercontent.com/32050537/162579719-0a060e0c-16e0-4584-a680-6f7c82d768d1.png)
-![ポート変更画面ドロップダウン](https://user-images.githubusercontent.com/32050537/162579721-56d06d78-f8cf-484d-9c29-81894cb1121c.png)
+![ポート変更画面](https://github.com/shigobu/SAPIForVOICEVOX/assets/32050537/9cad4d86-b9ae-4b2a-91a2-90bb2ea83267)
 
+### COEIROINK V2 について
+COEIROINKは、V2になってからAPIが変更され、VOICEVOXと異なるものになりました。COEIROINK V2は非対応です。  
+非公式に、VOICEVOXのマルチエンジン機能でCOEIROINKv2を呼び出すプラグインを「Nanashi.」さんが作成されています。  
+[COEIROINK v2 bridge](https://github.com/sevenc-nanashi/coeiroink-v2-bridge)  
+このプラグイン経由で使えるようになるかもしれません。ポートは、vvppファイルの拡張子をzipに変更し展開後、「engine_manifest.json」をメモ帳等のテキストエディタで開き、「port」の欄を確認してください。
 
 ## キャラクター追加方法
 新キャラが追加された場合、「スタイル登録ツール」を使用して登録することで使えるようになります。  

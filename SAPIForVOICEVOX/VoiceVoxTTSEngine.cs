@@ -508,7 +508,10 @@ namespace SAPIForVOICEVOX
             //初期化
             //話者番号を取得し、プロパティに設定。
             Token.GetDWORD(Common.regSpeakerNumber, out uint value);
-            SpeakerNumber = (int)value;
+            unchecked //オーバーフローのチェックを行わず、そのまま代入。
+            {
+                SpeakerNumber = (int)value;
+            }
 
             Token.GetDWORD(Common.regPort, out value);
             Port = (int)value;
@@ -645,16 +648,32 @@ namespace SAPIForVOICEVOX
                     using (var resultSynthesis = await httpClient.PostAsync($"{url}synthesis?speaker={speakerString}&enable_interrogative_upspeak={enableInterrogativeUpspeak}", content))
                     {
                         HttpContent httpContent = resultSynthesis.Content;
-                        //音声データで無い場合
-                        if (httpContent.Headers.ContentType.MediaType != wavMediaType)
-                        {
-                            throw new VoiceVoxEngineException();
-                        }
+
                         //戻り値をストリームで受け取る
                         Stream stream = await httpContent.ReadAsStreamAsync();
                         //byte配列に変換
                         byte[] wavData = new byte[stream.Length];
                         stream.Read(wavData, 0, (int)stream.Length);
+
+                        // データが本当にWAVEかどうか確認
+                        byte[] waveHeder = Encoding.ASCII.GetBytes("RIFF    WAVE");
+                        if (wavData.Length < waveHeder.Length)
+                        {
+                            throw new VoiceVoxEngineException();
+                        }
+                        for (int i = 0; i < waveHeder.Length; i++)
+                        {
+                            if (3 < i && i < 8)
+                            {
+                                continue;
+                            }
+
+                            if (wavData[i] != waveHeder[i])
+                            {
+                                throw new VoiceVoxEngineException();
+                            }
+                        }
+
                         return wavData;
                     }
                 }

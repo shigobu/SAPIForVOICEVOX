@@ -25,7 +25,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-2022
     strategy:
       fail-fast: false
       matrix:
@@ -41,10 +41,10 @@ jobs:
             bitLength: 64
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 6.0.x
 
@@ -78,7 +78,7 @@ jobs:
         run: devenv.com ${{env.SOLUTION_FILE_PATH}}  /project ${{matrix.installerProjectPath}} /build "${{env.BUILD_CONFIGURATION}}|${{matrix.platform}}"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{env.artifactName}}${{matrix.bitLength}}
           path: ${{matrix.installerOutDir}}
@@ -89,7 +89,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Download and extract artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: artifacts/
 
@@ -104,7 +104,7 @@ jobs:
           Compress-Archive -Path artifacts/${{env.artifactName}}64 -DestinationPath release/${{env.artifactName}}64.zip
 
       - name: Upload to Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           draft: true
