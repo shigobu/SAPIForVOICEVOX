@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -220,8 +221,19 @@ namespace SAPIForVOICEVOX
                 charSeparators.Add(Environment.NewLine);
             }
 
+            // デバッグコンソール用パイプ
+            NamedPipeServerStream pipeServer = null;
+            //StreamWriter writer = null;
+
             try
             {
+                // デバッグコンソールが起動中か確認して、パイプを作成
+                if (Process.GetProcessesByName("SFVvConsole").Length > 0)
+                {
+                    pipeServer = new NamedPipeServerStream(Common.PipeName);
+                    pipeServer.WaitForConnection();
+                }
+
                 ulong writtenWavLength = 0;
                 SPVTEXTFRAG currentTextList = pTextFragList;
                 while (true)
@@ -230,6 +242,15 @@ namespace SAPIForVOICEVOX
                     if (currentTextList.State.eAction == SPVACTIONS.SPVA_ParseUnknownTag)
                     {
                         goto SetNextData;
+                    }
+
+                    if (pipeServer != null && pipeServer.IsConnected)
+                    {
+                        using(StreamWriter writer = new StreamWriter(pipeServer))
+                        {
+                            writer.AutoFlush = true;
+                            writer.WriteLine(currentTextList.pTextStart);
+                        }
                     }
 
                     //XMLタグの抽出
@@ -336,6 +357,11 @@ namespace SAPIForVOICEVOX
             catch (Exception ex)
             {
                 throw;
+            }
+            finally
+            {
+                //writer?.Dispose();
+                pipeServer?.Dispose();
             }
         }
 

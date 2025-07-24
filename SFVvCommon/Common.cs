@@ -67,6 +67,8 @@ namespace SFVvCommon
         const string SpeakerParameterSettingXMLFileName = "SpeakerParameter.xml";
         const string StyleRegistrationSettingXMLFileName = "StyleRegistration.xml";
 
+        public static readonly string PipeName = "SFVvPipe";
+
         /// <summary>
         /// スタイルの並び替えを行います。
         /// </summary>
