@@ -237,7 +237,7 @@ namespace SAPIForVOICEVOX
                     string text = currentTextList.pTextStart;
                     text = text.Substring(0, (int)currentTextList.ulTextLen);
 
-                    SendToDebugConsole(currentTextList.pTextStart);
+                    SendToDebugConsole(text);
                     
                     //分割
                     string[] splitedString;
