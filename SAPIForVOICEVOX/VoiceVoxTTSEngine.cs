@@ -221,19 +221,8 @@ namespace SAPIForVOICEVOX
                 charSeparators.Add(Environment.NewLine);
             }
 
-            // デバッグコンソール用パイプ
-            NamedPipeServerStream pipeServer = null;
-            //StreamWriter writer = null;
-
             try
             {
-                // デバッグコンソールが起動中か確認して、パイプを作成
-                if (Process.GetProcessesByName("SFVvConsole").Length > 0)
-                {
-                    pipeServer = new NamedPipeServerStream(Common.PipeName);
-                    pipeServer.WaitForConnection();
-                }
-
                 ulong writtenWavLength = 0;
                 SPVTEXTFRAG currentTextList = pTextFragList;
                 while (true)
@@ -244,15 +233,6 @@ namespace SAPIForVOICEVOX
                         goto SetNextData;
                     }
 
-                    if (pipeServer != null && pipeServer.IsConnected)
-                    {
-                        using(StreamWriter writer = new StreamWriter(pipeServer))
-                        {
-                            writer.AutoFlush = true;
-                            writer.WriteLine(currentTextList.pTextStart);
-                        }
-                    }
-
                     //XMLタグの抽出
                     Regex regex = new Regex(@"<.+?>", RegexOptions.IgnoreCase);
                     string sentenceExcludedXMLTag = regex.Replace(currentTextList.pTextStart, "");
@@ -261,6 +241,8 @@ namespace SAPIForVOICEVOX
                         goto SetNextData;
                     }
 
+                    SendToDebugConsole(currentTextList.pTextStart);
+                    
                     //分割
                     string[] splitedString;
                     if (charSeparators.Count() == 0)
@@ -357,11 +339,6 @@ namespace SAPIForVOICEVOX
             catch (Exception ex)
             {
                 throw;
-            }
-            finally
-            {
-                //writer?.Dispose();
-                pipeServer?.Dispose();
             }
         }
 
@@ -634,6 +611,8 @@ namespace SAPIForVOICEVOX
         /// <returns>waveデータ</returns>
         private async Task<byte[]> SendToVoiceVox(string text, int speakerNum, double speedScale, double pitchScale, double intonation, double volumeScale, double prePhonemeLength, double postPhonemeLength, bool enableInterrogativeUpspeak)
         {
+            //SendToDebugConsole(text);
+
             //エンジンが起動中か確認を行う
             Process[] ps = Process.GetProcessesByName("run");
             if (ps.Length == 0)
@@ -774,5 +753,26 @@ namespace SAPIForVOICEVOX
         }
 
         #endregion
+
+        /// <summary>
+        /// デバッグコンソールへテキストを送信
+        /// </summary>
+        /// <param name="text">送信するテキスト</param>
+        private void SendToDebugConsole(string text)
+        {
+            // デバッグコンソールが起動中か確認して、パイプを作成
+            if (Process.GetProcessesByName("SFVvConsole").Length > 0)
+            {
+                using (var pipeServer = new NamedPipeServerStream(Common.PipeName))
+                {
+                    pipeServer.WaitForConnection();
+                    using (StreamWriter writer = new StreamWriter(pipeServer))
+                    {
+                        writer.AutoFlush = true;
+                        writer.WriteLine(text);
+                    }
+                }
+            }
+        }
     }
 }
